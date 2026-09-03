@@ -1,0 +1,1888 @@
+{
+  "generatedAt": "2026-09-03T22:17:38.644Z",
+  "results": [
+    {
+      "folder": "luna",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": true
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": false
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": false
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": false
+          },
+          {
+            "label": "Service Worker",
+            "ok": false
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": false
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 55,
+      "total": 60
+    },
+    {
+      "folder": "terra",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": true
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": true
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": true
+          },
+          {
+            "label": "Service Worker",
+            "ok": true
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 60,
+      "total": 60
+    },
+    {
+      "folder": "sol",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": true
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": true
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": true
+          },
+          {
+            "label": "Service Worker",
+            "ok": true
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 60,
+      "total": 60
+    },
+    {
+      "folder": "opus5",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": false
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": true
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": true
+          },
+          {
+            "label": "Service Worker",
+            "ok": true
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 59,
+      "total": 60
+    },
+    {
+      "folder": "sonnet5",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": false
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": false
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": false
+          },
+          {
+            "label": "Service Worker",
+            "ok": false
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 56,
+      "total": 60
+    },
+    {
+      "folder": "claude_opus5",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": true
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": true
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": true
+          },
+          {
+            "label": "Service Worker",
+            "ok": true
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 60,
+      "total": 60
+    },
+    {
+      "folder": "claude_sonnet5",
+      "groups": {
+        "P0 · 프로젝트 헌법": [
+          {
+            "label": "CLAUDE.md 규칙 문서",
+            "ok": true
+          },
+          {
+            "label": "engine 폴더 분리",
+            "ok": true
+          },
+          {
+            "label": "engine에 React 의존 없음",
+            "ok": true
+          }
+        ],
+        "P1 · RULES.md": [
+          {
+            "label": "RULES.md 존재",
+            "ok": true
+          },
+          {
+            "label": "상 = 1직진+2대각 명시",
+            "ok": true
+          },
+          {
+            "label": "포 = 이동·공격 모두 넘기 명시",
+            "ok": true
+          }
+        ],
+        "P2 · 데이터 모델": [
+          {
+            "label": "createInitialBoard / 초기배치",
+            "ok": true
+          },
+          {
+            "label": "마상 배치 4종",
+            "ok": true
+          },
+          {
+            "label": "isInPalace / 궁성 판정",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 판정",
+            "ok": true
+          },
+          {
+            "label": "debugPrint 콘솔 출력",
+            "ok": true
+          }
+        ],
+        "P3 · 기물별 이동 생성기": [
+          {
+            "label": "차(CHA)",
+            "ok": true
+          },
+          {
+            "label": "포(PO)",
+            "ok": true
+          },
+          {
+            "label": "마(MA)",
+            "ok": true
+          },
+          {
+            "label": "상(SANG)",
+            "ok": true
+          },
+          {
+            "label": "궁·사(GUNG/SA)",
+            "ok": true
+          },
+          {
+            "label": "졸·병(JOL)",
+            "ok": true
+          },
+          {
+            "label": "포는 포를 넘거나 잡지 못함",
+            "ok": true
+          }
+        ],
+        "P4 · 합법수·장군": [
+          {
+            "label": "isAttacked",
+            "ok": true
+          },
+          {
+            "label": "isCheck",
+            "ok": true
+          },
+          {
+            "label": "generateLegalMoves",
+            "ok": true
+          },
+          {
+            "label": "makeMove (불변)",
+            "ok": true
+          },
+          {
+            "label": "pass (한 수 쉬기)",
+            "ok": true
+          }
+        ],
+        "P5 · 승패·무승부": [
+          {
+            "label": "isCheckmate",
+            "ok": true
+          },
+          {
+            "label": "빅장(bikjang)",
+            "ok": true
+          },
+          {
+            "label": "국면 반복 무승부",
+            "ok": true
+          },
+          {
+            "label": "점수 계산 (덤 1.5)",
+            "ok": true
+          },
+          {
+            "label": "getGameResult",
+            "ok": true
+          },
+          {
+            "label": "콘솔 랜덤 대국 스크립트",
+            "ok": true
+          }
+        ],
+        "P6 · 규칙 검증": [
+          {
+            "label": "perft",
+            "ok": true
+          },
+          {
+            "label": "랜덤 대국 대량 검증",
+            "ok": true
+          },
+          {
+            "label": "undo 복원 검증",
+            "ok": true
+          }
+        ],
+        "P7 · 보드 렌더링": [
+          {
+            "label": "SVG 보드",
+            "ok": true
+          },
+          {
+            "label": "궁성 대각선 렌더",
+            "ok": true
+          },
+          {
+            "label": "한자/한글 표기 전환",
+            "ok": true
+          },
+          {
+            "label": "합법수 점 표시",
+            "ok": true
+          },
+          {
+            "label": "마지막 수 하이라이트",
+            "ok": true
+          },
+          {
+            "label": "드래그 앤 드롭",
+            "ok": true
+          },
+          {
+            "label": "prefers-reduced-motion",
+            "ok": true
+          },
+          {
+            "label": "보드 뒤집기",
+            "ok": true
+          }
+        ],
+        "P8 · 게임 흐름": [
+          {
+            "label": "대국 설정 화면",
+            "ok": true
+          },
+          {
+            "label": "useReducer 상태관리",
+            "ok": true
+          },
+          {
+            "label": "한 수 쉬기 버튼",
+            "ok": true
+          },
+          {
+            "label": "무르기",
+            "ok": true
+          },
+          {
+            "label": "기권",
+            "ok": true
+          },
+          {
+            "label": "무승부 제안",
+            "ok": true
+          },
+          {
+            "label": "종료 다이얼로그",
+            "ok": true
+          },
+          {
+            "label": "경과 시간 표시",
+            "ok": true
+          }
+        ],
+        "P9 · 기보 저장·재생": [
+          {
+            "label": "표기 모듈 분리",
+            "ok": true
+          },
+          {
+            "label": "JSON 내보내기/불러오기",
+            "ok": true
+          },
+          {
+            "label": "리플레이 이동 컨트롤",
+            "ok": true
+          },
+          {
+            "label": "localStorage 자동 저장",
+            "ok": true
+          }
+        ],
+        "P12 · 접근성·배포": [
+          {
+            "label": "aria-label",
+            "ok": true
+          },
+          {
+            "label": "키보드 조작",
+            "ok": true
+          },
+          {
+            "label": "색맹 대응 팔레트",
+            "ok": true
+          },
+          {
+            "label": "반응형 / 터치 44px",
+            "ok": true
+          },
+          {
+            "label": "PWA manifest",
+            "ok": true
+          },
+          {
+            "label": "Service Worker",
+            "ok": true
+          },
+          {
+            "label": "에러 바운더리",
+            "ok": true
+          },
+          {
+            "label": "README",
+            "ok": true
+          }
+        ]
+      },
+      "score": 60,
+      "total": 60
+    }
+  ]
+}

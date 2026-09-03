@@ -1,0 +1,86 @@
+.janggi-board {
+  width: 100%;
+  height: auto;
+  max-height: 82vh;
+  touch-action: none;
+  outline: none;
+}
+
+.janggi-board__background {
+  fill: #e8c88a;
+}
+
+.janggi-board__line {
+  stroke: #4a3418;
+  stroke-width: 2;
+}
+
+.janggi-board__hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.janggi-board__move-hint {
+  fill: #2f6f4f;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.janggi-board__capture-hint {
+  fill: none;
+  stroke: #c0392b;
+  stroke-width: 4;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.janggi-board__selected-ring {
+  fill: none;
+  stroke: #1d6fd6;
+  stroke-width: 4;
+  pointer-events: none;
+}
+
+.janggi-board__last-move {
+  fill: #ffd54a;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.janggi-board__check-ring {
+  fill: none;
+  stroke: #e53935;
+  stroke-width: 5;
+  pointer-events: none;
+  animation: janggi-check-pulse 1s ease-in-out infinite;
+}
+
+.janggi-board__focus-ring {
+  fill: none;
+  stroke: #1d6fd6;
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+
+.janggi-board__ghost {
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+@keyframes janggi-check-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .janggi-board__check-ring {
+    animation: none;
+    opacity: 0.9;
+  }
+}

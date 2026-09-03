@@ -1,0 +1,19 @@
+{
+  "name": "janggi-comparison",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "7개 LLM 구현체(장기 게임) 비교 리포트 생성기",
+  "scripts": {
+    "tokens": "node scripts/analyze-tokens.mjs",
+    "code": "node scripts/analyze-code.mjs",
+    "report": "node scripts/build-report.mjs"
+  },
+  "dependencies": {
+    "gpt-tokenizer": "^3.0.1",
+    "playwright-core": "^1.62.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.12"
+  }
+}

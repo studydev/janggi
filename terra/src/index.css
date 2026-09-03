@@ -1,0 +1,67 @@
+:root {
+  --ink: #18363a;
+  --muted-ink: #667477;
+  --paper: #f5f2e9;
+  --paper-deep: #e8e2d4;
+  --line: #c7c7b9;
+  --jade: #267267;
+  --jade-soft: #dcebe5;
+  --vermilion: #ae493d;
+  --vermilion-soft: #f3ddd6;
+  --gold: #c29b48;
+  --board: #d7b67a;
+  --board-line: #644d31;
+  --heading: 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif KR', 'Malgun Myeongjo', serif;
+  --body: 'Bahnschrift', 'Segoe UI', 'Malgun Gothic', sans-serif;
+  color: var(--ink);
+  background-color: var(--paper);
+  font-family: var(--body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(24, 54, 58, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 54, 58, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+#root {
+  min-height: 100svh;
+}

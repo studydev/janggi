@@ -1,0 +1,337 @@
+{
+  "generatedAt": "2026-09-03T21:53:01.025Z",
+  "projects": [
+    {
+      "folder": "luna",
+      "totalFiles": 33,
+      "totalLoc": 2133,
+      "layers": {
+        "config": {
+          "files": 2,
+          "loc": 27
+        },
+        "app": {
+          "files": 3,
+          "loc": 315
+        },
+        "engine": {
+          "files": 16,
+          "loc": 751
+        },
+        "test": {
+          "files": 6,
+          "loc": 361
+        },
+        "ui": {
+          "files": 6,
+          "loc": 679
+        }
+      },
+      "testFiles": 6,
+      "testCases": 25,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": false,
+        "serviceWorker": false,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "assets",
+        "engine",
+        "ui"
+      ]
+    },
+    {
+      "folder": "terra",
+      "totalFiles": 39,
+      "totalLoc": 3934,
+      "layers": {
+        "config": {
+          "files": 4,
+          "loc": 87
+        },
+        "scripts": {
+          "files": 1,
+          "loc": 37
+        },
+        "app": {
+          "files": 4,
+          "loc": 1012
+        },
+        "engine": {
+          "files": 13,
+          "loc": 1057
+        },
+        "test": {
+          "files": 9,
+          "loc": 410
+        },
+        "state": {
+          "files": 4,
+          "loc": 574
+        },
+        "ui": {
+          "files": 4,
+          "loc": 757
+        }
+      },
+      "testFiles": 9,
+      "testCases": 42,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "engine",
+        "game",
+        "ui"
+      ]
+    },
+    {
+      "folder": "sol",
+      "totalFiles": 44,
+      "totalLoc": 4071,
+      "layers": {
+        "config": {
+          "files": 3,
+          "loc": 63
+        },
+        "scripts": {
+          "files": 1,
+          "loc": 5
+        },
+        "app": {
+          "files": 4,
+          "loc": 290
+        },
+        "test": {
+          "files": 11,
+          "loc": 579
+        },
+        "engine": {
+          "files": 18,
+          "loc": 1064
+        },
+        "ui": {
+          "files": 7,
+          "loc": 2070
+        }
+      },
+      "testFiles": 11,
+      "testCases": 55,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "assets",
+        "engine",
+        "styles",
+        "ui"
+      ]
+    },
+    {
+      "folder": "opus5",
+      "totalFiles": 46,
+      "totalLoc": 3682,
+      "layers": {
+        "config": {
+          "files": 3,
+          "loc": 56
+        },
+        "scripts": {
+          "files": 2,
+          "loc": 83
+        },
+        "app": {
+          "files": 4,
+          "loc": 600
+        },
+        "engine": {
+          "files": 16,
+          "loc": 971
+        },
+        "test": {
+          "files": 12,
+          "loc": 789
+        },
+        "state": {
+          "files": 2,
+          "loc": 347
+        },
+        "ui": {
+          "files": 7,
+          "loc": 836
+        }
+      },
+      "testFiles": 12,
+      "testCases": 70,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": false,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "engine",
+        "state",
+        "ui"
+      ]
+    },
+    {
+      "folder": "sonnet5",
+      "totalFiles": 47,
+      "totalLoc": 2908,
+      "layers": {
+        "config": {
+          "files": 2,
+          "loc": 19
+        },
+        "app": {
+          "files": 3,
+          "loc": 81
+        },
+        "engine": {
+          "files": 17,
+          "loc": 740
+        },
+        "test": {
+          "files": 12,
+          "loc": 737
+        },
+        "state": {
+          "files": 2,
+          "loc": 242
+        },
+        "ui": {
+          "files": 11,
+          "loc": 1089
+        }
+      },
+      "testFiles": 12,
+      "testCases": 64,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": false,
+        "README": true,
+        "manifest": false,
+        "serviceWorker": false,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "assets",
+        "engine",
+        "state",
+        "ui"
+      ]
+    },
+    {
+      "folder": "claude_opus5",
+      "totalFiles": 57,
+      "totalLoc": 5716,
+      "layers": {
+        "config": {
+          "files": 4,
+          "loc": 90
+        },
+        "scripts": {
+          "files": 1,
+          "loc": 80
+        },
+        "app": {
+          "files": 5,
+          "loc": 250
+        },
+        "engine": {
+          "files": 17,
+          "loc": 1608
+        },
+        "test": {
+          "files": 16,
+          "loc": 1382
+        },
+        "ui": {
+          "files": 14,
+          "loc": 2306
+        }
+      },
+      "testFiles": 16,
+      "testCases": 140,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "engine",
+        "scripts",
+        "ui"
+      ]
+    },
+    {
+      "folder": "claude_sonnet5",
+      "totalFiles": 57,
+      "totalLoc": 4772,
+      "layers": {
+        "config": {
+          "files": 5,
+          "loc": 120
+        },
+        "scripts": {
+          "files": 2,
+          "loc": 75
+        },
+        "app": {
+          "files": 4,
+          "loc": 831
+        },
+        "test": {
+          "files": 15,
+          "loc": 894
+        },
+        "engine": {
+          "files": 15,
+          "loc": 1096
+        },
+        "state": {
+          "files": 5,
+          "loc": 519
+        },
+        "ui": {
+          "files": 11,
+          "loc": 1237
+        }
+      },
+      "testFiles": 15,
+      "testCases": 106,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "engine",
+        "game",
+        "ui"
+      ]
+    }
+  ]
+}

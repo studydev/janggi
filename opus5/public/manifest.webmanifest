@@ -1,0 +1,19 @@
+{
+  "name": "장기 (Janggi)",
+  "short_name": "장기",
+  "description": "웹 브라우저에서 두는 한국 장기. 오프라인에서도 로컬 2인 대국이 가능하다.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#16191d",
+  "theme_color": "#16191d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "웹 장기 · Janggi",
+  "short_name": "장기",
+  "description": "순수 TypeScript 규칙 엔진과 SVG 보드로 만든 한국 장기 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4ece0",
+  "theme_color": "#1f2933",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

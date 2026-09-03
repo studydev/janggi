@@ -1,0 +1,45 @@
+.piece-glyph {
+  cursor: pointer;
+}
+
+.piece-glyph__disc {
+  stroke-width: 2.5;
+}
+
+.piece-glyph__ring {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.85;
+}
+
+.piece-glyph__label {
+  fill: var(--piece-label-color, #fff);
+  font-weight: 700;
+  paint-order: stroke;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 한(漢): 붉은 바탕 + 실선 링. 색맹 대응을 위해 초와 링 스타일을 다르게 한다. */
+.piece-glyph--han .piece-glyph__disc {
+  fill: var(--janggi-han);
+  stroke: #5c1811;
+}
+.piece-glyph--han .piece-glyph__ring {
+  stroke: #f6d9d4;
+  stroke-dasharray: none;
+}
+
+/* 초(楚): 초록 바탕 + 점선 링(패턴으로도 구분 가능하게). */
+.piece-glyph--cho .piece-glyph__disc {
+  fill: var(--janggi-cho);
+  stroke: #103c24;
+}
+.piece-glyph--cho .piece-glyph__ring {
+  stroke: #cfead9;
+  stroke-dasharray: 3 3;
+}
+
+.piece-glyph--dragging {
+  opacity: 0.85;
+}

@@ -1,0 +1,28 @@
+{
+  "note": "각 프로젝트가 자체 테스트에 고정해 둔 초기 국면(마상마상, 초 선수) perft 기준값. 값은 해당 프로젝트의 테스트 파일에서 그대로 수집했고, 모든 테스트는 실제로 통과한다.",
+  "conventionProof": {
+    "engine": "terra",
+    "withoutPass": [31, 961, 30506],
+    "withPass": [32, 1024, 33506],
+    "meaning": "31/961/30506 과 32/1024/33506 은 같은 규칙 엔진에서 '한 수 쉬기(pass)'를 노드로 세느냐 마느냐의 차이일 뿐이다. 따라서 두 값 중 어느 쪽이든 규칙 해석은 동일하다."
+  },
+  "baselines": [
+    { "folder": "luna", "values": [31, 961, 30661], "includesPass": false, "agrees": false, "source": "src/engine/__tests__/perft.test.ts" },
+    { "folder": "terra", "values": [31, 961, 30506], "includesPass": false, "agrees": true, "source": "src/engine/verification.test.ts" },
+    { "folder": "sol", "values": [32, 1024, 33506], "includesPass": true, "agrees": true, "source": "src/engine/validation.test.ts" },
+    { "folder": "opus5", "values": [31, 961, 30506], "includesPass": false, "agrees": true, "source": "src/engine/__tests__/perft.test.ts" },
+    { "folder": "sonnet5", "values": [32, 1024, 33506], "includesPass": true, "agrees": true, "source": "src/engine/__tests__/perft.test.ts" },
+    { "folder": "claude_opus5", "values": [31, 961, 30506], "includesPass": false, "agrees": true, "source": "src/engine/__tests__/perft.test.ts (마상 배치 4종 전부 고정: MSMS 30506 / SMSM 30506 / MSSM 30353 / SMMS 30659)" },
+    { "folder": "claude_sonnet5", "values": [31, 961, 30506], "includesPass": false, "agrees": true, "source": "src/engine/perft.test.ts" }
+  ],
+  "divergence": {
+    "folder": "luna",
+    "delta": 155,
+    "file": "luna/src/engine/moves/sang.ts",
+    "symptom": "초기 국면 perft(3)이 30661 로, 나머지 6개 구현의 30506 대비 155 노드(=5 × 31) 많다.",
+    "rootCause": "generateSangMoves 가 '직진 1칸' 방향과 그 뒤 '대각 2칸' 방향의 일치 여부를 검사하지 않는다. 4개 직진 방향 × 4개 대각 방향을 모두 조합하므로, 오른쪽으로 1칸 나간 뒤 왼쪽아래 대각으로 2칸 되돌아오는 경로가 허용된다. 그 결과 순이동이 (±1, ±2)인 마(馬) 형태의 불법 상(象) 이동이 생성된다.",
+    "reproduction": "초 차 (9,10)→(9,8) 로 (9,10)을 비운 뒤 3수째에 상(8,10)→(7,8) 이 합법수로 생성된다. 상의 정상 이동량은 (±2,±3) 또는 (±3,±2) 뿐이다.",
+    "whyHidden": "초기 배치에서는 상의 좌우 인접점이 차·마로 막혀 있어 잘못된 경로가 발현되지 않는다. 옆 기물이 비켜난 뒤에야 나타나므로 깊이 1~2 검증만으로는 잡히지 않는다.",
+    "impactedFirstMoves": ["(2,10)→(1,8)", "(2,10)→(3,8)", "(7,10)→(6,8)", "(9,10)→(9,8)", "(9,10)→(9,9)"]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "janggi-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "웹 장기(Korean Chess, Janggi) — 규칙 엔진과 UI가 완전히 분리된 구현",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false --pretty",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:soak": "tsx src/scripts/soak.ts 1000",
+    "play": "tsx src/scripts/randomGame.ts",
+    "perft": "tsx src/scripts/perft.ts"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "jsdom": "^25.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="72" fill="#18363a"/>
+  <rect x="72" y="72" width="368" height="368" rx="24" fill="#d7b67a" stroke="#f5f2e9" stroke-width="16"/>
+  <g stroke="#644d31" stroke-width="11">
+    <path d="M118 146h276M118 220h276M118 294h276M118 368h276M146 118v276M220 118v276M294 118v276M368 118v276"/>
+  </g>
+  <circle cx="256" cy="256" r="73" fill="#edf4ee" stroke="#267267" stroke-width="13"/>
+  <circle cx="256" cy="256" r="57" fill="none" stroke="#267267" stroke-width="4"/>
+  <text x="256" y="286" fill="#267267" font-family="serif" font-size="112" font-weight="700" text-anchor="middle">將</text>
+</svg>

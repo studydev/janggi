@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="장기 아이콘">
+  <rect width="192" height="192" rx="28" fill="#e7c98e" />
+  <g stroke="#6b4a24" stroke-width="4">
+    <path d="M40 52h112M40 96h112M40 140h112M40 52v88M96 52v88M152 52v88" />
+  </g>
+  <circle cx="68" cy="96" r="26" fill="#f6e7c8" stroke="#2f9e5e" stroke-width="6" />
+  <text x="68" y="97" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="700" fill="#2f9e5e" font-family="serif">楚</text>
+  <circle cx="132" cy="96" r="26" fill="#f6e7c8" stroke="#d64545" stroke-width="6" />
+  <text x="132" y="97" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="700" fill="#d64545" font-family="serif">漢</text>
+</svg>

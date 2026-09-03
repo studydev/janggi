@@ -1,0 +1,10 @@
+.git
+.github
+**/node_modules
+**/dist
+dist-site
+_comparison
+**/*.tsbuildinfo
+**/.vite
+README.md
+janggi-dev-prompts.md
