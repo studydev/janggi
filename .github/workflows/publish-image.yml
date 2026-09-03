@@ -57,11 +57,18 @@ jobs:
         run: |
           set -euo pipefail
           image="ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}"
+          docker run --rm "$image" nginx -t
           docker run -d --name janggi -p 8080:80 "$image"
           for i in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:8080/healthz >/dev/null; then break; fi
             sleep 1
           done
+          if ! curl -fsS http://127.0.0.1:8080/healthz >/dev/null; then
+            docker ps -a
+            docker logs janggi || true
+            echo "::error::container did not become healthy"
+            exit 1
+          fi
           curl -fsS http://127.0.0.1:8080/ | grep -q '장기 구현 모아보기'
           for p in copus csonn luna opus5 sol sonn5 terra; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/$p/")

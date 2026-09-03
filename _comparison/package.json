@@ -5,9 +5,17 @@
   "type": "module",
   "description": "7개 LLM 구현체(장기 게임) 비교 리포트 생성기",
   "scripts": {
+    "all": "npm run tokens && npm run code && npm run checks && npm run screens && npm run features && npm run report",
     "tokens": "node scripts/analyze-tokens.mjs",
     "code": "node scripts/analyze-code.mjs",
-    "report": "node scripts/build-report.mjs"
+    "checks": "node scripts/run-checks.mjs",
+    "screens": "node scripts/capture-screens.mjs",
+    "features": "node scripts/analyze-features.mjs",
+    "report": "node scripts/build-report.mjs",
+    "verify": "node scripts/verify-report.mjs",
+    "perft:cross": "tsx scripts/perft-crosscheck.mts",
+    "perft:diverge": "tsx scripts/perft-divergence.mts",
+    "perft:convention": "tsx scripts/perft-convention.mts"
   },
   "dependencies": {
     "gpt-tokenizer": "^3.0.1",
