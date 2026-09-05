@@ -1,0 +1,73 @@
+.janggi-board {
+  --piece-han: #a44b40;
+  --piece-cho: #153d33;
+  width: 100%;
+  max-width: 630px;
+  margin-inline: auto;
+  line-height: 0;
+  isolation: isolate;
+}
+
+.janggi-board--accessible { --piece-han: #a65a11; --piece-cho: #184e83; }
+
+.janggi-board-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  user-select: none;
+  -webkit-user-select: none;
+  filter: drop-shadow(0 12px 22px rgb(63 43 20 / 9%));
+}
+
+.janggi-board--interactive .janggi-board-svg { touch-action: none; }
+.janggi-board-grid { stroke: #8b785b; stroke-width: 1.1; fill: none; }
+.janggi-board-grid .janggi-board-border { stroke-width: 1.8; }
+.janggi-board-inset { stroke: #d9c5a4; stroke-width: 1; fill: none; }
+.janggi-board-coordinates { fill: #988467; font: 11px ui-sans-serif, system-ui, sans-serif; }
+
+.janggi-piece-position {
+  transition: transform 180ms ease, opacity 100ms ease;
+  will-change: transform;
+}
+
+.janggi-piece-position--dragged { opacity: 0.26; }
+.janggi-piece--han { color: var(--piece-han); }
+.janggi-piece--cho { color: var(--piece-cho); }
+.janggi-piece-shadow { fill: #6e5032; opacity: 0.2; }
+.janggi-piece-rim { stroke: #d0bc95; stroke-width: 1.15; }
+.janggi-piece-inner { fill: none; stroke: currentColor; stroke-width: 0.85; opacity: 0.64; }
+.janggi-piece--cho .janggi-piece-inner { stroke-dasharray: 2.7 2.2; }
+.janggi-piece-label {
+  fill: currentColor;
+  font-family: "Noto Serif CJK KR", "Noto Serif KR", "Songti SC", "AppleMyungjo", "Batang", serif;
+  font-size: 29px;
+  font-weight: 600;
+}
+.janggi-piece--king .janggi-piece-label { font-size: 33px; }
+.janggi-piece--ghost { filter: drop-shadow(0 5px 5px rgb(63 43 20 / 25%)); }
+.janggi-piece--ghost .janggi-piece-rim { stroke: #a48a5d; }
+
+.janggi-last-origin { fill: rgb(124 138 97 / 13%); stroke: #9b9c73; stroke-width: 1.5; stroke-dasharray: 3 3; }
+.janggi-last-destination { fill: rgb(139 151 98 / 19%); stroke: rgb(116 132 78 / 40%); stroke-width: 1; }
+.janggi-selection { fill: rgb(35 95 67 / 12%); stroke: #35684b; stroke-width: 2.6; }
+.janggi-legal-dot { fill: #3e704f; opacity: 0.66; stroke: #f5ead5; stroke-width: 2; }
+.janggi-legal-capture { fill: none; stroke: #456b4c; stroke-width: 3.5; stroke-dasharray: 9 4; }
+.janggi-check { fill: rgb(184 49 38 / 17%); stroke: #b6372c; stroke-width: 3; stroke-dasharray: 4 3; }
+.janggi-drop-target { fill: rgb(34 79 55 / 8%); stroke: #326748; stroke-width: 2; }
+
+.janggi-gridcell { outline: none; }
+.janggi-cell-hit { fill: transparent; stroke: none; }
+.janggi-cell-focus { fill: transparent; stroke: #204f81; stroke-width: 2.5; stroke-dasharray: 5 3; opacity: 0; pointer-events: none; }
+.janggi-gridcell:focus-visible .janggi-cell-focus { opacity: 1; }
+.janggi-board--interactive .janggi-gridcell { cursor: pointer; }
+.janggi-board--interactive .janggi-gridcell--piece { cursor: grab; }
+.janggi-board--dragging .janggi-gridcell { cursor: grabbing; }
+
+@media (hover: hover) {
+  .janggi-board--interactive .janggi-gridcell:hover .janggi-cell-hit { fill: rgb(90 69 37 / 4%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .janggi-piece-position { transition: none; }
+}

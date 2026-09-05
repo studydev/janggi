@@ -70,9 +70,11 @@ jobs:
             exit 1
           fi
           curl -fsS http://127.0.0.1:8080/ | grep -q '장기 구현 모아보기'
-          for p in copus csonn luna opus5 sol sonn5 terra; do
+          for p in copus csonn luna opus5 sol sol-fast astra codex-astra sonn5 terra comparison; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/$p/")
             echo "/$p/ -> $code"
             test "$code" = "200"
           done
+          curl -fsS http://127.0.0.1:8080/comparison/ | grep -q '같은 장기'
+          curl -fsS http://127.0.0.1:8080/comparison/details.html | grep -q '7종 비교 리포트'
           docker rm -f janggi

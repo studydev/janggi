@@ -1,0 +1,301 @@
+{
+  "generatedAt": "2026-09-05T04:01:50.000Z",
+  "timeZone": "Asia/Seoul",
+  "twoHourLimitMs": 7200000,
+  "projects": [
+    {
+      "name": "sonnet5",
+      "directoryCount": 8,
+      "fileCount": 57,
+      "textFiles": 57,
+      "textLines": 6340,
+      "textCharacters": 210258,
+      "codeFiles": 47,
+      "codeLoc": 2908,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.517Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.522Z",
+        "path": "vite.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 4.794677734375,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "opus5",
+      "directoryCount": 8,
+      "fileCount": 54,
+      "textFiles": 54,
+      "textLines": 7193,
+      "textCharacters": 223803,
+      "codeFiles": 46,
+      "codeLoc": 3682,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.505Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.511Z",
+        "path": "vite.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 5.490234375,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "luna",
+      "directoryCount": 7,
+      "fileCount": 48,
+      "textFiles": 47,
+      "textLines": 4329,
+      "textCharacters": 195583,
+      "codeFiles": 33,
+      "codeLoc": 2133,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.502Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.505Z",
+        "path": "vite.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 3.663818359375,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "terra",
+      "directoryCount": 8,
+      "fileCount": 52,
+      "textFiles": 52,
+      "textLines": 8480,
+      "textCharacters": 263612,
+      "codeFiles": 39,
+      "codeLoc": 3934,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.522Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.527Z",
+        "path": "vite.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 5.8984375,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "sol",
+      "directoryCount": 8,
+      "fileCount": 61,
+      "textFiles": 60,
+      "textLines": 8548,
+      "textCharacters": 283748,
+      "codeFiles": 44,
+      "codeLoc": 4071,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.511Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.517Z",
+        "path": "vite.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 5.80517578125,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "sol-fast",
+      "directoryCount": 8,
+      "fileCount": 61,
+      "textFiles": 60,
+      "textLines": 8546,
+      "textCharacters": 283820,
+      "codeFiles": 44,
+      "codeLoc": 4071,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.000Z",
+        "path": ".gitignore",
+        "type": "file",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T03:59:48.877Z",
+        "path": "src/main.tsx",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": {
+        "timestamp": "2026-09-05T02:08:39.590Z",
+        "path": "src/engine/game-record.ts",
+        "type": "file",
+        "action": "modified"
+      },
+      "rawDurationMs": 7593877.947998047,
+      "measuredDurationMs": 924590.6701660156,
+      "metadataReset": false,
+      "adjusted": true
+    },
+    {
+      "name": "astra",
+      "directoryCount": 11,
+      "fileCount": 74,
+      "textFiles": 71,
+      "textLines": 10999,
+      "textCharacters": 437255,
+      "codeFiles": 60,
+      "codeLoc": 2829,
+      "start": {
+        "timestamp": "2026-09-05T02:00:36.593Z",
+        "path": ".gitignore",
+        "type": "file",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T02:51:32.957Z",
+        "path": "src/ui/game-context.ts",
+        "type": "file",
+        "action": "modified"
+      },
+      "measuredEnd": {
+        "timestamp": "2026-09-05T02:51:32.957Z",
+        "path": "src/ui/game-context.ts",
+        "type": "file",
+        "action": "modified"
+      },
+      "rawDurationMs": 3056363.798095703,
+      "measuredDurationMs": 3056363.798095703,
+      "metadataReset": false,
+      "adjusted": false
+    },
+    {
+      "name": "codex-astra",
+      "directoryCount": 8,
+      "fileCount": 51,
+      "textFiles": 48,
+      "textLines": 5655,
+      "textCharacters": 327862,
+      "codeFiles": 38,
+      "codeLoc": 3010,
+      "start": {
+        "timestamp": "2026-09-05T02:33:13.738Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T03:03:59.762Z",
+        "path": "README.md",
+        "type": "file",
+        "action": "modified"
+      },
+      "measuredEnd": {
+        "timestamp": "2026-09-05T03:03:59.762Z",
+        "path": "README.md",
+        "type": "file",
+        "action": "modified"
+      },
+      "rawDurationMs": 1846023.7236328125,
+      "measuredDurationMs": 1846023.7236328125,
+      "metadataReset": false,
+      "adjusted": false
+    },
+    {
+      "name": "claude_sonnet5",
+      "directoryCount": 8,
+      "fileCount": 69,
+      "textFiles": 69,
+      "textLines": 10985,
+      "textCharacters": 345783,
+      "codeFiles": 57,
+      "codeLoc": 4772,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.494Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.501Z",
+        "path": "vitest.setup.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 6.935791015625,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    },
+    {
+      "name": "claude_opus5",
+      "directoryCount": 13,
+      "fileCount": 69,
+      "textFiles": 67,
+      "textLines": 10259,
+      "textCharacters": 312907,
+      "codeFiles": 57,
+      "codeLoc": 5716,
+      "start": {
+        "timestamp": "2026-09-05T01:53:15.487Z",
+        "path": ".",
+        "type": "root",
+        "action": "created"
+      },
+      "rawEnd": {
+        "timestamp": "2026-09-05T01:53:15.494Z",
+        "path": "vitest.config.ts",
+        "type": "file",
+        "action": "created"
+      },
+      "measuredEnd": null,
+      "rawDurationMs": 7.41943359375,
+      "measuredDurationMs": null,
+      "metadataReset": true,
+      "adjusted": false
+    }
+  ],
+  "totals": {
+    "directoryCount": 87,
+    "fileCount": 596,
+    "textFiles": 585,
+    "textLines": 81334,
+    "textCharacters": 2884631,
+    "codeFiles": 465,
+    "codeLoc": 37126
+  }
+}

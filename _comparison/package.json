@@ -6,6 +6,7 @@
   "description": "7개 LLM 구현체(장기 게임) 비교 리포트 생성기",
   "scripts": {
     "all": "npm run tokens && npm run code && npm run checks && npm run screens && npm run features && npm run report",
+    "stats": "node scripts/analyze-project-stats.mjs",
     "tokens": "node scripts/analyze-tokens.mjs",
     "code": "node scripts/analyze-code.mjs",
     "checks": "node scripts/run-checks.mjs",

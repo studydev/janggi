@@ -1,0 +1,20 @@
+{
+  "name": "장기 - 로컬 2인 대국",
+  "short_name": "장기",
+  "description": "한국 장기 규칙을 정확히 구현한 로컬 2인용 게임",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f4ef",
+  "theme_color": "#b11f4b",
+  "icons": [
+    {
+      "src": "./janggi-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -30,6 +30,24 @@
     "desc": "React 18 · strict TypeScript · SVG. 엔진은 UI와 분리된 독립 모듈."
   },
   {
+    "dir": "sol-fast",
+    "path": "sol-fast",
+    "title": "Sol Fast",
+    "desc": "기존 Sol의 검증된 구조를 바탕으로 빠르게 완성한 strict TypeScript 로컬 대국."
+  },
+  {
+    "dir": "astra",
+    "path": "astra",
+    "title": "Astra",
+    "desc": "규칙 검증, 기보 복구, 접근성과 오프라인 브라우저 확인까지 갖춘 구현."
+  },
+  {
+    "dir": "codex-astra",
+    "path": "codex-astra",
+    "title": "Codex Astra · 수담",
+    "desc": "수담이라는 이름의 로컬 장기. 기보 탐색·저장과 오프라인 실행을 지원한다."
+  },
+  {
     "dir": "sonnet5",
     "path": "sonn5",
     "title": "Sonnet 5",

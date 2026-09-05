@@ -1,7 +1,7 @@
 # 장기 (Janggi) — 구현 모아보기
 
-같은 명세(`janggi-dev-prompts.md`, P0~P12)로 각각 독립 구현한 웹 장기 7종과,
-이를 한 번에 서빙하는 컨테이너 이미지입니다.
+같은 명세(`janggi-dev-prompts.md`, P0~P12)로 각각 독립 구현한 웹 장기 10종과,
+개발 과정 비교 자료를 한 번에 서빙하는 컨테이너 이미지입니다.
 
 ## 경로 구성
 
@@ -13,8 +13,13 @@
 | `/luna/` | `luna/` | Luna |
 | `/opus5/` | `opus5/` | Opus 5 |
 | `/sol/` | `sol/` | Sol |
+| `/sol-fast/` | `sol-fast/` | Sol Fast |
+| `/astra/` | `astra/` | Astra |
+| `/codex-astra/` | `codex-astra/` | Codex Astra · 수담 |
 | `/sonn5/` | `sonnet5/` | Sonnet 5 |
 | `/terra/` | `terra/` | Terra |
+| `/comparison/` | `_comparison/` | 결과물 규모와 개발 과정 비교 |
+| `/comparison/details.html` | `_comparison/report.html` | 기존 7종 상세 분석 |
 
 각 앱은 `vite build --base=/<경로>/` 로 빌드되어 서브패스에서 독립적으로 동작합니다.
 
@@ -32,11 +37,13 @@ docker run --rm -p 8080:80 ghcr.io/studydev/janggi:latest
 
 ```bash
 docker build -t janggi .                 # 컨테이너 이미지
+npm --prefix _comparison run stats       # 비교 통계 갱신
 node deploy/build-all.mjs                # 정적 사이트만 dist-site/ 로
 ```
 
 `deploy/apps.json` 이 경로·이름·설명의 단일 소스입니다. 항목을 고치면 빌드 산출물과
-랜딩 페이지가 함께 갱신됩니다.
+랜딩 페이지가 함께 갱신됩니다. 비교 페이지는 `_comparison/data/project-stats.json`,
+`_comparison/data/make-*.md`, `_comparison/report.html`을 현재 확보된 범위에서 합칩니다.
 
 ## 개별 앱 개발
 
