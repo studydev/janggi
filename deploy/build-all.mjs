@@ -24,16 +24,53 @@ const ENVIRONMENTS = [
     id: 'copilot',
     label: 'GitHub Copilot',
     color: '#2f6fed',
+    icon: 'github-copilot.svg',
     note: 'VS Code 확장의 에이전트 모드에서 진행',
   },
   {
     id: 'claude-code',
     label: 'Claude Code',
     color: '#c2560f',
+    icon: 'claude.svg',
     note: 'Anthropic 터미널 에이전트에서 진행',
   },
-  { id: 'codex', label: 'Codex', color: '#0f766e', note: 'OpenAI Codex 에이전트에서 진행' },
+  {
+    id: 'codex',
+    label: 'Codex',
+    color: '#0f766e',
+    icon: 'openai.svg',
+    note: 'OpenAI Codex 에이전트에서 진행',
+  },
 ];
+
+// 같은 모델이 위아래로 맞물리도록 줄 순서를 고정한다(3열 기준).
+const DISPLAY_ORDER = [
+  'astra',
+  'opus5',
+  'sonnet5',
+  'codex-astra',
+  'claude_opus5',
+  'claude_sonnet5',
+  'sol-fast',
+  'sol',
+  'terra',
+  'luna',
+];
+
+/** 원본 파일 시각이 남은 환경에서 재어 넣은 실측값. 버전마다 비어 있을 수 있다. */
+const measuredBuilds = existsSync(join(dataDir, 'build-times.json')) ? readData('build-times.json') : { builds: {} };
+
+const iconCache = new Map();
+function brandIcon(environment) {
+  if (!iconCache.has(environment.id)) {
+    const svg = readFileSync(join(here, 'icons', environment.icon), 'utf8')
+      .replace(/<title>.*?<\/title>/, '')
+      .replace('<svg', '<svg class="brand" aria-hidden="true" focusable="false"')
+      .replace('<path', '<path fill="currentColor"');
+    iconCache.set(environment.id, svg);
+  }
+  return iconCache.get(environment.id);
+}
 
 const isWindows = process.platform === 'win32';
 const npm = isWindows ? 'npm.cmd' : 'npm';
@@ -112,8 +149,18 @@ function nextInstruction(session) {
   return { ts: Date.parse(followUp.ts), note: (followUp.text ?? '').replace(/\s+/g, ' ').slice(0, 34) };
 }
 
-/** 초기 구현 구간. 경계 이전에 손댄 파일 시각이 남아 있으면 그것을 종료점으로 쓰고, 없을 때만 지시 시점을 상한으로 쓴다. */
+/** 초기 구현 구간. 실측값이 있으면 그것을, 없으면 경계 이전에 손대본 파일 시각을, 둘 다 없을 때만 지시 시점을 상한으로 쓴다. */
 function initialBuild(session, project, declaredMs) {
+  const measured = measuredBuilds.builds?.[project.name];
+  if (measured?.startedAt && measured?.finishedAt) {
+    return {
+      ms: Date.parse(measured.finishedAt) - Date.parse(measured.startedAt),
+      source: '실측',
+      bounded: false,
+      note: null,
+    };
+  }
+
   const cutoff = nextInstruction(session);
   const sessionStart = session?.measured?.firstTs ?? null;
 
@@ -220,12 +267,7 @@ const entries = apps
       thumbDark: existsSync(join(thumbsDir, `${app.dir}-dark.jpg`)) ? `thumbs/${app.dir}-dark.jpg` : null,
     };
   })
-  .sort(
-    (left, right) =>
-      ENVIRONMENTS.findIndex((env) => env.id === left.environment.id) -
-        ENVIRONMENTS.findIndex((env) => env.id === right.environment.id) ||
-      right.codeLoc - left.codeLoc,
-  );
+  .sort((left, right) => DISPLAY_ORDER.indexOf(left.dir) - DISPLAY_ORDER.indexOf(right.dir));
 
 const totals = {
   testCases: entries.reduce((sum, entry) => sum + (entry.testCases ?? 0), 0),
@@ -256,7 +298,7 @@ const envCards = ENVIRONMENTS.map((environment) => {
     .join('\n            ');
 
   return `          <article class="env-card" style="--env:${environment.color}">
-            <h3>${escapeHtml(environment.label)}</h3>
+            <h3>${brandIcon(environment)}${escapeHtml(environment.label)}</h3>
             <p class="env-note">${escapeHtml(environment.note)}</p>
             <dl>
               <div><dt>구현</dt><dd>${members.length}종</dd></div>
@@ -313,8 +355,7 @@ const charts = chartDefinitions
         value: definition.pick(entry),
         color: entry.environment.color,
         bounded: definition.pick === chartDefinitions[0].pick ? entry.buildBounded : false,
-      }))
-      .sort((left, right) => (right.value ?? -1) - (left.value ?? -1));
+      }));
     return `          <figure class="chart">
             <h3>${escapeHtml(definition.title)}</h3>
             <p class="chart-sub">${escapeHtml(definition.sub)}</p>
@@ -326,7 +367,7 @@ const charts = chartDefinitions
 
 const chartLegend = ENVIRONMENTS.map(
   (environment) =>
-    `          <span style="color:${environment.color}"><i></i>${escapeHtml(environment.label)}</span>`,
+    `          <span style="color:${environment.color}">${brandIcon(environment)}${escapeHtml(environment.label)}</span>`,
 ).join('\n');
 
 const implCards = entries
@@ -349,11 +390,11 @@ const implCards = entries
             ${shot}
             <div class="impl-body">
               <div class="tags">
-                <span class="env-tag">${escapeHtml(entry.environment.label)}</span>
+                <span class="env-tag">${brandIcon(entry.environment)}${escapeHtml(entry.environment.label)}</span>
                 ${themeTag}
               </div>
               <h3>${escapeHtml(entry.title)}</h3>
-              <p class="model">${escapeHtml(entry.model)}</p>
+              <p class="model">${escapeHtml(entry.environment.label)} - ${escapeHtml(entry.model)}</p>
               <dl>
                 <div><dt>코드</dt><dd>${formatNumber(entry.codeLoc)} LOC</dd></div>
                 <div><dt>통과 테스트</dt>${tests}</div>

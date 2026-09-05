@@ -9,6 +9,7 @@ _comparison/*
 !_comparison/data/
 _comparison/data/*
 !_comparison/data/project-stats.json
+!_comparison/data/build-times.json
 !_comparison/data/code.json
 !_comparison/data/checks.json
 !_comparison/data/tokens.json

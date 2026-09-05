@@ -50,6 +50,10 @@ npm --prefix _comparison run thumbs      # 대국 시작 화면 썸네일 재캡
 `checks.json`(테스트·번들), `tokens.json`·`make-*.md`(세션 기록)를 합쳐 만듭니다.
 확보되지 않은 값은 추정하지 않고 `미수집`으로 표시합니다.
 
+초기 구현 시간은 원본 파일 시각이 남은 환경에서 잰 값을 `_comparison/data/build-times.json` 에
+넣으면 `실측`으로 대체됩니다. 환경 아이콘은 [simple-icons](https://github.com/simple-icons/simple-icons)(CC0)의
+SVG를 `deploy/icons/` 에 두고 빌드 시 인라인합니다. 각 상표는 해당 소유자의 것입니다.
+
 ## 개별 앱 개발
 
 ```bash

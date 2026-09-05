@@ -1,0 +1,13 @@
+{
+  "note": "원본 파일 시각이 남아 있는 환경에서 잰 값을 넣으면 초기 구현 시간이 '실측'으로 대체된다. 값은 ISO 8601(예: 2026-09-03T07:40:00+09:00). 비어 있으면 세션 로그 상한이나 파일 활동으로 대체한다.",
+  "measure": "node -e \"const{readdirSync,lstatSync}=require('fs');const skip=new Set(['node_modules','dist','.git','coverage']);const w=(d,o=[])=>{for(const e of readdirSync(d,{withFileTypes:true})){if(e.isDirectory()&&skip.has(e.name))continue;const p=d+'/'+e.name;e.isDirectory()?w(p,o):o.push(lstatSync(p).birthtimeMs)}return o};const t=w(process.argv[1]);console.log(new Date(Math.min(...t)).toISOString(),new Date(Math.max(...t)).toISOString())\" <폴더>",
+  "builds": {
+    "luna": { "startedAt": null, "finishedAt": null },
+    "terra": { "startedAt": null, "finishedAt": null },
+    "sol": { "startedAt": null, "finishedAt": null },
+    "opus5": { "startedAt": null, "finishedAt": null },
+    "sonnet5": { "startedAt": null, "finishedAt": null },
+    "claude_opus5": { "startedAt": null, "finishedAt": null },
+    "claude_sonnet5": { "startedAt": null, "finishedAt": null }
+  }
+}

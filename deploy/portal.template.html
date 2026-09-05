@@ -243,8 +243,21 @@
         background: var(--paper);
       }
       .env-card h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         margin: 0;
         font-size: 21px;
+      }
+      .brand {
+        width: 1em;
+        height: 1em;
+        flex: none;
+      }
+      .env-card h3 .brand {
+        width: 20px;
+        height: 20px;
+        color: var(--env);
       }
       .env-card .env-note {
         margin: 4px 0 16px;
@@ -327,16 +340,14 @@
         align-items: center;
         gap: 6px;
       }
-      .legend i {
-        width: 11px;
-        height: 11px;
-        border-radius: 3px;
-        background: currentColor;
+      .legend .brand {
+        width: 14px;
+        height: 14px;
       }
 
       .impl-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 18px;
       }
       .impl {
@@ -392,6 +403,9 @@
         padding: 18px 20px 16px;
       }
       .env-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
         align-self: flex-start;
         padding: 3px 8px;
         border-radius: 4px;
@@ -401,6 +415,10 @@
         font-weight: 800;
         letter-spacing: 0.02em;
         text-transform: uppercase;
+      }
+      .env-tag .brand {
+        width: 12px;
+        height: 12px;
       }
       .impl h3 {
         margin: 10px 0 1px;
@@ -546,6 +564,9 @@
         .chart-grid {
           grid-template-columns: 1fr;
         }
+        .impl-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
         .metrics {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -576,6 +597,9 @@
         }
         .hero {
           padding-top: 38px;
+        }
+        .impl-grid {
+          grid-template-columns: 1fr;
         }
         section.block {
           padding-top: 48px;
