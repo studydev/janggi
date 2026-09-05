@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>장기 (Janggi) — 구현 모아보기</title>
+    <meta name="description" content="같은 명세로 만든 여러 웹 장기 구현을 한 곳에서 비교해 봅니다." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f4e4c1' stroke='%238b3a2e' stroke-width='4'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%238b3a2e' font-family='serif'%3E漢%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        --bg: #14100c;
+        --panel: #1e1811;
+        --panel-hover: #2a2116;
+        --line: #3b2f21;
+        --ink: #f3ead9;
+        --muted: #b3a48c;
+        --han: #d94f45;
+        --cho: #2f7d6b;
+        --accent: #e2b866;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(1100px 600px at 15% -10%, #2b2115 0%, transparent 60%),
+          radial-gradient(900px 500px at 100% 0%, #1d2b26 0%, transparent 55%), var(--bg);
+        color: var(--ink);
+        font-family:
+          'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic',
+          'Apple SD Gothic Neo', system-ui, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 64px 20px 80px;
+      }
+      header {
+        margin-bottom: 44px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 12px;
+      }
+      h1 {
+        margin: 18px 0 10px;
+        font-size: clamp(30px, 6vw, 46px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      h1 .han {
+        color: var(--han);
+      }
+      h1 .cho {
+        color: var(--cho);
+      }
+      .lede {
+        margin: 0;
+        max-width: 62ch;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--panel);
+        color: inherit;
+        text-decoration: none;
+        transition:
+          transform 0.16s ease,
+          border-color 0.16s ease,
+          background 0.16s ease;
+      }
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-3px);
+        border-color: var(--accent);
+        background: var(--panel-hover);
+        outline: none;
+      }
+      .card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 650;
+      }
+      .path {
+        font-family: ui-monospace, SFMono-Regular, 'Cascadia Mono', Consolas, monospace;
+        font-size: 12px;
+        color: var(--accent);
+        background: rgba(226, 184, 102, 0.1);
+        border: 1px solid rgba(226, 184, 102, 0.28);
+        border-radius: 6px;
+        padding: 2px 8px;
+        white-space: nowrap;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .card footer {
+        margin-top: auto;
+        padding-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12.5px;
+        color: #8d7f6a;
+      }
+      .card .go {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .dir {
+        font-family: ui-monospace, SFMono-Regular, 'Cascadia Mono', Consolas, monospace;
+      }
+      .page-foot {
+        margin-top: 44px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: #8d7f6a;
+        font-size: 13px;
+      }
+      .page-foot a {
+        color: var(--muted);
+      }
+      .comparison-nav {
+        margin-top: 48px;
+        padding-top: 32px;
+        border-top: 1px solid var(--line);
+      }
+      .comparison-nav h2 {
+        margin: 0 0 6px;
+        font-family: 'Iowan Old Style', 'Noto Serif KR', 'AppleMyungjo', serif;
+        font-size: 24px;
+        letter-spacing: 0;
+      }
+      .comparison-nav > p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .comparison-link {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 22px;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--accent);
+        border-radius: 6px;
+        background: rgba(30, 24, 17, 0.78);
+        color: inherit;
+        text-decoration: none;
+      }
+      .comparison-link:hover,
+      .comparison-link:focus-visible {
+        border-color: var(--accent);
+        outline: none;
+      }
+      .comparison-link strong,
+      .comparison-link small {
+        display: block;
+      }
+      .comparison-link strong {
+        font-size: 16px;
+      }
+      .comparison-link small {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .comparison-link .go {
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .card {
+          transition: none;
+        }
+        .card:hover,
+        .card:focus-visible {
+          transform: none;
+        }
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          padding-top: 40px;
+        }
+        .comparison-link {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="eyebrow">Janggi · Korean Chess</span>
+        <h1><span class="cho">楚</span> 장기 구현 모아보기 <span class="han">漢</span></h1>
+        <p class="lede">
+          같은 명세(P0~P12)로 각각 독립 구현한 웹 장기 <!--APP_COUNT-->개입니다. 아래에서 하나를 골라 바로 대국을
+          시작하세요. 모든 구현은 규칙 엔진과 UI가 분리되어 있고, 한 기기에서 두는 로컬 2인 대국을
+          지원합니다.
+        </p>
+      </header>
+
+      <main class="grid">
+        <!--CARDS-->
+      </main>
+
+      <section class="comparison-nav" aria-labelledby="comparison-title">
+        <h2 id="comparison-title">구현보다 궁금한 것</h2>
+        <p>같은 요구사항을 각 모델이 어떤 규모와 속도로 풀었는지 현재까지 수집한 기록을 비교합니다.</p>
+        <a class="comparison-link" href="/comparison/">
+          <span>
+            <strong>개발 과정과 결과물 비교</strong>
+            <small>폴더·파일·라인·문자·코드량·작업 시간과 기존 7종 상세 분석</small>
+          </span>
+          <span class="go">비교 자료 보기 &rarr;</span>
+        </a>
+      </section>
+
+      <p class="page-foot">
+        빌드 <span class="dir"><!--BUILT_AT--></span> · 각 경로는 독립된 정적 앱으로 서빙됩니다.
+        소스: <a href="https://github.com/studydev/janggi">github.com/studydev/janggi</a>
+      </p>
+    </div>
+  </body>
+</html>

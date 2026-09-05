@@ -1,5 +1,5 @@
 Model: GPT-6 Astra (Ultra)
-Usage:  credit
+Usage: pro plan 1회 소진 후 2회 연속 요청시 42% 남음
 Time: 11:31 시작 -> 12:04 종료
 Steps: 
 files: 
