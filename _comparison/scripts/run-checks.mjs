@@ -7,7 +7,18 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..', '..');
 const OUT_DIR = join(__dirname, '..', 'data');
-const FOLDERS = ['luna', 'terra', 'sol', 'opus5', 'sonnet5', 'claude_opus5', 'claude_sonnet5'];
+const FOLDERS = [
+  'luna',
+  'terra',
+  'sol',
+  'sol-fast',
+  'astra',
+  'codex-astra',
+  'opus5',
+  'sonnet5',
+  'claude_opus5',
+  'claude_sonnet5',
+];
 
 function run(cwd, args, timeout) {
   const started = Date.now();

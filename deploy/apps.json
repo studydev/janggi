@@ -3,60 +3,80 @@
     "dir": "claude_opus5",
     "path": "copus",
     "title": "Claude Opus 5",
+    "env": "claude-code",
+    "model": "Claude Opus",
     "desc": "규칙 엔진과 UI를 완전히 분리한 구현. 콘솔만으로도 대국을 끝까지 진행할 수 있다."
   },
   {
     "dir": "claude_sonnet5",
     "path": "csonn",
     "title": "Claude Sonnet 5",
+    "env": "claude-code",
+    "model": "Claude Sonnet",
     "desc": "순수 TypeScript 엔진 + React·SVG 보드. 기보 저장/재생과 오프라인(PWA)을 지원한다."
   },
   {
     "dir": "luna",
     "path": "luna",
     "title": "Luna",
+    "env": "copilot",
+    "model": "GPT-5.6 Luna",
     "desc": "React + TypeScript + Vite 스캐폴딩 위에 올린 SVG 보드 로컬 2인 대국."
   },
   {
     "dir": "opus5",
     "path": "opus5",
     "title": "Opus 5",
+    "env": "copilot",
+    "model": "Claude Opus 5",
     "desc": "SVG로 그린 보드와 UI에서 분리된 순수 TypeScript 규칙 엔진."
   },
   {
     "dir": "sol",
     "path": "sol",
     "title": "Sol",
+    "env": "copilot",
+    "model": "GPT-5.6 Sol",
     "desc": "React 18 · strict TypeScript · SVG. 엔진은 UI와 분리된 독립 모듈."
   },
   {
     "dir": "sol-fast",
     "path": "sol-fast",
     "title": "Sol Fast",
+    "env": "copilot",
+    "model": "GPT-5.6 Sol Fast",
     "desc": "기존 Sol의 검증된 구조를 바탕으로 빠르게 완성한 strict TypeScript 로컬 대국."
   },
   {
     "dir": "astra",
     "path": "astra",
     "title": "Astra",
+    "env": "copilot",
+    "model": "GPT-6 Astra (MAX)",
     "desc": "규칙 검증, 기보 복구, 접근성과 오프라인 브라우저 확인까지 갖춘 구현."
   },
   {
     "dir": "codex-astra",
     "path": "codex-astra",
     "title": "Codex Astra · 수담",
+    "env": "codex",
+    "model": "GPT-6 Astra (Ultra)",
     "desc": "수담이라는 이름의 로컬 장기. 기보 탐색·저장과 오프라인 실행을 지원한다."
   },
   {
     "dir": "sonnet5",
     "path": "sonn5",
     "title": "Sonnet 5",
+    "env": "copilot",
+    "model": "Claude Sonnet 5",
     "desc": "로컬 2인 대국 중심 구현. AI 상대(P10)와 온라인 대전(P11)은 범위에서 제외."
   },
   {
     "dir": "terra",
     "path": "terra",
     "title": "Terra",
+    "env": "copilot",
+    "model": "GPT-5.6 Terra",
     "desc": "한 기기에서 두 사람이 두는 로컬 대국. 엔진만으로 콘솔 대국이 가능하다."
   }
 ]

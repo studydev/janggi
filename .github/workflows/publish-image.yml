@@ -69,7 +69,8 @@ jobs:
             echo "::error::container did not become healthy"
             exit 1
           fi
-          curl -fsS http://127.0.0.1:8080/ | grep -q '장기 구현 모아보기'
+          curl -fsS http://127.0.0.1:8080/ | grep -q '같은 명세를 주면'
+          curl -fsS http://127.0.0.1:8080/ | grep -c 'thumbs/' | grep -q '^10$'
           for p in copus csonn luna opus5 sol sol-fast astra codex-astra sonn5 terra comparison; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/$p/")
             echo "/$p/ -> $code"

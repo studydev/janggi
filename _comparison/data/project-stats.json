@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T04:01:50.000Z",
+  "generatedAt": "2026-09-05T15:31:29.000Z",
   "timeZone": "Asia/Seoul",
   "twoHourLimitMs": 7200000,
   "projects": [
@@ -27,7 +27,9 @@
       "measuredEnd": null,
       "rawDurationMs": 4.794677734375,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -54,7 +56,9 @@
       "measuredEnd": null,
       "rawDurationMs": 5.490234375,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -81,7 +85,9 @@
       "measuredEnd": null,
       "rawDurationMs": 3.663818359375,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -108,7 +114,9 @@
       "measuredEnd": null,
       "rawDurationMs": 5.8984375,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -135,7 +143,9 @@
       "measuredEnd": null,
       "rawDurationMs": 5.80517578125,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -159,16 +169,13 @@
         "type": "file",
         "action": "created"
       },
-      "measuredEnd": {
-        "timestamp": "2026-09-05T02:08:39.590Z",
-        "path": "src/engine/game-record.ts",
-        "type": "file",
-        "action": "modified"
-      },
+      "measuredEnd": null,
       "rawDurationMs": 7593877.947998047,
-      "measuredDurationMs": 924590.6701660156,
-      "metadataReset": false,
-      "adjusted": true
+      "measuredDurationMs": null,
+      "copiedBaseline": true,
+      "excludedTailEvents": 3,
+      "excludedTailFrom": "2026-09-05T03:59:48.876Z",
+      "adjusted": false
     },
     {
       "name": "astra",
@@ -199,7 +206,9 @@
       },
       "rawDurationMs": 3056363.798095703,
       "measuredDurationMs": 3056363.798095703,
-      "metadataReset": false,
+      "copiedBaseline": false,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -231,7 +240,9 @@
       },
       "rawDurationMs": 1846023.7236328125,
       "measuredDurationMs": 1846023.7236328125,
-      "metadataReset": false,
+      "copiedBaseline": false,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -258,7 +269,9 @@
       "measuredEnd": null,
       "rawDurationMs": 6.935791015625,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     },
     {
@@ -285,7 +298,9 @@
       "measuredEnd": null,
       "rawDurationMs": 7.41943359375,
       "measuredDurationMs": null,
-      "metadataReset": true,
+      "copiedBaseline": true,
+      "excludedTailEvents": 0,
+      "excludedTailFrom": null,
       "adjusted": false
     }
   ],

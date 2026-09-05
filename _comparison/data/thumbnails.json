@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-09-05T15:36:07.451Z",
+  "viewport": {
+    "width": 1200,
+    "height": 750
+  },
+  "thumbnails": [
+    {
+      "dir": "claude_opus5",
+      "path": "copus",
+      "title": "장기 · Janggi",
+      "startedVia": "대국 시작",
+      "file": "claude_opus5.jpg",
+      "bytes": 87515
+    },
+    {
+      "dir": "claude_sonnet5",
+      "path": "csonn",
+      "title": "웹 장기 · Janggi",
+      "startedVia": "대국 시작",
+      "file": "claude_sonnet5.jpg",
+      "bytes": 78107
+    },
+    {
+      "dir": "luna",
+      "path": "luna",
+      "title": "장기 · Luna",
+      "startedVia": "대국 시작 ↗",
+      "file": "luna.jpg",
+      "bytes": 77568
+    },
+    {
+      "dir": "opus5",
+      "path": "opus5",
+      "title": "장기 (Janggi)",
+      "startedVia": "대국 시작",
+      "file": "opus5.jpg",
+      "bytes": 80598
+    },
+    {
+      "dir": "sol",
+      "path": "sol",
+      "title": "장기 | 로컬 2인 대국",
+      "startedVia": "대국 시작",
+      "file": "sol.jpg",
+      "bytes": 90551
+    },
+    {
+      "dir": "sol-fast",
+      "path": "sol-fast",
+      "title": "장기 | 로컬 2인 대국",
+      "startedVia": "대국 시작",
+      "file": "sol-fast.jpg",
+      "bytes": 90551
+    },
+    {
+      "dir": "astra",
+      "path": "astra",
+      "title": "Astra 장기",
+      "startedVia": "새 대국",
+      "file": "astra.jpg",
+      "bytes": 103026
+    },
+    {
+      "dir": "codex-astra",
+      "path": "codex-astra",
+      "title": "수담 — 한 수에 담는 여유",
+      "startedVia": "대국 시작하기",
+      "file": "codex-astra.jpg",
+      "bytes": 65764
+    },
+    {
+      "dir": "sonnet5",
+      "path": "sonn5",
+      "title": "장기 (Janggi)",
+      "startedVia": "대국 시작",
+      "file": "sonnet5.jpg",
+      "bytes": 89594
+    },
+    {
+      "dir": "terra",
+      "path": "terra",
+      "title": "장기 - 로컬 대국",
+      "startedVia": "대국 시작",
+      "file": "terra.jpg",
+      "bytes": 92414
+    }
+  ]
+}

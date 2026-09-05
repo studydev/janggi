@@ -7,6 +7,7 @@
   "scripts": {
     "all": "npm run tokens && npm run code && npm run checks && npm run screens && npm run features && npm run report",
     "stats": "node scripts/analyze-project-stats.mjs",
+    "thumbs": "node scripts/capture-thumbnails.mjs",
     "tokens": "node scripts/analyze-tokens.mjs",
     "code": "node scripts/analyze-code.mjs",
     "checks": "node scripts/run-checks.mjs",

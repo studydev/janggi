@@ -27,6 +27,8 @@ const PROJECTS = [
 ];
 
 const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+// 본 작업이 끝난 뒤 잠깐 스쳐간 수정(색 조정 등)을 분리하는 간격
+const TAIL_GAP_MS = 20 * 60 * 1000;
 const SKIP_DIRS = new Set([
   '.git',
   '.idea',
@@ -120,6 +122,17 @@ function isTextFile(path) {
   return TEXT_NAMES.has(name) || TEXT_EXTENSIONS.has(name) || TEXT_EXTENSIONS.has(extname(name).toLowerCase());
 }
 
+/** 복사·체크아웃으로 파일 생성 시각이 한 초에 몰렸는지 판정한다. */
+function hasCopiedBaseline(files) {
+  if (files.length < 10) return false;
+  const buckets = new Map();
+  for (const { stats } of files) {
+    const second = Math.floor(creationTimeMs(stats) / 1000);
+    buckets.set(second, (buckets.get(second) ?? 0) + 1);
+  }
+  return Math.max(...buckets.values()) / files.length >= 0.5;
+}
+
 function latestEvent(events) {
   return [...events].sort((left, right) => {
     if (left.timeMs !== right.timeMs) return left.timeMs - right.timeMs;
@@ -157,16 +170,33 @@ function analyzeProject(name) {
     }
     return events;
   });
-  const eventsAfterStart = fileEvents.filter((event) => event.timeMs >= start.timeMs);
+  const eventsAfterStart = fileEvents
+    .filter((event) => event.timeMs >= start.timeMs)
+    .sort((left, right) => left.timeMs - right.timeMs || left.path.localeCompare(right.path));
   const rawEnd = latestEvent(eventsAfterStart);
   if (!rawEnd) throw new Error(`No file activity found for project: ${name}`);
 
   const rawDurationMs = rawEnd.timeMs - start.timeMs;
-  const metadataReset = files.length >= 10 && rawDurationMs < 1000;
-  const adjusted = !metadataReset && rawDurationMs > TWO_HOURS_MS;
+  const copiedBaseline = hasCopiedBaseline(files);
+
+  const clusters = [];
+  for (const event of eventsAfterStart) {
+    const current = clusters.at(-1);
+    if (current && event.timeMs - current.at(-1).timeMs <= TAIL_GAP_MS) current.push(event);
+    else clusters.push([event]);
+  }
+  const tailLimit = Math.max(3, Math.round(eventsAfterStart.length * 0.05));
+  let kept = clusters;
+  while (kept.length > 1 && kept.at(-1).length <= tailLimit) kept = kept.slice(0, -1);
+  const keptEvents = kept.flat();
+  const excludedTailEvents = eventsAfterStart.length - keptEvents.length;
+  const excludedTailFrom = excludedTailEvents > 0 ? clusters[kept.length][0].timeMs : null;
+
+  const trimmedEnd = latestEvent(keptEvents);
+  const adjusted = !copiedBaseline && trimmedEnd.timeMs - start.timeMs > TWO_HOURS_MS;
   const eligibleEvents = adjusted
-    ? eventsAfterStart.filter((event) => event.timeMs <= start.timeMs + TWO_HOURS_MS)
-    : eventsAfterStart;
+    ? keptEvents.filter((event) => event.timeMs <= start.timeMs + TWO_HOURS_MS)
+    : keptEvents;
   const measuredEnd = latestEvent(eligibleEvents);
   if (!measuredEnd) throw new Error(`No activity within the measurement window: ${name}`);
 
@@ -200,8 +230,10 @@ function analyzeProject(name) {
     rawEnd,
     measuredEnd,
     rawDurationMs,
-    measuredDurationMs: metadataReset ? null : measuredEnd.timeMs - start.timeMs,
-    metadataReset,
+    measuredDurationMs: copiedBaseline ? null : measuredEnd.timeMs - start.timeMs,
+    copiedBaseline,
+    excludedTailEvents,
+    excludedTailFrom,
     adjusted,
   };
 }
@@ -272,7 +304,7 @@ const totals = results.reduce(
   }),
   { directoryCount: 0, fileCount: 0, textFiles: 0, textLines: 0, textCharacters: 0, codeFiles: 0, codeLoc: 0 },
 );
-const measurableResults = results.filter((result) => !result.metadataReset);
+const measurableResults = results.filter((result) => !result.copiedBaseline);
 const adjustedCount = results.filter((result) => result.adjusted).length;
 const unavailableCount = results.length - measurableResults.length;
 const mostDirectories = maxBy(results, 'directoryCount');
@@ -291,10 +323,17 @@ sizeRows.push(
   `| **합계** | **${formatNumber(totals.directoryCount)}** | **${formatNumber(totals.fileCount)}** | **${formatNumber(totals.textFiles)}** | **${formatNumber(totals.textLines)}** | **${formatNumber(totals.textCharacters)}** | **${formatNumber(totals.codeFiles)}** | **${formatNumber(totals.codeLoc)}** |`,
 );
 
-const timingRows = results.map(
-  (result) =>
-    `| \`${result.name}\` | ${eventLabel(result.start, result.name)} | ${eventLabel(result.rawEnd, result.name)} | ${result.metadataReset ? '< 00:00:01' : formatDuration(result.rawDurationMs)} | ${result.metadataReset ? '-' : eventLabel(result.measuredEnd, result.name)} | **${result.metadataReset ? '측정 불가' : formatDuration(result.measuredDurationMs)}** | ${result.metadataReset ? '메타데이터 재설정' : result.adjusted ? '적용' : '없음'} |`,
-);
+const timingRows = results.map((result) => {
+  const excluded = result.excludedTailEvents
+    ? `${formatNumber(result.excludedTailEvents)}건 · ${formatTime(result.excludedTailFrom)} 이후`
+    : '없음';
+  const note = result.copiedBaseline
+    ? '복사로 생성 시각 평탄화'
+    : result.adjusted
+      ? '2시간 상한 적용'
+      : '없음';
+  return `| \`${result.name}\` | ${eventLabel(result.start, result.name)} | ${result.copiedBaseline ? '-' : eventLabel(result.measuredEnd, result.name)} | **${result.copiedBaseline ? '측정 불가' : formatDuration(result.measuredDurationMs)}** | ${excluded} | ${note} |`;
+});
 
 const generatedAtMs = Math.floor(Date.now() / 1000) * 1000;
 const publicEvent = (event, projectName) => ({
@@ -314,10 +353,12 @@ const publicResults = results.map((result) => ({
   codeLoc: result.codeLoc,
   start: publicEvent(result.start, result.name),
   rawEnd: publicEvent(result.rawEnd, result.name),
-  measuredEnd: result.metadataReset ? null : publicEvent(result.measuredEnd, result.name),
+  measuredEnd: result.copiedBaseline ? null : publicEvent(result.measuredEnd, result.name),
   rawDurationMs: result.rawDurationMs,
   measuredDurationMs: result.measuredDurationMs,
-  metadataReset: result.metadataReset,
+  copiedBaseline: result.copiedBaseline,
+  excludedTailEvents: result.excludedTailEvents,
+  excludedTailFrom: result.excludedTailFrom ? new Date(result.excludedTailFrom).toISOString() : null,
   adjusted: result.adjusted,
 }));
 
@@ -326,7 +367,7 @@ const report = `# 프로젝트 규모 및 파일 활동 시간 비교
 - 생성 시각: ${formatTime(generatedAtMs)}
 - 대상: ${PROJECTS.map((name) => `\`${name}\``).join(', ')}
 - 시간대: Asia/Seoul (KST)
-- 시간 측정 가능: ${measurableResults.length}개 / ${results.length}개 (메타데이터 재설정으로 측정 불가 ${unavailableCount}개)
+- 시간 측정 가능: ${measurableResults.length}개 / ${results.length}개 (복사로 생성 시각이 평탄화되어 측정 불가 ${unavailableCount}개)
 - 2시간 보정 적용: ${adjustedCount}개 / 측정 가능 ${measurableResults.length}개
 
 ## 요약
@@ -346,10 +387,10 @@ ${sizeRows.join('\n')}
 
 ## 파일 활동 시간 비교
 
-기간은 최초 폴더/파일 생성 시각부터 마지막 파일 생성/수정 시각까지 계산한다. 원시 차이가 2시간을 넘으면 시작 후 2시간 이내에 기록된 마지막 파일 생성/수정 이벤트를 측정 종료점으로 사용한다.
+기간은 최초 폴더/파일 생성 시각부터 마지막 파일 생성/수정 시각까지 계산한다. 본 작업이 끝난 뒤 20분 이상 떨어져 잠긐 발생한 소규모 수정(색 조정 등)은 꼬리 구간으로 보고 측정에서 제외한다. 그 뒤에도 구간이 2시간을 넘으면 시작 후 2시간 이내의 마지막 이벤트를 종료점으로 사용한다.
 
-| 프로젝트 | 최초 생성 | 원시 최종 파일 활동 | 원시 차이 | 측정 기준 최종 파일 | 최종 측정 시간 | 2시간 보정 |
-|---|---|---|---:|---|---:|---|
+| 프로젝트 | 최초 생성 | 측정 기준 최종 파일 | 최종 측정 시간 | 제외한 후속 수정 | 비고 |
+|---|---|---|---:|---|---|
 ${timingRows.join('\n')}
 
 ## 측정 기준
@@ -360,7 +401,8 @@ ${timingRows.join('\n')}
 - 텍스트 전체 라인은 텍스트 확장자 및 \`Dockerfile\`/\`LICENSE\`/\`NOTICE\`의 빈 줄을 포함한 물리적 라인 수다. 텍스트 문자 수는 같은 파일에서 줄바꿈과 공백을 포함한 Unicode 코드 포인트 수다. 바이너리 파일은 파일 수에는 포함하지만 라인·문자 수에서는 제외한다.
 - 코드 비공백 LOC는 기존 비교기와 동일하게 \`.ts\`, \`.tsx\`, \`.js\`, \`.jsx\`, \`.mjs\`, \`.cjs\`, \`.css\`, \`.html\` 파일의 공백이 아닌 라인만 센 값이다.
 - 최초 생성은 프로젝트 루트, 포함된 하위 폴더, 파일의 \`birthtime\` 최솟값이다. 파일 활동은 각 파일의 \`birthtime\`(생성)과 \`mtime\`(수정)을 별도 이벤트로 비교한다.
-- 파일이 10개 이상인 프로젝트의 전체 활동 구간이 1초 미만이면 일괄 복사 또는 체크아웃으로 타임스탬프가 재설정된 것으로 판정하고, 0초로 비교하지 않고 \`측정 불가\`로 표시한다.
+- 파일이 10개 이상인 프로젝트에서 파일 생성 시각의 절반 이상이 같은 1초에 몰려 있으면 일괄 복사·체크아웃으로 기준선이 재설정된 것으로 보고 \`측정 불가\`로 표시한다. 이 경우 소요 시간은 세션 기록을 근거로 써야 한다.
+- 마지막 활동 묶음이 직전 활동과 20분 이상 떨어져 있고 전체 이벤트의 5% 이하이면 본 작업 이후의 짧은 손질로 보고 측정 구간에서 제외한다.
 - 파일시스템 생성 시각은 복사, 압축 해제, 체크아웃 과정에서 재설정될 수 있다. 따라서 이 결과는 현재 볼륨의 메타데이터 기준이며 원래 LLM 세션 시간과 다를 수 있다.
 `;
 
@@ -383,6 +425,6 @@ writeFileSync(REPORT_PATH, report, 'utf8');
 console.log(`Wrote ${relative(ROOT, DATA_PATH)} and ${relative(ROOT, REPORT_PATH)}`);
 for (const result of results) {
   console.log(
-    `${result.name.padEnd(16)} dirs=${String(result.directoryCount).padStart(3)} files=${String(result.fileCount).padStart(3)} lines=${String(result.textLines).padStart(6)} chars=${String(result.textCharacters).padStart(7)} duration=${result.metadataReset ? 'unavailable' : formatDuration(result.measuredDurationMs)} adjusted=${result.adjusted ? 'yes' : 'no'}`,
+    `${result.name.padEnd(16)} dirs=${String(result.directoryCount).padStart(3)} files=${String(result.fileCount).padStart(3)} lines=${String(result.textLines).padStart(6)} chars=${String(result.textCharacters).padStart(7)} duration=${result.copiedBaseline ? 'unavailable' : formatDuration(result.measuredDurationMs)} excludedTail=${result.excludedTailEvents}`,
   );
 }

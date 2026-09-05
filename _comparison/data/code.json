@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T21:53:01.025Z",
+  "generatedAt": "2026-09-05T15:31:29.580Z",
   "projects": [
     {
       "folder": "luna",
@@ -14,13 +14,13 @@
           "files": 3,
           "loc": 315
         },
-        "engine": {
-          "files": 16,
-          "loc": 751
-        },
         "test": {
           "files": 6,
           "loc": 361
+        },
+        "engine": {
+          "files": 16,
+          "loc": 751
         },
         "ui": {
           "files": 6,
@@ -141,6 +141,149 @@
       ]
     },
     {
+      "folder": "sol-fast",
+      "totalFiles": 44,
+      "totalLoc": 4071,
+      "layers": {
+        "config": {
+          "files": 3,
+          "loc": 63
+        },
+        "scripts": {
+          "files": 1,
+          "loc": 5
+        },
+        "app": {
+          "files": 4,
+          "loc": 290
+        },
+        "test": {
+          "files": 11,
+          "loc": 579
+        },
+        "engine": {
+          "files": 18,
+          "loc": 1064
+        },
+        "ui": {
+          "files": 7,
+          "loc": 2070
+        }
+      },
+      "testFiles": 11,
+      "testCases": 55,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": true,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "assets",
+        "engine",
+        "styles",
+        "ui"
+      ]
+    },
+    {
+      "folder": "astra",
+      "totalFiles": 60,
+      "totalLoc": 2829,
+      "layers": {
+        "config": {
+          "files": 5,
+          "loc": 89
+        },
+        "scripts": {
+          "files": 2,
+          "loc": 45
+        },
+        "app": {
+          "files": 2,
+          "loc": 160
+        },
+        "test": {
+          "files": 19,
+          "loc": 899
+        },
+        "engine": {
+          "files": 18,
+          "loc": 681
+        },
+        "ui": {
+          "files": 14,
+          "loc": 955
+        }
+      },
+      "testFiles": 19,
+      "testCases": 88,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": true,
+        "README": true,
+        "manifest": false,
+        "serviceWorker": false,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "assets",
+        "engine",
+        "ui"
+      ]
+    },
+    {
+      "folder": "codex-astra",
+      "totalFiles": 38,
+      "totalLoc": 3010,
+      "layers": {
+        "config": {
+          "files": 2,
+          "loc": 24
+        },
+        "scripts": {
+          "files": 3,
+          "loc": 213
+        },
+        "test": {
+          "files": 6,
+          "loc": 557
+        },
+        "engine": {
+          "files": 15,
+          "loc": 449
+        },
+        "state": {
+          "files": 4,
+          "loc": 215
+        },
+        "app": {
+          "files": 1,
+          "loc": 16
+        },
+        "ui": {
+          "files": 7,
+          "loc": 1536
+        }
+      },
+      "testFiles": 6,
+      "testCases": 52,
+      "artifacts": {
+        "RULES": true,
+        "CLAUDE": false,
+        "README": true,
+        "manifest": true,
+        "serviceWorker": false,
+        "viteConfig": true
+      },
+      "srcTree": [
+        "engine",
+        "game",
+        "ui"
+      ]
+    },
+    {
       "folder": "opus5",
       "totalFiles": 46,
       "totalLoc": 3682,
@@ -157,13 +300,13 @@
           "files": 4,
           "loc": 600
         },
-        "engine": {
-          "files": 16,
-          "loc": 971
-        },
         "test": {
           "files": 12,
           "loc": 789
+        },
+        "engine": {
+          "files": 16,
+          "loc": 971
         },
         "state": {
           "files": 2,
@@ -203,13 +346,13 @@
           "files": 3,
           "loc": 81
         },
-        "engine": {
-          "files": 17,
-          "loc": 740
-        },
         "test": {
           "files": 12,
           "loc": 737
+        },
+        "engine": {
+          "files": 17,
+          "loc": 740
         },
         "state": {
           "files": 2,
@@ -231,7 +374,6 @@
         "viteConfig": true
       },
       "srcTree": [
-        "assets",
         "engine",
         "state",
         "ui"
@@ -254,13 +396,13 @@
           "files": 5,
           "loc": 250
         },
-        "engine": {
-          "files": 17,
-          "loc": 1608
-        },
         "test": {
           "files": 16,
           "loc": 1382
+        },
+        "engine": {
+          "files": 17,
+          "loc": 1608
         },
         "ui": {
           "files": 14,

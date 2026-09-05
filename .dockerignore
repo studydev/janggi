@@ -9,6 +9,10 @@ _comparison/*
 !_comparison/data/
 _comparison/data/*
 !_comparison/data/project-stats.json
+!_comparison/data/code.json
+!_comparison/data/checks.json
+!_comparison/data/tokens.json
+!_comparison/data/thumbnails.json
 !_comparison/data/make-astra.md
 !_comparison/data/make-codex-astra.md
 !_comparison/data/make-sol-fast.md

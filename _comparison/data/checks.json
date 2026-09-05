@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-09-03T22:05:03.438Z",
+  "generatedAt": "2026-09-05T15:33:25.840Z",
   "results": [
     {
       "folder": "luna",
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 8529,
-        "tail": " RUN  v4.1.11 C:/Work/Azure/janggi/luna\n Test Files  6 passed (6)\n      Tests  25 passed (25)\n   Start at  07:01:53\n   Duration  6.07s (transform 710ms, setup 0ms, import 1.17s, tests 6.51s, environment 1ms)",
+        "ms": 3320,
+        "tail": " RUN  v4.1.11 /Volumes/nvme1tb/Dev/janggi/luna\n Test Files  6 passed (6)\n      Tests  25 passed (25)\n   Start at  00:32:15\n   Duration  2.45s (transform 245ms, setup 0ms, import 370ms, tests 2.70s, environment 0ms)",
         "stats": {
           "failed": 0,
           "passed": 25,
@@ -18,14 +18,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 4965,
+        "ms": 997,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 3287,
-        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 37 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.83 kB │ gzip:  0.53 kB\ndist/assets/index-Bqb9rZkf.css   19.13 kB │ gzip:  4.58 kB\ndist/assets/index-CsEUAgaK.js   174.34 kB │ gzip: 55.78 kB\n✓ built in 249ms",
+        "ms": 392,
+        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 37 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.83 kB │ gzip:  0.53 kB\ndist/assets/index-Bqb9rZkf.css   19.13 kB │ gzip:  4.58 kB\ndist/assets/index-CsEUAgaK.js   174.34 kB │ gzip: 55.78 kB\n✓ built in 66ms",
         "bundleKb": 174.34
       }
     },
@@ -34,8 +34,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 18962,
-        "tail": " RUN  v4.1.11 C:/Work/Azure/janggi/terra\n Test Files  9 passed (9)\n      Tests  42 passed (42)\n   Start at  07:02:10\n   Duration  16.31s (transform 887ms, setup 0ms, import 1.39s, tests 15.39s, environment 1ms)",
+        "ms": 8250,
+        "tail": " RUN  v4.1.11 /Volumes/nvme1tb/Dev/janggi/terra\n Test Files  9 passed (9)\n      Tests  42 passed (42)\n   Start at  00:32:20\n   Duration  7.63s (transform 289ms, setup 0ms, import 466ms, tests 7.38s, environment 1ms)",
         "stats": {
           "failed": 0,
           "passed": 42,
@@ -46,14 +46,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 4440,
+        "ms": 1157,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 2953,
-        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 1584 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.66 kB │ gzip:  0.42 kB\ndist/assets/index-C7lXPXtq.css   14.56 kB │ gzip:  4.00 kB\ndist/assets/index-BEB8GBdC.js   180.00 kB │ gzip: 58.01 kB\n✓ built in 607ms",
+        "ms": 495,
+        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 1584 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.66 kB │ gzip:  0.42 kB\ndist/assets/index-C7lXPXtq.css   14.56 kB │ gzip:  4.00 kB\ndist/assets/index-BEB8GBdC.js   180.00 kB │ gzip: 58.01 kB\n✓ built in 165ms",
         "bundleKb": 180
       }
     },
@@ -62,8 +62,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 24101,
-        "tail": " RUN  v2.1.9 C:/Work/Azure/janggi/sol\n ✓ src/engine/board.test.ts (5 tests) 13ms\n ✓ src/engine/moves/jol.test.ts (6 tests) 7ms\n ✓ src/engine/moves/cha.test.ts (5 tests) 7ms\n ✓ src/engine/moves/po.test.ts (6 tests) 7ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 7ms\n ✓ src/engine/result.test.ts (5 tests) 11ms\n ✓ src/engine/rules.test.ts (6 tests) 13ms\n ✓ src/engine/moves/palace-pieces.test.ts (5 tests) 8ms\n ✓ src/engine/moves/ma.test.ts (4 tests) 6ms\n ✓ src/engine/game-record.test.ts (5 tests) 35ms\n ✓ src/engine/validation.test.ts (3 tests) 19152ms\n   ✓ engine validation > keeps fixed initial perft depth one through three baselines including pass 17927ms\n   ✓ engine validation > preserves engine invariants through random games 1221ms\n Test Files  11 passed (11)\n      Tests  55 passed (55)\n   Start at  07:02:37\n   Duration  21.23s (transform 1.22s, setup 0ms, collect 2.45s, tests 19.27s, environment 25ms, prepare 3.79s)",
+        "ms": 7412,
+        "tail": " RUN  v2.1.9 /Volumes/nvme1tb/Dev/janggi/sol\n ✓ src/engine/board.test.ts (5 tests) 5ms\n ✓ src/engine/moves/po.test.ts (6 tests) 2ms\n ✓ src/engine/moves/jol.test.ts (6 tests) 3ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 3ms\n ✓ src/engine/moves/cha.test.ts (5 tests) 4ms\n ✓ src/engine/moves/palace-pieces.test.ts (5 tests) 4ms\n ✓ src/engine/result.test.ts (5 tests) 5ms\n ✓ src/engine/rules.test.ts (6 tests) 5ms\n ✓ src/engine/game-record.test.ts (5 tests) 22ms\n ✓ src/engine/moves/ma.test.ts (4 tests) 2ms\n ✓ src/engine/validation.test.ts (3 tests) 6060ms\n   ✓ engine validation > keeps fixed initial perft depth one through three baselines including pass 5610ms\n   ✓ engine validation > preserves engine invariants through random games 449ms\n Test Files  11 passed (11)\n      Tests  55 passed (55)\n   Start at  00:32:29\n   Duration  6.74s (transform 356ms, setup 0ms, collect 631ms, tests 6.12s, environment 1ms, prepare 880ms)",
         "stats": {
           "failed": 0,
           "passed": 55,
@@ -74,15 +74,99 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 5263,
+        "ms": 1181,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 6127,
-        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 1598 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   1.04 kB │ gzip:  0.61 kB\ndist/assets/index-CHLzCp4K.css   20.14 kB │ gzip:  4.74 kB\ndist/assets/index-BA8QGD5v.js   184.13 kB │ gzip: 58.19 kB\n✓ built in 3.19s",
+        "ms": 1013,
+        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 1598 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   1.04 kB │ gzip:  0.61 kB\ndist/assets/index-CHLzCp4K.css   20.14 kB │ gzip:  4.75 kB\ndist/assets/index-BA8QGD5v.js   184.13 kB │ gzip: 58.11 kB\n✓ built in 643ms",
         "bundleKb": 184.13
+      }
+    },
+    {
+      "folder": "sol-fast",
+      "test": {
+        "ok": true,
+        "status": 0,
+        "ms": 7225,
+        "tail": " RUN  v2.1.9 /Volumes/nvme1tb/Dev/janggi/sol-fast\n ✓ src/engine/board.test.ts (5 tests) 3ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 2ms\n ✓ src/engine/moves/jol.test.ts (6 tests) 2ms\n ✓ src/engine/moves/po.test.ts (6 tests) 4ms\n ✓ src/engine/moves/cha.test.ts (5 tests) 4ms\n ✓ src/engine/rules.test.ts (6 tests) 3ms\n ✓ src/engine/moves/palace-pieces.test.ts (5 tests) 5ms\n ✓ src/engine/result.test.ts (5 tests) 5ms\n ✓ src/engine/game-record.test.ts (5 tests) 23ms\n ✓ src/engine/moves/ma.test.ts (4 tests) 2ms\n ✓ src/engine/validation.test.ts (3 tests) 6171ms\n   ✓ engine validation > keeps fixed initial perft depth one through three baselines including pass 5701ms\n   ✓ engine validation > preserves engine invariants through random games 469ms\n Test Files  11 passed (11)\n      Tests  55 passed (55)\n   Start at  00:32:39\n   Duration  6.75s (transform 255ms, setup 0ms, collect 567ms, tests 6.22s, environment 1ms, prepare 668ms)",
+        "stats": {
+          "failed": 0,
+          "passed": 55,
+          "total": 55,
+          "files": 11
+        }
+      },
+      "typecheck": {
+        "ok": true,
+        "status": 0,
+        "ms": 1102,
+        "tail": ""
+      },
+      "build": {
+        "ok": true,
+        "status": 0,
+        "ms": 1021,
+        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 1598 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   1.04 kB │ gzip:  0.61 kB\ndist/assets/index-CHLzCp4K.css   20.14 kB │ gzip:  4.75 kB\ndist/assets/index-Bizyjiep.js   184.13 kB │ gzip: 58.11 kB\n✓ built in 661ms",
+        "bundleKb": 184.13
+      }
+    },
+    {
+      "folder": "astra",
+      "test": {
+        "ok": true,
+        "status": 0,
+        "ms": 1584,
+        "tail": " RUN  v4.1.11 /Volumes/nvme1tb/Dev/janggi/astra\n Test Files  14 passed (14)\n      Tests  108 passed (108)\n   Start at  00:32:48\n   Duration  1.15s (transform 549ms, setup 0ms, import 1.01s, tests 1.01s, environment 1ms)",
+        "stats": {
+          "failed": 0,
+          "passed": 108,
+          "total": 108,
+          "files": 14
+        }
+      },
+      "typecheck": {
+        "ok": true,
+        "status": 0,
+        "ms": 1572,
+        "tail": ""
+      },
+      "build": {
+        "ok": true,
+        "status": 0,
+        "ms": 1711,
+        "tail": "dist/assets/noto-serif-kr-84-600-normal-D7Xzre5g.woff2           38.78 kB\ndist/assets/noto-sans-kr-66-400-normal-CzpM0R2q.woff             38.80 kB\ndist/assets/noto-sans-kr-74-400-normal-D8C8kn7w.woff             38.92 kB\ndist/assets/noto-sans-kr-66-600-normal-C3trOB3b.woff             39.10 kB\ndist/assets/noto-serif-kr-92-600-normal-lGorv1ZN.woff            39.13 kB\ndist/assets/noto-sans-kr-74-600-normal-B15s1qR0.woff             39.16 kB\ndist/assets/noto-sans-kr-71-400-normal-xrttZcAI.woff             39.32 kB\ndist/assets/noto-serif-kr-90-600-normal-CV3NYsxk.woff            39.35 kB\ndist/assets/noto-sans-kr-71-600-normal-D6dlmzMv.woff             39.35 kB\ndist/assets/noto-serif-kr-75-600-normal-C5aghD0G.woff2           39.41 kB\ndist/assets/noto-sans-kr-75-400-normal-G2UgkdhB.woff             39.44 kB\ndist/assets/noto-sans-kr-75-600-normal-CtPjUcx_.woff             39.58 kB\ndist/assets/noto-serif-kr-1-600-normal-95dLOG8W.woff2            39.92 kB\ndist/assets/noto-serif-kr-80-600-normal-CssOaVKm.woff2           40.73 kB\ndist/assets/noto-serif-kr-87-600-normal-BOJl8ESE.woff            41.33 kB\ndist/assets/noto-serif-kr-71-600-normal-DOSa8eBE.woff2           41.39 kB\ndist/assets/noto-serif-kr-66-600-normal-WHUnkCOS.woff2           41.48 kB\ndist/assets/noto-serif-kr-2-600-normal-xmAU7m05.woff             41.78 kB\ndist/assets/noto-serif-kr-72-600-normal-CL904Inj.woff            41.99 kB\ndist/assets/noto-sans-kr-79-400-normal-D8nZy23E.woff             42.26 kB\ndist/assets/noto-serif-kr-74-600-normal-DM2_3N7B.woff2           42.27 kB\ndist/assets/noto-sans-kr-79-600-normal-BfdEpIXO.woff             42.66 kB\ndist/assets/noto-serif-kr-89-600-normal-Dyk2ahH4.woff            43.08 kB\ndist/assets/noto-serif-kr-81-600-normal-1W2bRZ4E.woff            43.25 kB\ndist/assets/noto-sans-kr-65-400-normal-Mt728FFu.woff             43.96 kB\ndist/assets/noto-serif-kr-78-600-normal-CtJccHqZ.woff            44.13 kB\ndist/assets/noto-sans-kr-65-600-normal-Cjy9pMDJ.woff             44.24 kB\ndist/assets/noto-serif-kr-86-600-normal-CZ9TjZB5.woff            44.62 kB\ndist/assets/noto-serif-kr-76-600-normal-DcjsiOZi.woff            45.19 kB\ndist/assets/noto-serif-kr-88-600-normal-CzYMmhon.woff            45.37 kB\ndist/assets/noto-serif-kr-73-600-normal-Cqd-9cVj.woff            45.50 kB\ndist/assets/noto-serif-kr-79-600-normal-CkzJgiqA.woff2           45.69 kB\ndist/assets/noto-serif-kr-68-600-normal-_xZzuZDs.woff            45.95 kB\ndist/assets/noto-serif-kr-82-600-normal-DcVLbsN9.woff            46.57 kB\ndist/assets/noto-serif-kr-77-600-normal-BMrwHUmB.woff            46.82 kB\ndist/assets/noto-serif-kr-67-600-normal-so_-4xDV.woff            47.44 kB\ndist/assets/noto-serif-kr-85-600-normal-CZINdVYS.woff            47.70 kB\ndist/assets/noto-serif-kr-69-600-normal-BmHdA6yZ.woff            48.05 kB\ndist/assets/noto-serif-kr-70-600-normal-B6_HAvXP.woff            48.16 kB\ndist/assets/noto-serif-kr-65-600-normal-DGZzMQx8.woff2           48.82 kB\ndist/assets/noto-serif-kr-95-600-normal-hYlzJA7Q.woff            49.40 kB\ndist/assets/noto-serif-kr-84-600-normal-C9rvij6_.woff            50.03 kB\ndist/assets/noto-serif-kr-1-600-normal-_crehyHe.woff             50.72 kB\ndist/assets/noto-serif-kr-75-600-normal-B6QSrkdP.woff            51.19 kB\ndist/assets/noto-serif-kr-80-600-normal-CoLAVFZ2.woff            51.22 kB\ndist/assets/noto-serif-kr-71-600-normal-DjUXCPhs.woff            52.35 kB\ndist/assets/noto-serif-kr-66-600-normal-Bsc5_M1i.woff            53.44 kB\ndist/assets/noto-serif-kr-74-600-normal-CpJgxh5l.woff            55.52 kB\ndist/assets/noto-serif-kr-79-600-normal-DlnJDRoq.woff            57.76 kB\ndist/assets/noto-serif-kr-65-600-normal-BSWgY5A7.woff            62.04 kB\ndist/assets/index-bz3Far7F.css                                  270.97 kB │ gzip: 89.13 kB\ndist/assets/workbox-window.prod.es5-Bd17z0YL.js                   5.65 kB │ gzip:  2.20 kB\ndist/assets/index-BwH3HCwd.js                                   277.77 kB │ gzip: 86.02 kB\n✓ built in 331ms\nPWA v1.3.0\nmode      generateSW\nprecache  385 entries (7483.49 KiB)\nfiles generated\n  dist/sw.js\n  dist/workbox-778a14ff.js",
+        "bundleKb": 283.42
+      }
+    },
+    {
+      "folder": "codex-astra",
+      "test": {
+        "ok": true,
+        "status": 0,
+        "ms": 901,
+        "tail": " RUN  v4.1.11 /Volumes/nvme1tb/Dev/janggi/codex-astra\n Test Files  6 passed (6)\n      Tests  65 passed (65)\n   Start at  00:32:53\n   Duration  450ms (transform 362ms, setup 0ms, import 488ms, tests 373ms, environment 1ms)",
+        "stats": {
+          "failed": 0,
+          "passed": 65,
+          "total": 65,
+          "files": 6
+        }
+      },
+      "typecheck": {
+        "ok": true,
+        "status": 0,
+        "ms": 1213,
+        "tail": ""
+      },
+      "build": {
+        "ok": true,
+        "status": 0,
+        "ms": 530,
+        "tail": "dist/assets/noto-sans-kr-latin-700-normal-BMRofqpA.woff2    13.81 kB\ndist/assets/noto-sans-kr-102-400-normal-CS3CKhcC.woff2      13.92 kB\ndist/assets/noto-sans-kr-102-500-normal-CGjqWZH3.woff2      14.05 kB\ndist/assets/noto-sans-kr-102-700-normal-BiVy0pbe.woff2      14.19 kB\ndist/assets/noto-sans-kr-100-400-normal-CL1RNaQx.woff2      14.21 kB\ndist/assets/noto-sans-kr-101-400-normal-bosqHvuH.woff2      14.28 kB\ndist/assets/noto-sans-kr-100-500-normal-XVTxx-K8.woff2      14.33 kB\ndist/assets/noto-sans-kr-101-500-normal-4NMTd-ON.woff2      14.38 kB\ndist/assets/noto-sans-kr-100-700-normal-BNl8pTJE.woff2      14.49 kB\ndist/assets/noto-sans-kr-101-700-normal-jk6R2763.woff2      14.56 kB\ndist/assets/noto-sans-kr-104-400-normal-CPtBXbOC.woff2      15.48 kB\ndist/assets/noto-sans-kr-104-500-normal-BID3lnVK.woff2      15.63 kB\ndist/assets/noto-sans-kr-104-700-normal-B7Mke31a.woff2      15.74 kB\ndist/assets/noto-serif-kr-118-600-normal-nyKsKEgv.woff2     16.22 kB\ndist/assets/noto-serif-kr-117-600-normal-B7LMCJBg.woff2     18.77 kB\ndist/assets/noto-serif-kr-latin-600-normal-D1G7jVT2.woff2   19.42 kB\ndist/assets/noto-serif-kr-115-600-normal-Cxdw2AHT.woff2     20.27 kB\ndist/assets/noto-serif-kr-116-600-normal-Cdr6_SSC.woff2     20.48 kB\ndist/assets/noto-serif-kr-114-600-normal-7gyj1jMR.woff2     21.10 kB\ndist/assets/noto-serif-kr-112-600-normal-DshmnDri.woff2     21.38 kB\ndist/assets/noto-serif-kr-113-600-normal-EoLym-r0.woff2     21.93 kB\ndist/assets/noto-serif-kr-109-600-normal-CRzi24Yw.woff2     21.94 kB\ndist/assets/noto-serif-kr-111-600-normal-7hUOPVhV.woff2     22.39 kB\ndist/assets/noto-serif-kr-110-600-normal-C2OnyP7Z.woff2     22.57 kB\ndist/assets/noto-serif-kr-107-600-normal-BvOUBvUO.woff2     22.68 kB\ndist/assets/noto-serif-kr-101-600-normal-BNPfboVA.woff2     23.27 kB\ndist/assets/noto-sans-kr-91-400-normal-CXv7PvqJ.woff2       23.74 kB\ndist/assets/noto-sans-kr-91-500-normal-C48JthNo.woff2       24.02 kB\ndist/assets/noto-serif-kr-103-600-normal-Bd8WsmH4.woff2     24.13 kB\ndist/assets/noto-sans-kr-91-700-normal-D52Xfpr-.woff2       24.20 kB\ndist/assets/noto-serif-kr-108-600-normal-BjISbhw9.woff2     24.28 kB\ndist/assets/noto-serif-kr-100-600-normal-BO9w79oZ.woff2     24.41 kB\ndist/assets/noto-serif-kr-102-600-normal-DnAjQIx7.woff2     24.54 kB\ndist/assets/noto-sans-kr-88-400-normal-CkwVWLVw.woff2       24.65 kB\ndist/assets/noto-sans-kr-88-500-normal-C2Ajl3Bh.woff2       24.92 kB\ndist/assets/noto-serif-kr-106-600-normal-qmad0YKd.woff2     24.99 kB\ndist/assets/noto-sans-kr-88-700-normal-CaBkZHhs.woff2       25.00 kB\ndist/assets/noto-sans-kr-70-400-normal-Ct54zwXz.woff2       25.35 kB\ndist/assets/noto-sans-kr-70-500-normal-D22MUaSI.woff2       25.52 kB\ndist/assets/noto-sans-kr-70-700-normal-CMi8WyHo.woff2       25.80 kB\ndist/assets/noto-serif-kr-59-600-normal-CAErd6lp.woff2      26.53 kB\ndist/assets/noto-sans-kr-82-400-normal-DISlv77z.woff2       26.69 kB\ndist/assets/noto-serif-kr-104-600-normal-DxO9HFTD.woff2     26.78 kB\ndist/assets/noto-sans-kr-82-500-normal-D-NcC4T9.woff2       26.98 kB\ndist/assets/noto-sans-kr-80-400-normal-JtKM-7jK.woff2       27.02 kB\ndist/assets/noto-sans-kr-82-700-normal-CXR0wvNh.woff2       27.12 kB\ndist/assets/noto-sans-kr-80-500-normal-frzKHmgW.woff2       27.42 kB\ndist/assets/noto-sans-kr-80-700-normal-CEmvYFIc.woff2       27.55 kB\ndist/assets/noto-sans-kr-66-400-normal-DyNMkvg7.woff2       30.00 kB\ndist/assets/noto-sans-kr-66-500-normal-Cl60rVEt.woff2       30.18 kB\ndist/assets/noto-sans-kr-66-700-normal-CgTPzZ48.woff2       30.42 kB\ndist/assets/noto-serif-kr-91-600-normal-BGpOg4Px.woff2      31.02 kB\ndist/assets/noto-serif-kr-88-600-normal-DBMI9hxr.woff2      34.44 kB\ndist/assets/noto-serif-kr-82-600-normal-BWjYXCgn.woff2      36.27 kB\ndist/assets/noto-serif-kr-70-600-normal-BUNFwGG8.woff2      37.73 kB\ndist/assets/noto-serif-kr-80-600-normal-CssOaVKm.woff2      40.73 kB\ndist/assets/noto-serif-kr-66-600-normal-WHUnkCOS.woff2      41.48 kB\ndist/assets/index-CHUkPFJQ.css                             120.38 kB │ gzip: 22.31 kB\ndist/assets/index-DMt44VY_.js                              193.73 kB │ gzip: 63.10 kB\n✓ built in 190ms",
+        "bundleKb": 193.73
       }
     },
     {
@@ -90,8 +174,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 14218,
-        "tail": " RUN  v3.2.7 C:/Work/Azure/janggi/opus5\n ✓ src/engine/__tests__/cha.test.ts (6 tests) 8ms\n ✓ src/engine/__tests__/po.test.ts (8 tests) 9ms\n ✓ src/engine/__tests__/board.test.ts (9 tests) 15ms\n ✓ src/engine/__tests__/rules.test.ts (12 tests) 23ms\n ✓ src/engine/__tests__/result.test.ts (10 tests) 15ms\n ✓ src/engine/__tests__/sang.test.ts (4 tests) 9ms\n ✓ src/engine/__tests__/ma.test.ts (4 tests) 8ms\n ✓ src/engine/__tests__/jol.test.ts (6 tests) 7ms\n ✓ src/engine/__tests__/perft.test.ts (4 tests) 1395ms\n   ✓ perft 회귀 기준값 > depth 3 = 30506  1329ms\n ✓ src/engine/__tests__/gung.test.ts (5 tests) 6ms\n ✓ src/engine/__tests__/integrity.test.ts (2 tests) 9097ms\n   ✓ 엔진 무결성 > 랜덤 대국 100판에서 규칙 위반이 없다  9093ms\n Test Files  11 passed (11)\n      Tests  70 passed (70)\n   Start at  07:03:12\n   Duration  11.20s (transform 2.33s, setup 0ms, collect 4.53s, tests 10.59s, environment 3ms, prepare 6.21s)",
+        "ms": 4077,
+        "tail": " RUN  v3.2.7 /Volumes/nvme1tb/Dev/janggi/opus5\n ✓ src/engine/__tests__/gung.test.ts (5 tests) 1ms\n ✓ src/engine/__tests__/jol.test.ts (6 tests) 2ms\n ✓ src/engine/__tests__/po.test.ts (8 tests) 3ms\n ✓ src/engine/__tests__/sang.test.ts (4 tests) 5ms\n ✓ src/engine/__tests__/cha.test.ts (6 tests) 5ms\n ✓ src/engine/__tests__/board.test.ts (9 tests) 7ms\n ✓ src/engine/__tests__/ma.test.ts (4 tests) 2ms\n ✓ src/engine/__tests__/rules.test.ts (12 tests) 7ms\n ✓ src/engine/__tests__/result.test.ts (10 tests) 7ms\n ✓ src/engine/__tests__/perft.test.ts (4 tests) 240ms\n ✓ src/engine/__tests__/integrity.test.ts (2 tests) 2685ms\n   ✓ 엔진 무결성 > 랜덤 대국 100판에서 규칙 위반이 없다  2683ms\n Test Files  11 passed (11)\n      Tests  70 passed (70)\n   Start at  00:32:56\n   Duration  3.33s (transform 370ms, setup 0ms, collect 650ms, tests 2.96s, environment 1ms, prepare 738ms)",
         "stats": {
           "failed": 0,
           "passed": 70,
@@ -102,14 +186,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 4645,
+        "ms": 1057,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 3497,
-        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.76 kB │ gzip:  0.49 kB\ndist/assets/index-BJcINVEh.css    7.33 kB │ gzip:  2.29 kB\ndist/assets/index-DVzwyV_z.js   174.76 kB │ gzip: 56.62 kB\n✓ built in 916ms",
+        "ms": 673,
+        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.74 kB │ gzip:  0.49 kB\ndist/assets/index-BJcINVEh.css    7.33 kB │ gzip:  2.30 kB\ndist/assets/index-DVzwyV_z.js   174.76 kB │ gzip: 56.59 kB\n✓ built in 319ms",
         "bundleKb": 174.76
       }
     },
@@ -118,8 +202,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 12258,
-        "tail": " RUN  v3.2.7 C:/Work/Azure/janggi/sonnet5\n ✓ src/engine/__tests__/board.test.ts (13 tests) 16ms\n ✓ src/engine/moves/__tests__/jol.test.ts (5 tests) 8ms\n ✓ src/engine/moves/__tests__/po.test.ts (6 tests) 8ms\n ✓ src/engine/__tests__/rules.test.ts (7 tests) 16ms\n ✓ src/engine/__tests__/result.test.ts (6 tests) 12ms\n ✓ src/engine/moves/__tests__/cha.test.ts (6 tests) 9ms\n ✓ src/engine/moves/__tests__/palace.test.ts (4 tests) 9ms\n ✓ src/engine/moves/__tests__/sang.test.ts (5 tests) 8ms\n ✓ src/engine/__tests__/notation.test.ts (4 tests) 7ms\n ✓ src/engine/moves/__tests__/ma.test.ts (5 tests) 7ms\n ✓ src/engine/__tests__/perft.test.ts (2 tests) 1754ms\n   ✓ perft(초기 국면, 마상마상 조합) > depth 2, 3: 회귀 테스트 기준값으로 고정  1743ms\n ✓ src/engine/__tests__/randomGames.test.ts (150 tests) 7737ms\n Test Files  12 passed (12)\n      Tests  213 passed (213)\n   Start at  07:03:35\n   Duration  9.14s (transform 697ms, setup 0ms, collect 2.42s, tests 9.59s, environment 4ms, prepare 5.34s)",
+        "ms": 4916,
+        "tail": " RUN  v3.2.7 /Volumes/nvme1tb/Dev/janggi/sonnet5\n ✓ src/engine/__tests__/board.test.ts (13 tests) 4ms\n ✓ src/engine/moves/__tests__/jol.test.ts (5 tests) 3ms\n ✓ src/engine/moves/__tests__/cha.test.ts (6 tests) 2ms\n ✓ src/engine/moves/__tests__/sang.test.ts (5 tests) 4ms\n ✓ src/engine/moves/__tests__/po.test.ts (6 tests) 4ms\n ✓ src/engine/moves/__tests__/ma.test.ts (5 tests) 2ms\n ✓ src/engine/__tests__/rules.test.ts (7 tests) 5ms\n ✓ src/engine/__tests__/result.test.ts (6 tests) 6ms\n ✓ src/engine/moves/__tests__/palace.test.ts (4 tests) 2ms\n ✓ src/engine/__tests__/notation.test.ts (4 tests) 3ms\n ✓ src/engine/__tests__/perft.test.ts (2 tests) 297ms\n ✓ src/engine/__tests__/randomGames.test.ts (150 tests) 3047ms\n Test Files  12 passed (12)\n      Tests  213 passed (213)\n   Start at  00:33:02\n   Duration  3.44s (transform 242ms, setup 0ms, collect 679ms, tests 3.38s, environment 1ms, prepare 760ms)",
         "stats": {
           "failed": 0,
           "passed": 213,
@@ -130,14 +214,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 6581,
+        "ms": 1025,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 3840,
-        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 44 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-BcSoAmGq.css    6.12 kB │ gzip:  1.92 kB\ndist/assets/index-Cl0-B8uk.js   218.44 kB │ gzip: 69.28 kB\n✓ built in 325ms",
+        "ms": 436,
+        "tail": "vite v8.2.2 building client environment for production...\ntransforming...\n✓ 44 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-BcSoAmGq.css    6.12 kB │ gzip:  1.92 kB\ndist/assets/index-Cl0-B8uk.js   218.44 kB │ gzip: 69.28 kB\n✓ built in 76ms",
         "bundleKb": 218.44
       }
     },
@@ -146,8 +230,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 30839,
-        "tail": " RUN  v2.1.9 C:/Work/Azure/janggi/claude_opus5\n ✓ src/engine/__tests__/board.test.ts (12 tests) 17ms\n ✓ src/engine/__tests__/po.test.ts (11 tests) 16ms\n ✓ src/engine/__tests__/result.test.ts (13 tests) 25ms\n ✓ src/engine/__tests__/rules.test.ts (16 tests) 31ms\n ✓ src/ui/__tests__/gameReducer.test.ts (17 tests) 35ms\n ✓ src/engine/__tests__/record.test.ts (8 tests) 198ms\n ✓ src/ui/__tests__/Board.test.tsx (11 tests) 313ms\n ✓ src/engine/__tests__/notation.test.ts (10 tests) 9ms\n ✓ src/engine/__tests__/jol.test.ts (8 tests) 12ms\n ✓ src/engine/__tests__/cha.test.ts (8 tests) 14ms\n ✓ src/engine/__tests__/gung.test.ts (8 tests) 14ms\n ✓ src/engine/__tests__/sang.test.ts (6 tests) 12ms\n ✓ src/engine/__tests__/ma.test.ts (6 tests) 8ms\n ✓ src/engine/__tests__/perft.test.ts (7 tests) 990ms\n   ✓ perft (합법수 트리 노드 수) > MSMS 배치 depth 1~3 304ms\n ✓ src/engine/__tests__/soak.test.ts (2 tests) 22813ms\n   ✓ 랜덤 대국 소크 테스트 > 1000판을 규칙 위반 없이 완주한다 21198ms\n   ✓ 랜덤 대국 소크 테스트 > 빅장을 끄면 대국이 더 길어지고, 외통·반복·수제한으로 끝난다 1613ms\n Test Files  15 passed (15)\n      Tests  143 passed (143)\n   Start at  07:03:59\n   Duration  26.58s (transform 1.59s, setup 0ms, collect 4.46s, tests 24.51s, environment 7ms, prepare 7.73s)",
+        "ms": 10183,
+        "tail": " RUN  v2.1.9 /Volumes/nvme1tb/Dev/janggi/claude_opus5\n ✓ src/engine/__tests__/notation.test.ts (10 tests) 2ms\n ✓ src/engine/__tests__/po.test.ts (11 tests) 4ms\n ✓ src/engine/__tests__/board.test.ts (12 tests) 5ms\n ✓ src/engine/__tests__/jol.test.ts (8 tests) 5ms\n ✓ src/engine/__tests__/rules.test.ts (16 tests) 11ms\n ✓ src/engine/__tests__/result.test.ts (13 tests) 5ms\n ✓ src/engine/__tests__/record.test.ts (8 tests) 30ms\n ✓ src/ui/__tests__/gameReducer.test.ts (17 tests) 17ms\n ✓ src/ui/__tests__/Board.test.tsx (11 tests) 66ms\n ✓ src/engine/__tests__/cha.test.ts (8 tests) 10ms\n ✓ src/engine/__tests__/sang.test.ts (6 tests) 3ms\n ✓ src/engine/__tests__/gung.test.ts (8 tests) 3ms\n ✓ src/engine/__tests__/ma.test.ts (6 tests) 4ms\n ✓ src/engine/__tests__/perft.test.ts (7 tests) 266ms\n ✓ src/engine/__tests__/soak.test.ts (2 tests) 8833ms\n   ✓ 랜덤 대국 소크 테스트 > 1000판을 규칙 위반 없이 완주한다 8205ms\n   ✓ 랜덤 대국 소크 테스트 > 빅장을 끄면 대국이 더 길어지고, 외통·반복·수제한으로 끝난다 628ms\n Test Files  15 passed (15)\n      Tests  143 passed (143)\n   Start at  00:33:08\n   Duration  9.55s (transform 354ms, setup 0ms, collect 951ms, tests 9.26s, environment 2ms, prepare 917ms)",
         "stats": {
           "failed": 0,
           "passed": 143,
@@ -158,14 +242,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 5949,
+        "ms": 1142,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 6340,
-        "tail": "vite v5.4.21 building for production...\ntransforming...\n✓ 58 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.75 kB │ gzip:  0.50 kB\ndist/assets/index-ejYwUSay.css    8.58 kB │ gzip:  2.70 kB\ndist/assets/index-CIQs937v.js    42.11 kB │ gzip: 15.17 kB\ndist/assets/react-ppAWL3zK.js   140.73 kB │ gzip: 45.20 kB\n✓ built in 2.29s",
+        "ms": 676,
+        "tail": "vite v5.4.21 building for production...\ntransforming...\n✓ 58 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.75 kB │ gzip:  0.50 kB\ndist/assets/index-ejYwUSay.css    8.58 kB │ gzip:  2.71 kB\ndist/assets/index-CIQs937v.js    42.11 kB │ gzip: 15.04 kB\ndist/assets/react-ppAWL3zK.js   140.73 kB │ gzip: 45.19 kB\n✓ built in 318ms",
         "bundleKb": 182.84
       }
     },
@@ -174,8 +258,8 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 15701,
-        "tail": " RUN  v2.1.9 C:/Work/Azure/janggi/claude_sonnet5\n ✓ src/engine/board.test.ts (13 tests) 22ms\n ✓ src/engine/moves/po.test.ts (9 tests) 10ms\n ✓ src/engine/moves/jol.test.ts (7 tests) 13ms\n ✓ src/engine/moves/cha.test.ts (7 tests) 10ms\n ✓ src/engine/result.test.ts (11 tests) 27ms\n ✓ src/engine/rules.test.ts (12 tests) 38ms\n ✓ src/game/gameReducer.test.ts (10 tests) 49ms\n ✓ src/game/janggi-notation.test.ts (7 tests) 9ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 10ms\n ✓ src/engine/moves/gung.test.ts (6 tests) 11ms\n ✓ src/engine/moves/ma.test.ts (5 tests) 10ms\n ✓ src/game/storage.test.ts (2 tests) 32ms\n ✓ src/engine/perft.test.ts (6 tests) 944ms\n   ✓ perft — 초기 국면 (마상마상) > perft(3) = 30506 876ms\n ✓ src/ui/Board.test.tsx (5 tests) 305ms\n ✓ src/engine/verification.test.ts (3 tests) 7647ms\n   ✓ 랜덤 대국 불변식 > 50판 동안 규칙 위반이 한 번도 없다 5210ms\n   ✓ 랜덤 대국 불변식 > 대부분의 랜덤 대국은 종료 조건에 도달한다 2216ms\n Test Files  15 passed (15)\n      Tests  108 passed (108)\n   Start at  07:04:42\n   Duration  11.63s (transform 1.47s, setup 8.85s, collect 3.32s, tests 9.14s, environment 1.91s, prepare 6.11s)",
+        "ms": 3989,
+        "tail": " RUN  v2.1.9 /Volumes/nvme1tb/Dev/janggi/claude_sonnet5\n ✓ src/game/janggi-notation.test.ts (7 tests) 2ms\n ✓ src/engine/moves/po.test.ts (9 tests) 2ms\n ✓ src/engine/moves/gung.test.ts (6 tests) 3ms\n ✓ src/engine/moves/cha.test.ts (7 tests) 3ms\n ✓ src/engine/moves/jol.test.ts (7 tests) 4ms\n ✓ src/engine/board.test.ts (13 tests) 8ms\n ✓ src/engine/result.test.ts (11 tests) 10ms\n ✓ src/engine/rules.test.ts (12 tests) 19ms\n ✓ src/game/gameReducer.test.ts (10 tests) 20ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 3ms\n ✓ src/engine/moves/ma.test.ts (5 tests) 4ms\n ✓ src/game/storage.test.ts (2 tests) 11ms\n ✓ src/engine/perft.test.ts (6 tests) 296ms\n ✓ src/ui/Board.test.tsx (5 tests) 95ms\n ✓ src/engine/verification.test.ts (3 tests) 2555ms\n   ✓ 랜덤 대국 불변식 > 50판 동안 규칙 위반이 한 번도 없다 1613ms\n   ✓ 랜덤 대국 불변식 > 대부분의 랜덤 대국은 종료 조건에 도달한다 851ms\n Test Files  15 passed (15)\n      Tests  108 passed (108)\n   Start at  00:33:20\n   Duration  3.33s (transform 286ms, setup 739ms, collect 701ms, tests 3.04s, environment 385ms, prepare 951ms)",
         "stats": {
           "failed": 0,
           "passed": 108,
@@ -186,14 +270,14 @@
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 5579,
+        "ms": 1143,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 3914,
-        "tail": "vite v5.4.21 building for production...\ntransforming...\n✓ 59 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.69 kB │ gzip:  0.46 kB\ndist/assets/index-BcWGFk1U.css   10.94 kB │ gzip:  3.16 kB\ndist/assets/index-hiJPx9x9.js   180.72 kB │ gzip: 58.62 kB │ map: 501.52 kB\n✓ built in 1.06s",
+        "ms": 724,
+        "tail": "vite v5.4.21 building for production...\ntransforming...\n✓ 59 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.69 kB │ gzip:  0.46 kB\ndist/assets/index-BcWGFk1U.css   10.94 kB │ gzip:  3.16 kB\ndist/assets/index-hiJPx9x9.js   180.72 kB │ gzip: 58.62 kB │ map: 501.52 kB\n✓ built in 369ms",
         "bundleKb": 180.72
       }
     }
