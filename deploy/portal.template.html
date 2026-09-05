@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
     <title>같은 프롬프트, 다른 도구 — 장기 게임 구현 비교</title>
     <meta
       name="description"
@@ -14,6 +15,7 @@
     />
     <style>
       :root {
+        color-scheme: light;
         --canvas: #f3f1ea;
         --paper: #fff;
         --ink: #15181c;
@@ -347,7 +349,7 @@
 
       .impl-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px;
       }
       .impl {
@@ -565,7 +567,7 @@
           grid-template-columns: 1fr;
         }
         .impl-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr;
         }
         .metrics {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -685,8 +687,8 @@
         <div class="block-head">
           <h2 id="impl-title">첫 화면부터 비교하기</h2>
           <p>
-            모든 구현을 같은 조건(<!--SHOT_VIEWPORT-->)에서 대국을 시작한 직후 화면으로 캡처했습니다. 다크 모드를 따르는
-            구현은 보시는 환경에 맞춰 썸네일도 바뀝니다. 카드를 눌러 실제 대국까지 바로 이어집니다.
+            모든 구현을 같은 조건(<!--SHOT_VIEWPORT-->, 밝은 테마)에서 대국을 시작한 직후 화면으로 캡처했습니다. 가로로 나란한 두
+            카드는 같은 모델을 다른 환경에서 만든 결과입니다. 카드를 눌러 실제 대국까지 바로 이어집니다.
           </p>
         </div>
         <div class="impl-grid">

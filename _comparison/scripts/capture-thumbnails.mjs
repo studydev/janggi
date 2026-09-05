@@ -97,8 +97,10 @@ async function capture(app, colorScheme, file) {
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(400);
     result.background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    await page.screenshot({ path: join(OUT_DIR, file), type: 'jpeg', quality: 82 });
-    result.bytes = statSync(join(OUT_DIR, file)).size;
+    if (file) {
+      await page.screenshot({ path: join(OUT_DIR, file), type: 'jpeg', quality: 82 });
+      result.bytes = statSync(join(OUT_DIR, file)).size;
+    }
   } catch (error) {
     result.error = String(error).split('\n')[0];
   }
@@ -109,9 +111,9 @@ async function capture(app, colorScheme, file) {
 
 for (const app of apps) {
   const light = await capture(app, 'light', `${app.dir}.jpg`);
-  const dark = await capture(app, 'dark', `${app.dir}-dark.jpg`);
+  const dark = await capture(app, 'dark', null);
   const themeAware = Boolean(light.background && dark.background && light.background !== dark.background);
-  if (!themeAware) rmSync(join(OUT_DIR, `${app.dir}-dark.jpg`), { force: true });
+  rmSync(join(OUT_DIR, `${app.dir}-dark.jpg`), { force: true });
 
   captured.push({
     dir: app.dir,
@@ -119,7 +121,6 @@ for (const app of apps) {
     title: light.title,
     startedVia: light.startedVia,
     file: `${app.dir}.jpg`,
-    darkFile: themeAware ? `${app.dir}-dark.jpg` : null,
     themeAware,
     background: { light: light.background, dark: dark.background },
     bytes: light.bytes,

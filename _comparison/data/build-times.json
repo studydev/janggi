@@ -7,7 +7,11 @@
     "sol": { "startedAt": null, "finishedAt": null },
     "opus5": { "startedAt": null, "finishedAt": null },
     "sonnet5": { "startedAt": null, "finishedAt": null },
-    "claude_opus5": { "startedAt": null, "finishedAt": null },
+    "claude_opus5": {
+      "startedAt": "2026-09-04T05:06:31+09:00",
+      "finishedAt": "2026-09-04T05:37:47+09:00",
+      "source": "Claude Code 원본 작업 폴더(~/janggi)의 파일 생성·수정 시각. RULES.md 해시가 claude_opus5와 동일. dist·.DS_Store 제외."
+    },
     "claude_sonnet5": { "startedAt": null, "finishedAt": null }
   }
 }

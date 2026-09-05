@@ -43,13 +43,13 @@ const ENVIRONMENTS = [
   },
 ];
 
-// 같은 모델이 위아래로 맞물리도록 줄 순서를 고정한다(3열 기준).
+// GitHub Copilot 구현 바로 뒤에 같은 모델의 다른 환경 구현이 오도록 짝짓는다(2열 기준).
 const DISPLAY_ORDER = [
   'astra',
-  'opus5',
-  'sonnet5',
   'codex-astra',
+  'opus5',
   'claude_opus5',
+  'sonnet5',
   'claude_sonnet5',
   'sol-fast',
   'sol',
@@ -61,15 +61,23 @@ const DISPLAY_ORDER = [
 const measuredBuilds = existsSync(join(dataDir, 'build-times.json')) ? readData('build-times.json') : { builds: {} };
 
 const iconCache = new Map();
-function brandIcon(environment) {
+function readIcon(environment) {
   if (!iconCache.has(environment.id)) {
-    const svg = readFileSync(join(here, 'icons', environment.icon), 'utf8')
-      .replace(/<title>.*?<\/title>/, '')
-      .replace('<svg', '<svg class="brand" aria-hidden="true" focusable="false"')
-      .replace('<path', '<path fill="currentColor"');
-    iconCache.set(environment.id, svg);
+    iconCache.set(environment.id, readFileSync(join(here, 'icons', environment.icon), 'utf8'));
   }
   return iconCache.get(environment.id);
+}
+
+function brandIcon(environment) {
+  return readIcon(environment)
+    .replace(/<title>.*?<\/title>/, '')
+    .replace('<svg', '<svg class="brand" aria-hidden="true" focusable="false"')
+    .replace('<path', '<path fill="currentColor"');
+}
+
+/** 차트 라벨 앞에 쓸 수 있도록 24×24 아이콘 경로만 넘긴다. */
+function brandPath(environment) {
+  return readIcon(environment).match(/<path[^>]*\sd="([^"]+)"/)?.[1] ?? '';
 }
 
 const isWindows = process.platform === 'win32';
@@ -183,9 +191,10 @@ function initialBuild(session, project, declaredMs) {
 /** 가로 막대 차트. 값이 없는 항목은 막대 없이 "미수집"으로 남긴다. */
 function barChart(items, { format, unit }) {
   const rowHeight = 30;
-  const labelWidth = 132;
+  const iconSize = 12;
+  const labelWidth = 158;
   const valueWidth = 96;
-  const width = 640;
+  const width = 660;
   const barArea = width - labelWidth - valueWidth;
   const height = items.length * rowHeight;
   const maxValue = Math.max(...items.map((item) => item.value ?? 0), 1);
@@ -193,7 +202,10 @@ function barChart(items, { format, unit }) {
   const rows = items
     .map((item, index) => {
       const y = index * rowHeight;
-      const label = `<text x="0" y="${y + 19}" class="c-label">${escapeHtml(item.label)}</text>`;
+      const icon = item.iconPath
+        ? `<g transform="translate(0 ${y + 8}) scale(${iconSize / 24})"><path d="${item.iconPath}" fill="${item.color}"/></g>`
+        : '';
+      const label = `${icon}<text x="${iconSize + 6}" y="${y + 19}" class="c-label">${escapeHtml(item.label)}</text>`;
       if (item.value == null) {
         return `<g>${label}<text x="${labelWidth}" y="${y + 19}" class="c-none">미수집</text></g>`;
       }
@@ -234,6 +246,12 @@ const sessionByName = new Map(tokens.sessions.map((session) => [session.folder, 
 const processLogs = new Map(['sol-fast', 'astra', 'codex-astra'].map((name) => [name, readProcessLog(name)]));
 const thumbnails = existsSync(join(dataDir, 'thumbnails.json')) ? readData('thumbnails.json') : null;
 
+/** 테마 파라미터를 지원하는 앱은 캡처와 같은 밝은 테마로 열리게 한다. */
+function appHref(app) {
+  const html = readFileSync(join(outDir, app.path, 'index.html'), 'utf8');
+  return html.includes('scoutTheme') ? `/${app.path}/?scoutTheme=light` : `/${app.path}/`;
+}
+
 const entries = apps
   .map((app) => {
     const project = statsByName.get(app.dir);
@@ -264,7 +282,8 @@ const entries = apps
       buildNote: build?.note ?? null,
       fileActiveMs: project.copiedBaseline ? null : project.measuredDurationMs,
       thumb: existsSync(join(thumbsDir, `${app.dir}.jpg`)) ? `thumbs/${app.dir}.jpg` : null,
-      thumbDark: existsSync(join(thumbsDir, `${app.dir}-dark.jpg`)) ? `thumbs/${app.dir}-dark.jpg` : null,
+      themeAware: Boolean(thumbnails?.thumbnails?.find((shot) => shot.dir === app.dir)?.themeAware),
+      href: appHref(app),
     };
   })
   .sort((left, right) => DISPLAY_ORDER.indexOf(left.dir) - DISPLAY_ORDER.indexOf(right.dir));
@@ -354,6 +373,7 @@ const charts = chartDefinitions
         label: entry.title,
         value: definition.pick(entry),
         color: entry.environment.color,
+        iconPath: brandPath(entry.environment),
         bounded: definition.pick === chartDefinitions[0].pick ? entry.buildBounded : false,
       }));
     return `          <figure class="chart">
@@ -373,13 +393,10 @@ const chartLegend = ENVIRONMENTS.map(
 const implCards = entries
   .map((entry) => {
     const image = `<img src="${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.title)} 대국 시작 직후 화면" loading="lazy" width="1200" height="750" />`;
-    const picture = entry.thumbDark
-      ? `<picture><source srcset="${escapeHtml(entry.thumbDark)}" media="(prefers-color-scheme: dark)" />${image}</picture>`
-      : image;
     const shot = entry.thumb
-      ? `<a class="impl-shot" href="/${escapeHtml(entry.path)}/">${picture}</a>`
+      ? `<a class="impl-shot" href="${escapeHtml(entry.href)}">${image}</a>`
       : '<div class="impl-shot missing">화면 캡처 준비 중</div>';
-    const themeTag = entry.thumbDark ? '<span class="tag-theme">다크 모드 지원</span>' : '';
+    const themeTag = entry.themeAware ? '<span class="tag-theme">다크 모드도 지원</span>' : '';
     const time = entry.buildMs
       ? `<dd>${entry.buildBounded ? '≤ ' : ''}${escapeHtml(formatSpan(entry.buildMs))}<span class="src">${escapeHtml(entry.buildSource)}${entry.buildBounded ? ' · 상한' : ''}</span></dd>`
       : '<dd class="pending">미수집</dd>';
@@ -402,7 +419,7 @@ const implCards = entries
                 <div><dt>번들 JS</dt>${bundle}</div>
               </dl>
               <footer>
-                <a href="/${escapeHtml(entry.path)}/">직접 대국해 보기 &rarr;</a>
+                <a href="${escapeHtml(entry.href)}">직접 대국해 보기 &rarr;</a>
                 <span class="path">/${escapeHtml(entry.path)}/</span>
               </footer>
             </div>
@@ -503,7 +520,7 @@ const processCards = [...processLogs.values()]
               <div><dt>개발 로그</dt><dd>${formatNumber(log.lineCount)}줄 · ${formatNumber(log.characterCount)}자</dd></div>
             </dl>
             <footer>
-              <a href="/${escapeHtml(entry.path)}/">대국 시작</a>
+              <a href="${escapeHtml(entry.href)}">대국 시작</a>
               <a href="logs/${escapeHtml(log.name)}.txt">개발 로그 원문</a>
             </footer>
           </article>`;

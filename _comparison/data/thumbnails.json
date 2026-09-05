@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T16:07:58.296Z",
+  "generatedAt": "2026-09-05T16:54:10.536Z",
   "viewport": {
     "width": 1200,
     "height": 750
@@ -11,7 +11,6 @@
       "title": "장기 · Janggi",
       "startedVia": "대국 시작",
       "file": "claude_opus5.jpg",
-      "darkFile": "claude_opus5-dark.jpg",
       "themeAware": true,
       "background": {
         "light": "rgb(242, 240, 234)",
@@ -26,7 +25,6 @@
       "title": "웹 장기 · Janggi",
       "startedVia": "대국 시작",
       "file": "claude_sonnet5.jpg",
-      "darkFile": "claude_sonnet5-dark.jpg",
       "themeAware": true,
       "background": {
         "light": "rgb(244, 236, 224)",
@@ -41,7 +39,6 @@
       "title": "장기 · Luna",
       "startedVia": "대국 시작 ↗",
       "file": "luna.jpg",
-      "darkFile": "luna-dark.jpg",
       "themeAware": true,
       "background": {
         "light": "rgb(247, 244, 239)",
@@ -56,7 +53,6 @@
       "title": "장기 (Janggi)",
       "startedVia": "대국 시작",
       "file": "opus5.jpg",
-      "darkFile": null,
       "themeAware": false,
       "background": {
         "light": "rgb(22, 25, 29)",
@@ -71,7 +67,6 @@
       "title": "장기 | 로컬 2인 대국",
       "startedVia": "대국 시작",
       "file": "sol.jpg",
-      "darkFile": "sol-dark.jpg",
       "themeAware": true,
       "background": {
         "light": "rgb(247, 244, 239)",
@@ -86,7 +81,6 @@
       "title": "장기 | 로컬 2인 대국",
       "startedVia": "대국 시작",
       "file": "sol-fast.jpg",
-      "darkFile": "sol-fast-dark.jpg",
       "themeAware": true,
       "background": {
         "light": "rgb(247, 244, 239)",
@@ -101,7 +95,6 @@
       "title": "Astra 장기",
       "startedVia": "새 대국",
       "file": "astra.jpg",
-      "darkFile": null,
       "themeAware": false,
       "background": {
         "light": "rgba(0, 0, 0, 0)",
@@ -116,7 +109,6 @@
       "title": "수담 — 한 수에 담는 여유",
       "startedVia": "대국 시작하기",
       "file": "codex-astra.jpg",
-      "darkFile": null,
       "themeAware": false,
       "background": {
         "light": "rgba(0, 0, 0, 0)",
@@ -131,7 +123,6 @@
       "title": "장기 (Janggi)",
       "startedVia": "대국 시작",
       "file": "sonnet5.jpg",
-      "darkFile": null,
       "themeAware": false,
       "background": {
         "light": "rgb(244, 237, 225)",
@@ -146,7 +137,6 @@
       "title": "장기 - 로컬 대국",
       "startedVia": "대국 시작",
       "file": "terra.jpg",
-      "darkFile": null,
       "themeAware": false,
       "background": {
         "light": "rgb(245, 242, 233)",
