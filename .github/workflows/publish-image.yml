@@ -70,13 +70,15 @@ jobs:
             exit 1
           fi
           home=$(curl -fsS http://127.0.0.1:8080/)
-          printf '%s' "$home" | grep -q '같은 명세를 주면'
-          test "$(printf '%s' "$home" | grep -c 'thumbs/')" = "10"
+          case "$home" in *'같은 명세를 주면'*) ;; *) echo "::error::landing copy missing"; exit 1 ;; esac
+          test "$(grep -c 'thumbs/' <<<"$home")" = "10"
           for p in copus csonn luna opus5 sol sol-fast astra codex-astra sonn5 terra comparison; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/$p/")
             echo "/$p/ -> $code"
             test "$code" = "200"
           done
-          printf '%s' "$(curl -fsS http://127.0.0.1:8080/comparison/)" | grep -q '같은 장기'
-          printf '%s' "$(curl -fsS http://127.0.0.1:8080/comparison/details.html)" | grep -q '7종 비교 리포트'
+          comparison=$(curl -fsS http://127.0.0.1:8080/comparison/)
+          case "$comparison" in *'같은 장기'*) ;; *) echo "::error::comparison copy missing"; exit 1 ;; esac
+          details=$(curl -fsS http://127.0.0.1:8080/comparison/details.html)
+          case "$details" in *'7종 비교 리포트'*) ;; *) echo "::error::details copy missing"; exit 1 ;; esac
           docker rm -f janggi
