@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T15:36:07.451Z",
+  "generatedAt": "2026-09-05T16:07:58.296Z",
   "viewport": {
     "width": 1200,
     "height": 750
@@ -11,7 +11,14 @@
       "title": "장기 · Janggi",
       "startedVia": "대국 시작",
       "file": "claude_opus5.jpg",
-      "bytes": 87515
+      "darkFile": "claude_opus5-dark.jpg",
+      "themeAware": true,
+      "background": {
+        "light": "rgb(242, 240, 234)",
+        "dark": "rgb(18, 21, 28)"
+      },
+      "bytes": 87515,
+      "error": null
     },
     {
       "dir": "claude_sonnet5",
@@ -19,7 +26,14 @@
       "title": "웹 장기 · Janggi",
       "startedVia": "대국 시작",
       "file": "claude_sonnet5.jpg",
-      "bytes": 78107
+      "darkFile": "claude_sonnet5-dark.jpg",
+      "themeAware": true,
+      "background": {
+        "light": "rgb(244, 236, 224)",
+        "dark": "rgb(28, 24, 21)"
+      },
+      "bytes": 78107,
+      "error": null
     },
     {
       "dir": "luna",
@@ -27,7 +41,14 @@
       "title": "장기 · Luna",
       "startedVia": "대국 시작 ↗",
       "file": "luna.jpg",
-      "bytes": 77568
+      "darkFile": "luna-dark.jpg",
+      "themeAware": true,
+      "background": {
+        "light": "rgb(247, 244, 239)",
+        "dark": "rgb(61, 59, 58)"
+      },
+      "bytes": 77568,
+      "error": null
     },
     {
       "dir": "opus5",
@@ -35,7 +56,14 @@
       "title": "장기 (Janggi)",
       "startedVia": "대국 시작",
       "file": "opus5.jpg",
-      "bytes": 80598
+      "darkFile": null,
+      "themeAware": false,
+      "background": {
+        "light": "rgb(22, 25, 29)",
+        "dark": "rgb(22, 25, 29)"
+      },
+      "bytes": 80598,
+      "error": null
     },
     {
       "dir": "sol",
@@ -43,7 +71,14 @@
       "title": "장기 | 로컬 2인 대국",
       "startedVia": "대국 시작",
       "file": "sol.jpg",
-      "bytes": 90551
+      "darkFile": "sol-dark.jpg",
+      "themeAware": true,
+      "background": {
+        "light": "rgb(247, 244, 239)",
+        "dark": "rgb(61, 59, 58)"
+      },
+      "bytes": 90551,
+      "error": null
     },
     {
       "dir": "sol-fast",
@@ -51,7 +86,14 @@
       "title": "장기 | 로컬 2인 대국",
       "startedVia": "대국 시작",
       "file": "sol-fast.jpg",
-      "bytes": 90551
+      "darkFile": "sol-fast-dark.jpg",
+      "themeAware": true,
+      "background": {
+        "light": "rgb(247, 244, 239)",
+        "dark": "rgb(61, 59, 58)"
+      },
+      "bytes": 90551,
+      "error": null
     },
     {
       "dir": "astra",
@@ -59,7 +101,14 @@
       "title": "Astra 장기",
       "startedVia": "새 대국",
       "file": "astra.jpg",
-      "bytes": 103026
+      "darkFile": null,
+      "themeAware": false,
+      "background": {
+        "light": "rgba(0, 0, 0, 0)",
+        "dark": "rgba(0, 0, 0, 0)"
+      },
+      "bytes": 103026,
+      "error": null
     },
     {
       "dir": "codex-astra",
@@ -67,7 +116,14 @@
       "title": "수담 — 한 수에 담는 여유",
       "startedVia": "대국 시작하기",
       "file": "codex-astra.jpg",
-      "bytes": 65764
+      "darkFile": null,
+      "themeAware": false,
+      "background": {
+        "light": "rgba(0, 0, 0, 0)",
+        "dark": "rgba(0, 0, 0, 0)"
+      },
+      "bytes": 65764,
+      "error": null
     },
     {
       "dir": "sonnet5",
@@ -75,7 +131,14 @@
       "title": "장기 (Janggi)",
       "startedVia": "대국 시작",
       "file": "sonnet5.jpg",
-      "bytes": 89594
+      "darkFile": null,
+      "themeAware": false,
+      "background": {
+        "light": "rgb(244, 237, 225)",
+        "dark": "rgb(244, 237, 225)"
+      },
+      "bytes": 89594,
+      "error": null
     },
     {
       "dir": "terra",
@@ -83,7 +146,14 @@
       "title": "장기 - 로컬 대국",
       "startedVia": "대국 시작",
       "file": "terra.jpg",
-      "bytes": 92414
+      "darkFile": null,
+      "themeAware": false,
+      "background": {
+        "light": "rgb(245, 242, 233)",
+        "dark": "rgb(245, 242, 233)"
+      },
+      "bytes": 92414,
+      "error": null
     }
   ]
 }

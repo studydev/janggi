@@ -1,6 +1,6 @@
 // 각 구현의 "대국 시작 직후" 화면을 같은 조건으로 캡처해 비교용 썸네일을 만든다.
 // 빌드된 dist-site 를 정적 서빙한 뒤 서브패스별로 순회한다.
-import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createReadStream, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { createRequire } from 'node:module';
 import { dirname, extname, join, normalize } from 'node:path';
@@ -83,30 +83,52 @@ const server = await startServer();
 const browser = await chromium.launch({ headless: true });
 const captured = [];
 
-for (const app of apps) {
+async function capture(app, colorScheme, file) {
   // 앱마다 새 컨텍스트를 써서 서비스 워커·저장소가 섞이지 않게 한다.
-  const context = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: 1, locale: 'ko-KR' });
+  const context = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: 1, locale: 'ko-KR', colorScheme });
   const page = await context.newPage();
-  const entry = { dir: app.dir, path: app.path, title: null, startedVia: null, file: `${app.dir}.jpg` };
+  const result = { title: null, startedVia: null, background: null, bytes: null, error: null };
 
   try {
     await page.goto(`http://127.0.0.1:${PORT}/${app.path}/`, { waitUntil: 'networkidle', timeout: 30000 });
-    entry.title = await page.title();
-    entry.startedVia = await clickStart(page);
+    result.title = await page.title();
+    result.startedVia = await clickStart(page);
     await page.waitForTimeout(1600);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(400);
-    await page.screenshot({ path: join(OUT_DIR, entry.file), type: 'jpeg', quality: 82 });
-    entry.bytes = statSync(join(OUT_DIR, entry.file)).size;
+    result.background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    await page.screenshot({ path: join(OUT_DIR, file), type: 'jpeg', quality: 82 });
+    result.bytes = statSync(join(OUT_DIR, file)).size;
   } catch (error) {
-    entry.error = String(error).split('\n')[0];
+    result.error = String(error).split('\n')[0];
   }
 
-  captured.push(entry);
-  console.log(
-    `${app.dir.padEnd(16)} start="${entry.startedVia ?? '(버튼 없음)'}" ${entry.bytes ? `${Math.round(entry.bytes / 1024)}kB` : (entry.error ?? '')}`,
-  );
   await context.close();
+  return result;
+}
+
+for (const app of apps) {
+  const light = await capture(app, 'light', `${app.dir}.jpg`);
+  const dark = await capture(app, 'dark', `${app.dir}-dark.jpg`);
+  const themeAware = Boolean(light.background && dark.background && light.background !== dark.background);
+  if (!themeAware) rmSync(join(OUT_DIR, `${app.dir}-dark.jpg`), { force: true });
+
+  captured.push({
+    dir: app.dir,
+    path: app.path,
+    title: light.title,
+    startedVia: light.startedVia,
+    file: `${app.dir}.jpg`,
+    darkFile: themeAware ? `${app.dir}-dark.jpg` : null,
+    themeAware,
+    background: { light: light.background, dark: dark.background },
+    bytes: light.bytes,
+    error: light.error ?? dark.error ?? null,
+  });
+
+  console.log(
+    `${app.dir.padEnd(16)} start="${light.startedVia ?? '(버튼 없음)'}" ${light.bytes ? `${Math.round(light.bytes / 1024)}kB` : (light.error ?? '')} theme=${themeAware ? '라이트/다크' : '고정'}`,
+  );
 }
 
 await browser.close();

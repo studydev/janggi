@@ -363,6 +363,19 @@
         object-fit: cover;
         object-position: top center;
       }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag-theme {
+        padding: 3px 8px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        color: var(--muted);
+        font-size: 10.5px;
+        font-weight: 700;
+      }
       .impl-shot.missing {
         display: flex;
         aspect-ratio: 8 / 5;
@@ -648,8 +661,8 @@
         <div class="block-head">
           <h2 id="impl-title">첫 화면부터 비교하기</h2>
           <p>
-            모든 구현을 같은 조건(<!--SHOT_VIEWPORT-->)에서 대국을 시작한 직후 화면으로 캡처했습니다. 카드를 눌러 실제
-            대국까지 바로 이어집니다.
+            모든 구현을 같은 조건(<!--SHOT_VIEWPORT-->)에서 대국을 시작한 직후 화면으로 캡처했습니다. 다크 모드를 따르는
+            구현은 보시는 환경에 맞춰 썸네일도 바뀝니다. 카드를 눌러 실제 대국까지 바로 이어집니다.
           </p>
         </div>
         <div class="impl-grid">
@@ -667,7 +680,7 @@
         </div>
         <div class="method">
           <div>
-            <h3>작업 시간</h3>
+            <h3>초기 구현 시간</h3>
             <p><!--METHOD_TIME--></p>
           </div>
           <div>

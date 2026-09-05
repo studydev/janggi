@@ -102,6 +102,37 @@ function parseDeclaredTime(label) {
   return total > 0 ? total : null;
 }
 
+/** 첫 요청 이후의 새 지시(색 변경·실행 요청)는 초기 구현 다음 작업이므로 그 시점을 경계로 본다. */
+const CONTINUATION_PROMPT = /^\[Terminal\b|^(?:try again|continue|계속)\b/i;
+function nextInstruction(session) {
+  const followUp = (session?.measured?.userPrompts ?? [])
+    .slice(1)
+    .find((prompt) => !CONTINUATION_PROMPT.test((prompt.text ?? '').trim()));
+  if (!followUp) return null;
+  return { ts: Date.parse(followUp.ts), note: (followUp.text ?? '').replace(/\s+/g, ' ').slice(0, 34) };
+}
+
+/** 초기 구현 구간. 경계 이전에 손댄 파일 시각이 남아 있으면 그것을 종료점으로 쓰고, 없을 때만 지시 시점을 상한으로 쓴다. */
+function initialBuild(session, project, declaredMs) {
+  const cutoff = nextInstruction(session);
+  const sessionStart = session?.measured?.firstTs ?? null;
+
+  if (!project.copiedBaseline) {
+    const fileStart = Date.parse(project.start.timestamp);
+    const fileEnd = Date.parse(project.measuredEnd.timestamp);
+    if (!cutoff || fileEnd <= cutoff.ts) {
+      return { ms: fileEnd - fileStart, source: '파일 활동', bounded: false, note: null };
+    }
+  }
+  if (sessionStart && cutoff) {
+    return { ms: cutoff.ts - sessionStart, source: '세션 로그', bounded: true, note: cutoff.note };
+  }
+  if (sessionStart) {
+    return { ms: session.measured.durationMs, source: '세션 로그', bounded: false, note: null };
+  }
+  return declaredMs == null ? null : { ms: declaredMs, source: '에이전트 기록', bounded: false, note: null };
+}
+
 /** 가로 막대 차트. 값이 없는 항목은 막대 없이 "미수집"으로 남긴다. */
 function barChart(items, { format, unit }) {
   const rowHeight = 30;
@@ -120,7 +151,8 @@ function barChart(items, { format, unit }) {
         return `<g>${label}<text x="${labelWidth}" y="${y + 19}" class="c-none">미수집</text></g>`;
       }
       const barWidth = Math.max(2, Math.round((item.value / maxValue) * barArea));
-      return `<g><title>${escapeHtml(item.label)} · ${escapeHtml(format(item.value))}</title>${label}<rect x="${labelWidth}" y="${y + 7}" width="${barWidth}" height="${rowHeight - 15}" rx="2" fill="${item.color}" opacity="0.85"/><text x="${labelWidth + barWidth + 8}" y="${y + 19}" class="c-value">${escapeHtml(format(item.value))}</text></g>`;
+      const text = item.bounded ? `≤ ${format(item.value)}` : format(item.value);
+      return `<g><title>${escapeHtml(item.label)} · ${escapeHtml(text)}</title>${label}<rect x="${labelWidth}" y="${y + 7}" width="${barWidth}" height="${rowHeight - 15}" rx="2" fill="${item.color}" opacity="${item.bounded ? 0.45 : 0.85}"/><text x="${labelWidth + barWidth + 8}" y="${y + 19}" class="c-value">${escapeHtml(text)}</text></g>`;
     })
     .join('');
 
@@ -162,8 +194,8 @@ const entries = apps
     const session = sessionByName.get(app.dir);
     const log = processLogs.get(app.dir) ?? null;
     const environment = ENVIRONMENTS.find((item) => item.id === app.env) ?? ENVIRONMENTS[0];
-    const loggedMs = session?.measured?.durationMs ?? null;
     const declaredMs = parseDeclaredTime(log?.declaredTime);
+    const build = initialBuild(session, project, declaredMs);
 
     return {
       ...app,
@@ -179,10 +211,13 @@ const entries = apps
       testFiles: check?.test?.stats?.files ?? null,
       bundleKb: check?.build?.bundleKb ?? null,
       verified: Boolean(check?.test?.ok && check?.typecheck?.ok && check?.build?.ok),
-      sessionMs: loggedMs ?? declaredMs,
-      sessionSource: loggedMs ? '세션 로그' : declaredMs ? '에이전트 기록' : null,
+      buildMs: build?.ms ?? null,
+      buildBounded: build?.bounded ?? false,
+      buildSource: build?.source ?? null,
+      buildNote: build?.note ?? null,
       fileActiveMs: project.copiedBaseline ? null : project.measuredDurationMs,
       thumb: existsSync(join(thumbsDir, `${app.dir}.jpg`)) ? `thumbs/${app.dir}.jpg` : null,
+      thumbDark: existsSync(join(thumbsDir, `${app.dir}-dark.jpg`)) ? `thumbs/${app.dir}-dark.jpg` : null,
     };
   })
   .sort(
@@ -195,7 +230,7 @@ const entries = apps
 const totals = {
   testCases: entries.reduce((sum, entry) => sum + (entry.testCases ?? 0), 0),
   verified: entries.filter((entry) => entry.verified).length,
-  timed: entries.filter((entry) => entry.sessionMs != null).length,
+  timed: entries.filter((entry) => entry.buildMs != null).length,
 };
 
 const heroMetrics = [
@@ -212,9 +247,9 @@ const envCards = ENVIRONMENTS.map((environment) => {
   const members = entries.filter((entry) => entry.environment.id === environment.id);
   const loc = members.reduce((sum, entry) => sum + entry.codeLoc, 0);
   const tests = members.reduce((sum, entry) => sum + (entry.testCases ?? 0), 0);
-  const timed = members.filter((entry) => entry.sessionMs != null);
+  const timed = members.filter((entry) => entry.buildMs != null);
   const timeText = timed.length
-    ? `${formatSpan(Math.min(...timed.map((entry) => entry.sessionMs)))} ~ ${formatSpan(Math.max(...timed.map((entry) => entry.sessionMs)))}`
+    ? `${formatSpan(Math.min(...timed.map((entry) => entry.buildMs)))} ~ ${formatSpan(Math.max(...timed.map((entry) => entry.buildMs)))}`
     : '미수집';
   const models = members
     .map((entry) => `<li>${escapeHtml(entry.title)} · ${escapeHtml(entry.model)}</li>`)
@@ -237,12 +272,12 @@ const envCards = ENVIRONMENTS.map((environment) => {
 
 const chartDefinitions = [
   {
-    title: '작업 시간',
-    sub: '명세를 받고 구현이 끝날 때까지 기록된 시간',
-    unit: '작업 시간',
-    pick: (entry) => entry.sessionMs,
+    title: '초기 구현 시간',
+    sub: '명세를 받고 첫 구현이 끝날 때까지',
+    unit: '초기 구현 시간',
+    pick: (entry) => entry.buildMs,
     format: (value) => formatSpan(value),
-    caption: `세션 로그 ${entries.filter((entry) => entry.sessionSource === '세션 로그').length}건, 에이전트 기록 ${entries.filter((entry) => entry.sessionSource === '에이전트 기록').length}건. 세션 로그는 대기 시간을 포함하므로 절대 비교보다 자리 차이를 보는 용도다.`,
+    caption: `다음 지시 직전에 마지막으로 손눐 파일 시각까지를 구간으로 잡는다. 그 시각이 남지 않은 구현은 다음 지시가 들어온 시점을 상한(≤)으로 쓰며, 이 값은 대기 시간을 포함한다. 색 변경·재실행 같은 이후 작업은 제외했다.`,
   },
   {
     title: '코드 분량',
@@ -277,6 +312,7 @@ const charts = chartDefinitions
         label: entry.title,
         value: definition.pick(entry),
         color: entry.environment.color,
+        bounded: definition.pick === chartDefinitions[0].pick ? entry.buildBounded : false,
       }))
       .sort((left, right) => (right.value ?? -1) - (left.value ?? -1));
     return `          <figure class="chart">
@@ -295,11 +331,16 @@ const chartLegend = ENVIRONMENTS.map(
 
 const implCards = entries
   .map((entry) => {
+    const image = `<img src="${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.title)} 대국 시작 직후 화면" loading="lazy" width="1200" height="750" />`;
+    const picture = entry.thumbDark
+      ? `<picture><source srcset="${escapeHtml(entry.thumbDark)}" media="(prefers-color-scheme: dark)" />${image}</picture>`
+      : image;
     const shot = entry.thumb
-      ? `<a class="impl-shot" href="/${escapeHtml(entry.path)}/"><img src="${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.title)} 대국 시작 직후 화면" loading="lazy" width="1200" height="750" /></a>`
+      ? `<a class="impl-shot" href="/${escapeHtml(entry.path)}/">${picture}</a>`
       : '<div class="impl-shot missing">화면 캡처 준비 중</div>';
-    const time = entry.sessionMs
-      ? `<dd>${escapeHtml(formatSpan(entry.sessionMs))}<span class="src">${escapeHtml(entry.sessionSource)}</span></dd>`
+    const themeTag = entry.thumbDark ? '<span class="tag-theme">다크 모드 지원</span>' : '';
+    const time = entry.buildMs
+      ? `<dd>${entry.buildBounded ? '≤ ' : ''}${escapeHtml(formatSpan(entry.buildMs))}<span class="src">${escapeHtml(entry.buildSource)}${entry.buildBounded ? ' · 상한' : ''}</span></dd>`
       : '<dd class="pending">미수집</dd>';
     const tests = entry.testCases == null ? '<dd class="pending">미수집</dd>' : `<dd>${formatNumber(entry.testCases)}개</dd>`;
     const bundle = entry.bundleKb == null ? '<dd class="pending">미수집</dd>' : `<dd>${formatNumber(Math.round(entry.bundleKb))} kB</dd>`;
@@ -307,13 +348,16 @@ const implCards = entries
     return `          <article class="impl" style="--env:${entry.environment.color}">
             ${shot}
             <div class="impl-body">
-              <span class="env-tag">${escapeHtml(entry.environment.label)}</span>
+              <div class="tags">
+                <span class="env-tag">${escapeHtml(entry.environment.label)}</span>
+                ${themeTag}
+              </div>
               <h3>${escapeHtml(entry.title)}</h3>
               <p class="model">${escapeHtml(entry.model)}</p>
               <dl>
                 <div><dt>코드</dt><dd>${formatNumber(entry.codeLoc)} LOC</dd></div>
                 <div><dt>통과 테스트</dt>${tests}</div>
-                <div><dt>작업 시간</dt>${time}</div>
+                <div><dt>초기 구현</dt>${time}</div>
                 <div><dt>번들 JS</dt>${bundle}</div>
               </dl>
               <footer>
@@ -337,7 +381,7 @@ const resourceLinks = [
   )
   .join('\n');
 
-const timeGaps = entries.filter((entry) => entry.sessionMs == null).map((entry) => entry.title);
+const timeGaps = entries.filter((entry) => entry.buildMs == null).map((entry) => entry.title);
 const usageGaps = [...processLogs.values()].filter((log) => log.usage === '미기록' || log.steps === '미기록');
 const methodGaps = [
   timeGaps.length ? `작업 시간 ${timeGaps.map((title) => `${title}`).join(', ')}` : null,
@@ -345,7 +389,8 @@ const methodGaps = [
 ]
   .filter(Boolean)
   .join(' / ');
-const methodTime = `기록이 남은 곳은 세션 로그의 첫 이벤트부터 마지막 이벤트까지, 그 밖에는 에이전트가 남긴 소요 시간 표기를 씁니다. 파일 생성·수정 시각으로 다시 확인할 수 있는 구현은 ${stats.projects.filter((project) => !project.copiedBaseline).length}종이며, 나머지는 저장소를 통째로 옮기면서 생성 시각이 한 시점으로 눌려 파일만으로는 되짚을 수 없습니다.`;
+const measurableCount = stats.projects.filter((project) => !project.copiedBaseline).length;
+const methodTime = `명세를 받은 시점부터 다음 지시가 들어오기 직전에 마지막으로 수정된 파일 시각까지를 재다. 파일 시각이 남은 구현은 ${measurableCount}종이고, 나머지는 저장소를 옮기면서 생성 시각이 한 시점으로 눌려 “초와 한의 컴러를 바꿔달” 같은 다음 지시 시점을 상한(≤)으로 씁니다.`;
 
 const analyzedAt = new Intl.DateTimeFormat('ko-KR', {
   timeZone: stats.timeZone,
