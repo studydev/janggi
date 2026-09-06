@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-05T15:31:29.580Z",
+  "generatedAt": "2026-09-06T12:39:59.192Z",
   "projects": [
     {
       "folder": "luna",
       "totalFiles": 33,
-      "totalLoc": 2133,
+      "totalLoc": 2135,
       "layers": {
         "config": {
           "files": 2,
@@ -12,7 +12,7 @@
         },
         "app": {
           "files": 3,
-          "loc": 315
+          "loc": 317
         },
         "test": {
           "files": 6,
@@ -474,6 +474,40 @@
         "game",
         "ui"
       ]
+    },
+    {
+      "folder": "claude_code_design_opus5",
+      "totalFiles": 5,
+      "totalLoc": 1356,
+      "layers": {
+        "ui": {
+          "files": 1,
+          "loc": 940
+        },
+        "config": {
+          "files": 2,
+          "loc": 24
+        },
+        "engine": {
+          "files": 1,
+          "loc": 361
+        },
+        "test": {
+          "files": 1,
+          "loc": 31
+        }
+      },
+      "testFiles": 1,
+      "testCases": 3,
+      "artifacts": {
+        "RULES": false,
+        "CLAUDE": false,
+        "README": true,
+        "manifest": false,
+        "serviceWorker": false,
+        "viteConfig": false
+      },
+      "srcTree": []
     }
   ]
 }

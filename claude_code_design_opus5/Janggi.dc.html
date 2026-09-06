@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-5edee50d-9d66-40a5-a7f4-9a1863a3a1ca/styles.css">
+<script src="_ds/industry-5edee50d-9d66-40a5-a7f4-9a1863a3a1ca/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;700;900&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="janggi-engine.js"></script>
+<style>
+  html, body { margin: 0; background: #ffffff; }
+  a { color: var(--color-accent-700); }
+  a:hover { color: var(--color-accent-900); }
+  @keyframes jshake1 { 0%,100%{transform:translate(0,0) rotate(0)} 12%{transform:translate(-7px,4px) rotate(-.5deg)} 26%{transform:translate(6px,-5px) rotate(.5deg)} 44%{transform:translate(-5px,-3px)} 62%{transform:translate(4px,3px)} 80%{transform:translate(-2px,1px)} }
+  @keyframes jshake2 { 0%,100%{transform:translate(0,0) rotate(0)} 12%{transform:translate(7px,-4px) rotate(.5deg)} 26%{transform:translate(-6px,5px) rotate(-.5deg)} 44%{transform:translate(5px,3px)} 62%{transform:translate(-4px,-3px)} 80%{transform:translate(2px,-1px)} }
+  @keyframes jring { 0%{transform:translate(-50%,-50%) scale(.2);opacity:.95} 100%{transform:translate(-50%,-50%) scale(1);opacity:0} }
+  @keyframes jshard { 0%{transform:translateX(0) scaleX(.4);opacity:1} 100%{transform:translateX(var(--d)) scaleX(1.6);opacity:0} }
+  @keyframes jflash { 0%{opacity:.9;transform:translate(-50%,-50%) scale(.4)} 100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)} }
+  @keyframes jpop { 0%{opacity:0;transform:translate(-50%,-50%) scale(.5)} 18%{opacity:1;transform:translate(-50%,-50%) scale(1.18)} 34%{transform:translate(-50%,-50%) scale(1)} 100%{opacity:0;transform:translate(-50%,-160%) scale(1)} }
+  @keyframes jsel { 0%,100%{opacity:.35} 50%{opacity:.9} }
+  @keyframes jcheck { 0%,100%{box-shadow:0 0 0 2px rgba(190,30,25,.9)} 50%{box-shadow:0 0 0 7px rgba(190,30,25,0)} }
+  @keyframes jdot { 0%{transform:translate(-50%,-50%) scale(.6);opacity:.5} 100%{transform:translate(-50%,-50%) scale(1);opacity:1} }
+  @keyframes jdangerwave { 0%{transform:translate(-50%,-50%) scale(.24);opacity:0} 12%{opacity:.96} 72%{opacity:.35} 100%{transform:translate(-50%,-50%) scale(2.35);opacity:0} }
+  @keyframes jdangerhalo { 0%{transform:translate(-50%,-50%) scale(.55);opacity:0} 20%{opacity:.9} 100%{transform:translate(-50%,-50%) scale(1.35);opacity:0} }
+  @keyframes jdangerlabel { 0%{transform:translate(-50%,-50%) scale(.35);opacity:0} 18%{transform:translate(-50%,-50%) scale(1.18);opacity:1} 35%{transform:translate(-50%,-50%) scale(1);opacity:1} 100%{transform:translate(-50%,-95%) scale(1.04);opacity:0} }
+  @keyframes jalertshake { 0%,100%{transform:translate(0,0)} 10%{transform:translate(-5px,1px)} 20%{transform:translate(5px,-2px)} 32%{transform:translate(-4px,2px)} 44%{transform:translate(4px,-1px)} 56%{transform:translate(-2px,1px)} }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#ffffff;color:var(--color-text);font-family:var(--font-body);display:flex;flex-direction:column">
+
+  <div class="nav" style="background:#fff;border-bottom:1px solid var(--color-divider);padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <div class="nav-brand" style="display:flex;align-items:baseline;gap:9px">
+      <span style="font-family:'Noto Serif KR',serif;font-weight:900;font-size:22px;letter-spacing:.06em">將棋</span>
+      <span style="font-size:15px;letter-spacing:.22em;color:var(--color-accent-700)">JANGGI</span>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="btn btn-secondary" style="min-height:36px" onClick="{{ goSetup }}">대국 설정</button>
+      <button class="btn btn-secondary" style="min-height:36px" onClick="{{ goStats }}">전적</button>
+      <span class="tag tag-outline" style="border:1px solid var(--color-divider)">{{ modeLabel }}</span>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-wrap:wrap;gap:22px;padding:22px 18px 40px;align-items:flex-start;max-width:1240px;width:100%;margin:0 auto;box-sizing:border-box">
+
+      <div style="flex:1 1 340px;min-width:300px;display:flex;flex-direction:column;gap:18px">
+        <div>
+          <div class="card-kicker">대국 준비</div>
+          <h1 style="font-size:34px;margin:2px 0 4px">대국을 설정하세요</h1>
+          <p class="text-muted" style="margin:0;max-width:46ch">초(楚)가 먼저 둡니다. 마·상 배치를 고르면 오른쪽 장기판에 시작 진형이 그대로 나타납니다.</p>
+        </div>
+
+        <sc-for list="{{ coreGroups }}" as="g" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-family:var(--font-heading);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent-700)">{{ g.label }}</span>
+              <span class="text-muted" style="font-size:11px">{{ g.hint }}</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ g.items }}" as="o" hint-placeholder-count="4">
+                <button style="min-height:38px;padding:6px 12px;border:1px solid;cursor:pointer;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.02em;border-color:{{ o.bd }};background:{{ o.bg }};color:{{ o.fg }}" onClick="{{ o.onClick }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--color-divider);padding-top:14px">
+          <button style="display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:0 12px;background:#fff;border:1px solid var(--color-divider);cursor:pointer;font-family:var(--font-heading);font-size:14px;letter-spacing:.02em;color:var(--color-text)" style-hover="background:var(--color-accent-100)" onClick="{{ toggleLook }}">
+            <span style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-weight:600">겉모습 설정</span>
+              <span class="text-muted" style="font-size:11px">{{ lookSummary }}</span>
+            </span>
+            <span style="font-size:13px;color:var(--color-accent-700)">{{ lookToggleLabel }}</span>
+          </button>
+
+          <sc-if value="{{ lookOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:16px;padding:2px 0 4px">
+              <sc-for list="{{ lookGroups }}" as="g" hint-placeholder-count="5">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;align-items:baseline;gap:8px">
+                    <span style="font-family:var(--font-heading);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent-700)">{{ g.label }}</span>
+                    <span class="text-muted" style="font-size:11px">{{ g.hint }}</span>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ g.items }}" as="o" hint-placeholder-count="4">
+                      <button style="min-height:38px;padding:6px 12px;border:1px solid;cursor:pointer;font-family:var(--font-heading);font-weight:600;font-size:14px;letter-spacing:.02em;border-color:{{ o.bd }};background:{{ o.bg }};color:{{ o.fg }}" onClick="{{ o.onClick }}">{{ o.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:2px">
+          <button class="btn btn-primary" style="min-height:48px;padding:0 26px;font-size:17px;letter-spacing:.04em" onClick="{{ startGame }}">
+            대국 시작
+
+          </button>
+          <span class="text-muted" style="font-size:12px">{{ startHint }}</span>
+        </div>
+      </div>
+
+      <div style="flex:1 1 420px;min-width:300px;max-width:600px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <span style="font-family:var(--font-heading);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent-700)">시작 진형 미리보기</span>
+          <span class="text-muted" style="font-size:11px">한 {{ hanSetup }} · 초 {{ choSetup }}</span>
+        </div>
+        <div style="position:relative;padding:10px;background:#fff;border:1px solid var(--color-divider)">
+
+          <div style="position:relative;padding:7.4% 8.2%;background:{{ boardBg }};box-shadow:inset 0 0 0 2px rgba(60,40,20,.22), inset 0 2px 14px rgba(255,255,255,.35), 0 10px 22px rgba(60,40,20,.18);border:1px solid rgba(70,48,24,.55)">
+            <div style="position:relative;width:100%;aspect-ratio:8 / 9;font-family:{{ fontStack }};background-image:{{ gridLines }}">
+              <div style="position:absolute;inset:0;box-sizing:border-box;border:1.6px solid;border-color:{{ lineColor }}"></div>
+              <div style="position:absolute;left:37.5%;top:0;width:25%;height:22.222%;background-image:{{ palaceX }}"></div>
+              <div style="position:absolute;left:37.5%;top:77.778%;width:25%;height:22.222%;background-image:{{ palaceX }}"></div>
+              <sc-for list="{{ previewPieces }}" as="p" hint-placeholder-count="32">
+                <div style="position:absolute;transform:translate(-50%,-50%);left:{{ p.x }}%;top:{{ p.y }}%;width:{{ p.w }}%">
+                  <div style="position:relative;width:100%;aspect-ratio:1 / 1;container-type:inline-size;filter:drop-shadow(0 3px 3px rgba(50,32,14,.42))">
+                    <div style="position:absolute;inset:0;transform:translateY(7%);background:{{ p.edge }};clip-path:{{ p.clip }}"></div>
+                    <div style="position:absolute;inset:0;background:{{ p.face }};box-shadow:inset 0 2px 2px rgba(255,255,255,.6), inset 0 -4px 7px rgba(70,45,20,.3);clip-path:{{ p.clip }}"></div>
+                    <span style="position:absolute;inset:0;display:grid;place-items:center;font-weight:700;line-height:1;text-shadow:0 1px 0 rgba(255,255,255,.5),0 -1px 0 rgba(0,0,0,.18);font-size:{{ p.fs }};color:{{ p.color }}">{{ p.glyph }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <p class="text-muted" style="font-size:12px;margin:8px 0 0">기물은 칸이 아니라 선의 교차점에 놓입니다. 궁성 안의 대각선 위에서는 궁·사·차가 대각으로도 움직입니다.</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ GAME ============ -->
+  <sc-if value="{{ isGame }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-wrap:wrap;gap:18px;padding:18px 18px 40px;align-items:flex-start;max-width:1400px;width:100%;margin:0 auto;box-sizing:border-box">
+
+      <div style="flex:1 1 230px;min-width:220px;display:flex;flex-direction:column;gap:12px;order:1">
+        <div class="card" style="background:#fff;border:1px solid var(--color-divider);gap:10px">
+
+          <div class="card-kicker">차례</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-family:'Noto Serif KR',serif;font-size:30px;font-weight:900;line-height:1;color:{{ turnColor }}">{{ turnGlyph }}</span>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-family:var(--font-heading);font-size:19px">{{ turnLabel }}</span>
+              <span class="text-muted" style="font-size:11px">{{ turnNote }}</span>
+            </div>
+          </div>
+          <sc-if value="{{ thinking }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-accent-700)">
+              <span style="width:8px;height:8px;background:var(--color-accent);animation:jsel 900ms ease-in-out infinite"></span>
+              AI가 수를 읽는 중…
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:space-between;font-size:12px;border-top:1px solid var(--color-divider);padding-top:8px">
+            <span>경과 {{ elapsed }}</span><span class="text-muted">{{ moveCount }}수</span>
+          </div>
+        </div>
+
+        <div class="card" style="background:#fff;border:1px solid var(--color-divider);gap:8px">
+
+          <div class="card-kicker">기물 점수</div>
+          <sc-for list="{{ scoreRows }}" as="s" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <span style="font-family:var(--font-heading);font-size:15px">{{ s.name }}</span>
+                <span style="font-family:var(--font-heading);font-size:20px">{{ s.value }}</span>
+              </div>
+              <div style="height:6px;background:var(--color-neutral-200)">
+                <div style="height:100%;width:{{ s.pct }}%;background:{{ s.color }}"></div>
+              </div>
+            </div>
+          </sc-for>
+          <div class="text-muted" style="font-size:11px">한(漢)은 후수 덤 1.5점을 받습니다.</div>
+        </div>
+
+        <div class="card" style="background:#fff;border:1px solid var(--color-divider);gap:8px">
+
+          <div class="card-kicker">잡은 기물</div>
+          <sc-for list="{{ capturedRows }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span class="text-muted" style="font-size:11px">{{ c.name }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:26px">
+                <sc-for list="{{ c.items }}" as="p" hint-placeholder-count="3">
+                  <span style="width:24px;height:24px;display:grid;place-items:center;font-family:'Noto Serif KR',serif;font-size:13px;font-weight:700;background:{{ p.face }};color:{{ p.color }};clip-path:{{ p.clip }}">{{ p.glyph }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:2 1 460px;min-width:300px;max-width:min(620px, 74vh);order:2;margin:0 auto">
+        <div style="position:relative;padding:7.4% 8.2%;background:{{ boardBg }};box-shadow:inset 0 0 0 2px rgba(60,40,20,.22), inset 0 2px 14px rgba(255,255,255,.35), 0 14px 30px rgba(60,40,20,.22);border:1px solid rgba(70,48,24,.55);animation:{{ shakeAnim }}">
+          <div style="position:relative;width:100%;aspect-ratio:8 / 9;font-family:{{ fontStack }};background-image:{{ gridLines }}">
+            <div style="position:absolute;inset:0;box-sizing:border-box;border:1.6px solid;border-color:{{ lineColor }}"></div>
+            <div style="position:absolute;left:37.5%;top:0;width:25%;height:22.222%;background-image:{{ palaceX }}"></div>
+            <div style="position:absolute;left:37.5%;top:77.778%;width:25%;height:22.222%;background-image:{{ palaceX }}"></div>
+
+            <sc-for list="{{ lastMarks }}" as="m" hint-placeholder-count="0">
+              <div style="position:absolute;transform:translate(-50%,-50%);width:11%;aspect-ratio:1 / 1;box-sizing:border-box;border:1.5px dashed rgba(30,60,100,.75);left:{{ m.x }}%;top:{{ m.y }}%"></div>
+            </sc-for>
+
+            <sc-for list="{{ pieces }}" as="p" hint-placeholder-count="0">
+              <div role="button" tabindex="0" aria-label="{{ p.aria }}" style="position:absolute;transform:translate(-50%,-50%);cursor:pointer;left:{{ p.x }}%;top:{{ p.y }}%;width:{{ p.w }}%" onClick="{{ p.onClick }}" onKeyDown="{{ p.onKey }}">
+                <div style="position:relative;width:100%;aspect-ratio:1 / 1;container-type:inline-size;filter:drop-shadow(0 4px 4px rgba(50,32,14,.45))">
+                  <div style="position:absolute;inset:0;transform:translateY(8%);background:{{ p.edge }};clip-path:{{ p.clip }}"></div>
+                  <div style="position:absolute;inset:0;background:{{ p.face }};box-shadow:inset 0 2px 2px rgba(255,255,255,.6), inset 0 -5px 8px rgba(70,45,20,.32);clip-path:{{ p.clip }}"></div>
+                  <sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;inset:-10%;box-sizing:border-box;border:2px solid rgba(20,70,120,.9);animation:jsel 1100ms ease-in-out infinite;border-radius:{{ p.radius }}"></div>
+                  </sc-if>
+                  <sc-if value="{{ p.check }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;inset:0;border-radius:50%;animation:jcheck 900ms ease-out infinite"></div>
+                  </sc-if>
+                  <span style="position:absolute;inset:0;display:grid;place-items:center;font-weight:700;line-height:1;text-shadow:0 1px 0 rgba(255,255,255,.5),0 -1px 0 rgba(0,0,0,.2);font-size:{{ p.fs }};color:{{ p.color }}">{{ p.glyph }}</span>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-for list="{{ markers }}" as="m" hint-placeholder-count="0">
+              <div role="button" tabindex="0" aria-label="{{ m.aria }}" style="position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;width:12%;aspect-ratio:1 / 1;cursor:pointer;left:{{ m.x }}%;top:{{ m.y }}%" onClick="{{ m.onClick }}" onKeyDown="{{ m.onKey }}">
+                <sc-if value="{{ m.capture }}" hint-placeholder-val="{{ false }}">
+                  <div style="width:88%;height:88%;box-sizing:border-box;border:3px solid rgba(178,32,26,.85);animation:jdot 180ms ease-out;clip-path:{{ shapeClip }}"></div>
+                </sc-if>
+                <sc-if value="{{ m.quiet }}" hint-placeholder-val="{{ false }}">
+                  <div style="width:26%;height:26%;border-radius:50%;background:rgba(20,70,120,.8);animation:jdot 180ms ease-out"></div>
+                </sc-if>
+              </div>
+            </sc-for>
+
+            {{ fxNode }}
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1 1 230px;min-width:220px;display:flex;flex-direction:column;gap:12px;order:3">
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <button class="btn btn-secondary" style="min-height:44px;flex:1 1 96px" onClick="{{ doPass }}">한 수 쉬기</button>
+          <button class="btn btn-secondary" style="min-height:44px;flex:1 1 96px" onClick="{{ doUndo }}">무르기</button>
+          <button class="btn btn-secondary" style="min-height:44px;flex:1 1 96px" onClick="{{ doResign }}">기권</button>
+          <button class="btn btn-secondary" style="min-height:44px;flex:1 1 96px" onClick="{{ toggleSound }}">{{ soundLabel }}</button>
+        </div>
+
+        <div class="card" style="background:#fff;border:1px solid var(--color-divider);gap:6px">
+
+          <div class="card-kicker">기보</div>
+          <div style="max-height:330px;overflow:auto;display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{ moveRows }}" as="m" hint-placeholder-count="0">
+              <div style="display:flex;gap:8px;align-items:baseline;font-size:13px;padding:2px 4px;background:{{ m.bg }}">
+                <span class="text-muted" style="width:22px;text-align:right;font-variant-numeric:tabular-nums">{{ m.no }}</span>
+                <span style="font-family:'Noto Serif KR',serif;font-weight:700;color:{{ m.color }}">{{ m.mark }}</span>
+                <span style="font-family:var(--font-heading);letter-spacing:.02em">{{ m.text }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noMoves }}" hint-placeholder-val="{{ false }}">
+              <span class="text-muted" style="font-size:12px">아직 둔 수가 없습니다.</span>
+            </sc-if>
+          </div>
+        </div>
+
+        <div class="card" style="background:#fff;border:1px solid var(--color-divider);gap:6px">
+
+          <div class="card-kicker">규칙 요약</div>
+          <div style="font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 78%, transparent)">포는 이동·공격 모두 사이 기물 1개를 반드시 넘습니다(포는 못 넘고 못 잡음). 상은 1직진 + 2대각, 마는 1직진 + 1대각. 졸·병은 앞·옆 1칸. 한 수 쉬기가 있어 스테일메이트는 없습니다.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ STATS ============ -->
+  <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:22px 18px 40px;max-width:1000px;width:100%;margin:0 auto;box-sizing:border-box;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+        <div>
+          <div class="card-kicker">전적</div>
+          <h1 style="font-size:34px;margin:2px 0 4px">AI 난이도별 기록</h1>
+          <p class="text-muted" style="margin:0">기록은 이 브라우저에 저장됩니다. 요약을 복사해 다른 사람의 기록과 비교해 보세요.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" style="min-height:44px" onClick="{{ copyStats }}">{{ copyLabel }}</button>
+          <button class="btn btn-secondary" style="min-height:44px" onClick="{{ resetStats }}">기록 초기화</button>
+        </div>
+      </div>
+
+      <div style="position:relative;padding:18px;border:1px solid var(--color-divider);display:flex;flex-wrap:wrap;gap:24px;align-items:center">
+
+        <div style="display:flex;flex-direction:column">
+          <span class="text-muted" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase">종합 등급</span>
+          <span style="font-family:'Noto Serif KR',serif;font-size:40px;font-weight:900;line-height:1.05">{{ gradeName }}</span>
+          <span class="text-muted" style="font-size:12px">{{ gradeNote }}</span>
+        </div>
+        <div style="display:flex;gap:22px;flex-wrap:wrap;margin-left:auto">
+          <sc-for list="{{ totals }}" as="t" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column">
+              <span class="text-muted" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">{{ t.label }}</span>
+              <span style="font-family:var(--font-heading);font-size:28px">{{ t.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px">
+        <sc-for list="{{ statCards }}" as="s" hint-placeholder-count="3">
+          <div class="card" style="flex:1 1 240px;background:#fff;border:1px solid var(--color-divider);gap:10px">
+
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <span class="card-title">{{ s.name }}</span>
+              <span class="tag tag-accent">{{ s.depth }}</span>
+            </div>
+            <div style="display:flex;gap:14px;align-items:baseline">
+              <span style="font-family:var(--font-heading);font-size:32px;line-height:1">{{ s.rate }}</span>
+              <span class="text-muted" style="font-size:12px">{{ s.record }}</span>
+            </div>
+            <div style="height:8px;background:var(--color-neutral-200);display:flex">
+              <div style="height:100%;background:var(--color-accent-700);width:{{ s.wPct }}%"></div>
+              <div style="height:100%;background:var(--color-neutral-400);width:{{ s.dPct }}%"></div>
+            </div>
+            <div class="text-muted" style="font-size:11px">{{ s.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <button class="btn btn-secondary" style="min-height:44px;align-self:flex-start" onClick="{{ goSetup }}">대국 설정으로</button>
+    </div>
+  </sc-if>
+
+  <!-- ============ RESULT DIALOG ============ -->
+  <sc-if value="{{ dialogOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" style="position:fixed;inset:0;display:grid;place-items:center;background:rgba(20,25,30,.45);padding:20px;z-index:40">
+      <div class="dialog" style="position:relative;background:#fff;border:1px solid var(--color-divider);border-radius:0">
+
+        <div class="card-kicker">대국 종료</div>
+        <div class="dialog-title" style="font-size:28px">{{ dialogTitle }}</div>
+        <div class="dialog-body" style="display:flex;flex-direction:column;gap:6px">
+          <span>{{ dialogReason }}</span>
+          <span class="text-muted" style="font-size:13px">{{ dialogScore }}</span>
+        </div>
+        <div class="dialog-actions" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" style="min-height:44px" onClick="{{ rematch }}">같은 조건으로 다시</button>
+          <button class="btn btn-secondary" style="min-height:44px" onClick="{{ goSetup }}">설정으로</button>
+          <button class="btn btn-ghost" style="min-height:44px" onClick="{{ closeDialog }}">판 살펴보기</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;pieceShape&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;팔각형&quot;,&quot;동그라미&quot;,&quot;사각형&quot;],&quot;default&quot;:&quot;팔각형&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;pieceFace&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;나무&quot;,&quot;상아&quot;,&quot;흑단&quot;,&quot;옥&quot;],&quot;default&quot;:&quot;나무&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;hanColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#a81f1a&quot;,&quot;#7a1113&quot;,&quot;#1d2d3d&quot;,&quot;#2c2320&quot;],&quot;default&quot;:&quot;#a81f1a&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;choColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#136b3d&quot;,&quot;#0f5c4a&quot;,&quot;#1d3d5a&quot;,&quot;#2c2320&quot;],&quot;default&quot;:&quot;#136b3d&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;pieceFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;명조&quot;,&quot;고딕&quot;,&quot;남명조&quot;],&quot;default&quot;:&quot;명조&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;notation&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;한자&quot;,&quot;한글&quot;],&quot;default&quot;:&quot;한자&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기알&quot;},&quot;boardTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;원목&quot;,&quot;종이&quot;,&quot;흑목&quot;],&quot;default&quot;:&quot;원목&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;장기판&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const FACES = {
+      '나무': { base: '#f0dcb0', dark: '#cca976', edge: '#a5824a' },
+      '상아': { base: '#f9f3e4', dark: '#e2d6bd', edge: '#b6a887' },
+      '흑단': { base: '#413a34', dark: '#241f1b', edge: '#141110' },
+      '옥': { base: '#e2ece2', dark: '#bad0bc', edge: '#8ba58f' }
+    };
+    this.FACES = FACES;
+    this.FONTS = {
+      '명조': "'Noto Serif KR','Nanum Myeongjo',serif",
+      '고딕': "'Noto Sans KR',system-ui,sans-serif",
+      '남명조': "'Nanum Myeongjo','Noto Serif KR',serif"
+    };
+    this.TONES = {
+      '원목': { bg: 'linear-gradient(150deg,#eBD3A6 0%,#e2c795 40%,#d8b982 100%)', line: 'rgba(74,53,32,.85)' },
+      '종이': { bg: 'linear-gradient(150deg,#f7efdd 0%,#f1e6cf 100%)', line: 'rgba(90,74,52,.8)' },
+      '흑목': { bg: 'linear-gradient(150deg,#4a3a2c 0%,#3a2c21 100%)', line: 'rgba(232,214,180,.75)' }
+    };
+    this.SHAPES = {
+      '팔각형': { clip: 'polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)', radius: '6%' },
+      '동그라미': { clip: 'circle(50% at 50% 50%)', radius: '50%' },
+      '사각형': { clip: 'inset(0)', radius: '2px' }
+    };
+    this.SIZE = { CHA: 1.06, PO: 1.0, MA: 0.99, SANG: 0.99, SA: 0.9, JOL: 0.86, GUNG: 1.16 };
+    this.LEVELNAME = { EASY: '초급', NORMAL: '중급', HARD: '고급', ULTRA: '초고급' };
+    this.state = {
+      screen: 'setup', mode: 'AI', level: 'NORMAL', human: 'CHO',
+      choSetup: '마상마상', hanSetup: '마상마상',
+      opts: {
+        face: props.pieceFace || '나무',
+        han: props.hanColor || '#a81f1a',
+        cho: props.choColor || '#136b3d',
+        font: props.pieceFont || '명조',
+        tone: props.boardTone || '원목',
+        notation: props.notation || '한자',
+        shape: props.pieceShape || '팔각형'
+      },
+      lookOpen: false,
+      game: null, sel: null, legal: [], snapshots: [], fx: null, fxSeq: 0, checkFx: null, checkFxSeq: 0,
+      over: null, dialogOpen: false, thinking: false, muted: false,
+      startedAt: 0, tick: 0, copied: false,
+      records: { EASY: { w: 0, l: 0, d: 0 }, NORMAL: { w: 0, l: 0, d: 0 }, HARD: { w: 0, l: 0, d: 0 }, ULTRA: { w: 0, l: 0, d: 0 } }
+    };
+  }
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('janggi.records.v1');
+      if (raw) this.setState({ records: Object.assign(this.state.records, JSON.parse(raw)) });
+    } catch (e) { /* ignore */ }
+    if (!window.JanggiEngine) {
+      this._poll = setInterval(() => { if (window.JanggiEngine) { clearInterval(this._poll); this.forceUpdate(); } }, 60);
+    }
+    this._secs = 0;
+    this._timer = setInterval(() => {
+      if (this.state.game && !this.state.over) { this._secs += 1; this.setState({ tick: this._secs }); }
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer); clearInterval(this._poll);
+    clearTimeout(this._aiT); clearTimeout(this._fxT); clearTimeout(this._checkFxT); clearTimeout(this._hapticT);
+    if (this._ac && this._ac.state !== 'closed') this._ac.close();
+  }
+
+  /* ---------- helpers ---------- */
+  E() { return window.JanggiEngine; }
+  glyph(p) {
+    const E = this.E(), set = this.state.opts.notation === '한자' ? E.HANJA : E.HANGUL;
+    const v = set[p.t];
+    return typeof v === 'string' ? v : v[p.s];
+  }
+  faceCss(f) { return 'radial-gradient(115% 115% at 32% 20%, #fffdf3 0%, ' + f.base + ' 42%, ' + f.dark + ' 100%)'; }
+  textColor(side) { return side === 'HAN' ? this.state.opts.han : this.state.opts.cho; }
+
+  shape() { return this.SHAPES[this.state.opts.shape] || this.SHAPES['팔각형']; }
+
+  mapPieces(board, interactive) {
+    const E = this.E(), s = this.state, f = this.FACES[s.opts.face], sh = this.shape(), out = [];
+    const checkSide = interactive && s.game && !s.over && E.isCheck(s.game, s.game.turn) ? s.game.turn : null;
+    for (let i = 0; i < 90; i++) {
+      const p = board[i];
+      if (!p) continue;
+      const size = 11.7 * this.SIZE[p.t];
+      out.push({
+        x: ((E.FOF(i) - 1) / 8) * 100, y: ((E.ROF(i) - 1) / 9) * 100,
+        w: size, fs: Math.round(54 * (p.t === 'GUNG' ? 0.95 : 1)) + 'cqw',
+        glyph: this.glyph(p), color: this.textColor(p.s),
+        face: this.faceCss(f), edge: f.edge, clip: sh.clip, radius: sh.radius,
+        sel: interactive && s.sel === i,
+        check: p.t === 'GUNG' && p.s === checkSide,
+        aria: (p.s === 'HAN' ? '한' : '초') + ' ' + (typeof E.HANGUL[p.t] === 'string' ? E.HANGUL[p.t] : E.HANGUL[p.t][p.s]) + ', ' + E.ROF(i) + '행 ' + E.FOF(i) + '열',
+        onClick: interactive ? () => this.onPoint(i) : () => {},
+        onKey: interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.onPoint(i); } } : () => {}
+      });
+    }
+    return out;
+  }
+
+  previewState() {
+    const E = this.E();
+    if (!E) return null;
+    const k = this.state.hanSetup + '|' + this.state.choSetup;
+    if (this._pk !== k) { this._pk = k; this._pv = E.newGame(this.state.hanSetup, this.state.choSetup, {}); }
+    return this._pv;
+  }
+
+  /* ---------- flow ---------- */
+  startGame() {
+    const E = this.E();
+    if (!E) return;
+    const g = E.newGame(this.state.hanSetup, this.state.choSetup, { bikjang: true, repLimit: 3 });
+    this.wakeAudio(); // Create/resume audio while this button click still counts as a user gesture.
+    clearTimeout(this._fxT); clearTimeout(this._checkFxT); clearTimeout(this._hapticT);
+    this._secs = 0;
+    this.setState({
+      screen: 'game', game: g, sel: null, legal: [], snapshots: [], over: null,
+      dialogOpen: false, fx: null, checkFx: null, thinking: false, startedAt: 0, tick: 0
+    });
+    if (this.state.mode === 'AI' && g.turn !== this.state.human) this.scheduleAI(g);
+  }
+
+  onPoint(i) {
+    const s = this.state, E = this.E();
+    if (!s.game || s.over || s.thinking) return;
+    if (s.mode === 'AI' && s.game.turn !== s.human) return;
+    if (s.sel != null) {
+      const mv = s.legal.find(m => m.to === i);
+      if (mv) { this.applyMove(mv); return; }
+    }
+    const p = s.game.board[i];
+    if (p && p.s === s.game.turn) this.setState({ sel: i, legal: E.movesFrom(s.game, i) });
+    else this.setState({ sel: null, legal: [] });
+  }
+
+  applyMove(mv) {
+    const s = this.state, E = this.E(), g = s.game;
+    const victim = g.board[mv.to];
+    const next = E.makeMove(g, mv);
+    const patch = { game: next, sel: null, legal: [], snapshots: s.snapshots.concat([g]) };
+    if (victim) {
+      const val = E.VAL[victim.t];
+      patch.fx = {
+        id: s.fxSeq + 1, value: val, tier: val >= 13 ? 3 : val >= 7 ? 2.5 : val >= 5 ? 2 : val >= 3 ? 1.5 : 1,
+        x: ((E.FOF(mv.to) - 1) / 8) * 100, y: ((E.ROF(mv.to) - 1) / 9) * 100,
+        glyph: this.glyph(victim), color: this.textColor(victim.s), name: E.NAME[victim.t]
+      };
+      patch.fxSeq = s.fxSeq + 1;
+      this.boom(val);
+      clearTimeout(this._fxT);
+      this._fxT = setTimeout(() => this.setState({ fx: null }), 1400);
+    }
+    this.addCheckWarning(next, patch, victim ? 130 : 0);
+    this.setState(patch);
+    this.afterMove(next);
+  }
+
+  afterMove(next) {
+    const E = this.E(), res = E.result(next);
+    if (res.status !== 'PLAYING') { this.finish(next, res); return; }
+    if (this.state.mode === 'AI' && next.turn !== this.state.human) this.scheduleAI(next);
+  }
+
+  scheduleAI(g) {
+    this.setState({ thinking: true });
+    clearTimeout(this._aiT);
+    this._aiT = setTimeout(() => {
+      const E = this.E(), s = this.state, cur = s.game || g;
+      const mv = E.bestMove(cur, s.level);
+      this.setState({ thinking: false });
+      if (!mv) {
+        const nx = E.pass(cur);
+        this.setState({ game: nx, snapshots: s.snapshots.concat([cur]) });
+        this.afterMove(nx);
+        return;
+      }
+      const victim = cur.board[mv.to];
+      const nx = E.makeMove(cur, mv);
+      const patch = { game: nx, sel: null, legal: [], snapshots: s.snapshots.concat([cur]) };
+      if (victim) {
+        const val = E.VAL[victim.t];
+        patch.fx = {
+          id: s.fxSeq + 1, value: val, tier: val >= 13 ? 3 : val >= 7 ? 2.5 : val >= 5 ? 2 : val >= 3 ? 1.5 : 1,
+          x: ((E.FOF(mv.to) - 1) / 8) * 100, y: ((E.ROF(mv.to) - 1) / 9) * 100,
+          glyph: this.glyph(victim), color: this.textColor(victim.s), name: E.NAME[victim.t]
+        };
+        patch.fxSeq = s.fxSeq + 1;
+        this.boom(val);
+        clearTimeout(this._fxT);
+        this._fxT = setTimeout(() => this.setState({ fx: null }), 1400);
+      }
+      this.addCheckWarning(nx, patch, victim ? 130 : 0);
+      this.setState(patch);
+      this.afterMove(nx);
+    }, 220);
+  }
+
+  finish(g, res) {
+    const E = this.E();
+    const sh = E.score(g, 'HAN'), sc = E.score(g, 'CHO');
+    this.setState({ over: res, dialogOpen: true, sel: null, legal: [], thinking: false });
+    if (this.state.mode !== 'AI') return;
+    const human = this.state.human;
+    const key = res.winner === human ? 'w' : (res.winner ? 'l' : 'd');
+    const rec = JSON.parse(JSON.stringify(this.state.records));
+    rec[this.state.level][key] += 1;
+    this.setState({ records: rec });
+    try { localStorage.setItem('janggi.records.v1', JSON.stringify(rec)); } catch (e) { /* ignore */ }
+    this._lastScores = { sh: sh, sc: sc };
+  }
+
+  doPass() {
+    const s = this.state, E = this.E();
+    if (!s.game || s.over || s.thinking) return;
+    if (s.mode === 'AI' && s.game.turn !== s.human) return;
+    const nx = E.pass(s.game);
+    this.setState({ game: nx, sel: null, legal: [], snapshots: s.snapshots.concat([s.game]) });
+    this.afterMove(nx);
+  }
+
+  doUndo() {
+    const s = this.state;
+    if (!s.snapshots.length || s.thinking) return;
+    const back = s.mode === 'AI' && s.snapshots.length >= 2 ? 2 : 1;
+    const snaps = s.snapshots.slice(0, s.snapshots.length - back);
+    const g = s.snapshots[s.snapshots.length - back];
+    clearTimeout(this._aiT); clearTimeout(this._fxT); clearTimeout(this._checkFxT); clearTimeout(this._hapticT);
+    this.setState({ game: g, snapshots: snaps, sel: null, legal: [], over: null, dialogOpen: false, fx: null, checkFx: null, thinking: false });
+  }
+
+  doResign() {
+    const s = this.state, E = this.E();
+    if (!s.game || s.over) return;
+    const loser = s.mode === 'AI' ? s.human : s.game.turn;
+    this.finish(s.game, { status: 'RESIGN', winner: E.OTHER(loser), reason: '기권' });
+  }
+
+  wakeAudio() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!this._ac || this._ac.state === 'closed') this._ac = new AC();
+      if (this._ac.state === 'suspended') {
+        const resumed = this._ac.resume();
+        if (resumed && resumed.catch) resumed.catch(() => {});
+      }
+      return this._ac;
+    } catch (e) { return null; }
+  }
+
+  boom(value) {
+    if (this.state.muted) return;
+    try {
+      const ac = this.wakeAudio();
+      if (!ac) return;
+      const t = ac.currentTime, tier = value >= 13 ? 1 : value >= 7 ? 0.8 : value >= 5 ? 0.62 : 0.45;
+      const osc = ac.createOscillator(), og = ac.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150 * tier + 60, t);
+      osc.frequency.exponentialRampToValueAtTime(38, t + 0.22 + tier * 0.2);
+      og.gain.setValueAtTime(0.0001, t);
+      og.gain.exponentialRampToValueAtTime(0.32 * tier + 0.06, t + 0.012);
+      og.gain.exponentialRampToValueAtTime(0.0001, t + 0.35 + tier * 0.3);
+      osc.connect(og).connect(ac.destination);
+      osc.start(t); osc.stop(t + 0.8);
+      const len = Math.floor(ac.sampleRate * 0.16), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.4);
+      const src = ac.createBufferSource(), ng = ac.createGain(), bp = ac.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 900 + 700 * tier; bp.Q.value = 0.9;
+      ng.gain.value = 0.3 * tier + 0.08;
+      src.buffer = buf; src.connect(bp).connect(ng).connect(ac.destination); src.start(t);
+    } catch (e) { /* ignore */ }
+  }
+
+  checkAlarm(delay) {
+    if (this.state.muted) return;
+    try {
+      const ac = this.wakeAudio();
+      if (!ac) return;
+      const start = ac.currentTime + (delay || 0) / 1000;
+      const chirp = (at, from, to, length, volume) => {
+        const osc = ac.createOscillator(), gain = ac.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(from, at);
+        osc.frequency.exponentialRampToValueAtTime(to, at + length);
+        gain.gain.setValueAtTime(0.0001, at);
+        gain.gain.exponentialRampToValueAtTime(volume, at + 0.018);
+        gain.gain.exponentialRampToValueAtTime(0.0001, at + length);
+        osc.connect(gain).connect(ac.destination);
+        osc.start(at); osc.stop(at + length + 0.02);
+      };
+      chirp(start, 720, 560, 0.17, 0.16);
+      chirp(start + 0.22, 980, 700, 0.30, 0.23);
+    } catch (e) { /* ignore */ }
+  }
+
+  vibrateCheck(delay) {
+    clearTimeout(this._hapticT);
+    this._hapticT = setTimeout(() => {
+      try {
+        if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate([75, 45, 115, 45, 180]);
+      } catch (e) { /* Vibration API is optional, notably unsupported on iOS Safari. */ }
+    }, delay || 0);
+  }
+
+  addCheckWarning(game, patch, delay) {
+    const E = this.E();
+    if (!E || !E.isCheck(game, game.turn)) return;
+    const gungAt = E.findGung(game.board, game.turn);
+    const gung = gungAt >= 0 ? game.board[gungAt] : null;
+    if (!gung) return;
+    const id = this.state.checkFxSeq + 1;
+    patch.checkFx = {
+      id: id, side: game.turn, glyph: this.glyph(gung),
+      x: ((E.FOF(gungAt) - 1) / 8) * 100, y: ((E.ROF(gungAt) - 1) / 9) * 100
+    };
+    patch.checkFxSeq = id;
+    this.checkAlarm(delay);
+    this.vibrateCheck(delay);
+    clearTimeout(this._checkFxT);
+    this._checkFxT = setTimeout(() => this.setState({ checkFx: null }), 1750 + (delay || 0));
+  }
+
+  /* ---------- board FX (React elements keep CSS animations across re-renders) ---------- */
+  buildCaptureFx() {
+    const fx = this.state.fx;
+    if (!fx) return null;
+    const h = React.createElement, tier = fx.tier;
+    const n = Math.round(7 + tier * 4), shards = [];
+    for (let i = 0; i < n; i++) {
+      const a = (360 / n) * i + (i % 3) * 7;
+      shards.push(h('div', { key: 'S' + i, style: { position: 'absolute', left: '50%', top: '50%', transform: 'rotate(' + a + 'deg)' } },
+        h('div', {
+          style: {
+            position: 'absolute', width: (5 + tier * 4) + 'px', height: (1.5 + tier * 1.2) + 'px',
+            background: i % 3 === 0 ? fx.color : '#4a3320',
+            animation: 'jshard ' + (340 + tier * 180) + 'ms cubic-bezier(.12,.72,.2,1) forwards',
+            '--d': (24 + tier * 30) + 'px'
+          }
+        })));
+    }
+    const ring = (i, delay, scale) => h('div', {
+      key: 'R' + i,
+      style: {
+        position: 'absolute', left: '50%', top: '50%', width: (34 * scale) + 'px', height: (34 * scale) + 'px',
+        marginLeft: 0, boxSizing: 'border-box', border: (1 + tier) + 'px solid rgba(178,32,26,.75)', borderRadius: '50%',
+        transformOrigin: 'center', animation: 'jring ' + (330 + tier * 150) + 'ms ease-out ' + delay + 'ms forwards'
+      }
+    });
+    const kids = [
+      h('div', {
+        key: 'F', style: {
+          position: 'absolute', left: '50%', top: '50%', width: (26 + tier * 26) + 'px', height: (26 + tier * 26) + 'px',
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,244,214,.95) 0%, rgba(232,128,40,.6) 45%, rgba(178,32,26,0) 72%)',
+          animation: 'jflash ' + (260 + tier * 120) + 'ms ease-out forwards'
+        }
+      }),
+      ring(1, 0, 1 + tier * 0.9), ring(2, 90, 1.6 + tier * 1.5)
+    ].concat(shards);
+    if (tier >= 2) kids.push(h('div', {
+      key: 'B', style: {
+        position: 'absolute', left: '50%', top: '50%', fontFamily: "'Noto Serif KR',serif", fontWeight: 900,
+        fontSize: (16 + tier * 9) + 'px', color: '#b2201a', whiteSpace: 'nowrap',
+        textShadow: '0 2px 0 rgba(255,255,255,.85)', animation: 'jpop ' + (700 + tier * 200) + 'ms ease-out forwards'
+      }
+    }, tier >= 3 ? '쾅! ' + fx.glyph + ' 포획 +' + fx.value : fx.glyph + ' +' + fx.value));
+    else kids.push(h('div', {
+      key: 'B', style: {
+        position: 'absolute', left: '50%', top: '50%', fontFamily: 'var(--font-heading)', fontWeight: 700,
+        fontSize: '14px', color: '#b2201a', whiteSpace: 'nowrap', textShadow: '0 1px 0 #fff',
+        animation: 'jpop 620ms ease-out forwards'
+      }
+    }, '+' + fx.value));
+    return h('div', {
+      key: 'FX' + fx.id,
+      style: { position: 'absolute', left: fx.x + '%', top: fx.y + '%', width: 0, height: 0, pointerEvents: 'none', zIndex: 5 }
+    }, kids);
+  }
+
+  buildCheckFx() {
+    const fx = this.state.checkFx;
+    if (!fx) return null;
+    const h = React.createElement;
+    const wave = (key, delay, color) => h('div', {
+      key: key,
+      style: {
+        position: 'absolute', left: '50%', top: '50%', width: 'clamp(48px, 16vw, 112px)', height: 'clamp(48px, 16vw, 112px)',
+        border: '2px solid ' + color, borderRadius: '50%', boxSizing: 'border-box',
+        boxShadow: '0 0 12px rgba(221,45,32,.72), inset 0 0 12px rgba(255,110,50,.32)',
+        animation: 'jdangerwave 960ms cubic-bezier(.12,.75,.22,1) ' + delay + 'ms forwards'
+      }
+    });
+    const kids = [
+      h('div', {
+        key: 'H', style: {
+          position: 'absolute', left: '50%', top: '50%', width: 'clamp(54px, 17vw, 120px)', height: 'clamp(54px, 17vw, 120px)',
+          borderRadius: '50%', background: 'radial-gradient(circle, rgba(235,54,34,.52) 0%, rgba(231,48,30,.18) 43%, rgba(214,38,25,0) 72%)',
+          animation: 'jdangerhalo 760ms ease-out forwards'
+        }
+      }),
+      wave('W1', 0, 'rgba(236,48,31,.98)'), wave('W2', 150, 'rgba(255,122,48,.92)'), wave('W3', 300, 'rgba(236,48,31,.85)'),
+      h('div', {
+        key: 'L', style: {
+          position: 'absolute', left: '50%', top: '50%', whiteSpace: 'nowrap', fontFamily: "'Noto Serif KR',serif", fontSize: 'clamp(16px, 3.2vw, 27px)',
+          fontWeight: 900, letterSpacing: '.12em', color: '#bc1c14', textShadow: '0 2px 0 #fff5dc, 0 0 10px rgba(255,94,40,.9)',
+          animation: 'jdangerlabel 1320ms cubic-bezier(.15,.72,.25,1) forwards'
+        }
+      }, '장군!')
+    ];
+    return h('div', {
+      key: 'CHECK' + fx.id,
+      'aria-hidden': 'true',
+      style: { position: 'absolute', left: fx.x + '%', top: fx.y + '%', width: 0, height: 0, pointerEvents: 'none', zIndex: 7 }
+    }, kids);
+  }
+
+  buildFx() {
+    const capture = this.buildCaptureFx(), check = this.buildCheckFx();
+    if (!capture && !check) return null;
+    return React.createElement(React.Fragment, null, capture, check);
+  }
+
+  /* ---------- option rows ---------- */
+  optItem(label, active, onClick, extra) {
+    const it = {
+      label: label, onClick: onClick,
+      bg: active ? '#5980a6' : '#ffffff',
+      fg: active ? '#ffffff' : '#1d1f20',
+      bd: active ? '#416180' : '#d2d3d5'
+    };
+    if (extra) Object.assign(it, extra);
+    return it;
+  }
+
+  coreGroups() {
+    const s = this.state;
+    const SET = ['마상마상', '상마상마', '마상상마', '상마마상'];
+    return [
+      {
+        label: '대국 방식', hint: 'AI 또는 로컬 2인',
+        items: [
+          this.optItem('AI 초급', s.mode === 'AI' && s.level === 'EASY', () => this.setState({ mode: 'AI', level: 'EASY' })),
+          this.optItem('AI 중급', s.mode === 'AI' && s.level === 'NORMAL', () => this.setState({ mode: 'AI', level: 'NORMAL' })),
+          this.optItem('AI 고급', s.mode === 'AI' && s.level === 'HARD', () => this.setState({ mode: 'AI', level: 'HARD' })),
+          this.optItem('AI 초고급', s.mode === 'AI' && s.level === 'ULTRA', () => this.setState({ mode: 'AI', level: 'ULTRA' })),
+          this.optItem('2인 대국', s.mode === 'LOCAL', () => this.setState({ mode: 'LOCAL' }))
+        ]
+      },
+      {
+        label: '한(漢) 마·상 배치', hint: '위 진영 · 후수',
+        items: SET.map(v => this.optItem(v, s.hanSetup === v, () => this.setState({ hanSetup: v })))
+      },
+      {
+        label: '초(楚) 마·상 배치', hint: '아래 진영 · 선수',
+        items: SET.map(v => this.optItem(v, s.choSetup === v, () => this.setState({ choSetup: v })))
+      }
+    ];
+  }
+
+  lookGroups() {
+    const s = this.state, o = s.opts, set = (k, v) => () => this.setState({ opts: Object.assign({}, s.opts, { [k]: v }) });
+    const faceKeys = Object.keys(this.FACES);
+    return [
+      {
+        label: '장기알 모양', hint: '알의 외형',
+        items: Object.keys(this.SHAPES).map(k => this.optItem(k, o.shape === k, set('shape', k)))
+      },
+      {
+        label: '장기알 색', hint: '알의 바탕',
+        items: faceKeys.map(k => this.optItem(k, o.face === k, set('face', k),
+          o.face === k ? null : { bg: this.FACES[k].base, fg: k === '흑단' ? '#f4ead6' : '#3a2a18', bd: this.FACES[k].edge }))
+      },
+      {
+        label: '글자색', hint: '한(漢) / 초(楚)',
+        items: [['#a81f1a', '한 · 주홍'], ['#7a1113', '한 · 적갈'], ['#1d2d3d', '한 · 감청'], ['#2c2320', '한 · 먹']].map(p =>
+          this.optItem(p[1], o.han === p[0], set('han', p[0]), o.han === p[0] ? null : { bg: p[0], fg: '#fff', bd: p[0] })
+        ).concat([['#136b3d', '초 · 청록'], ['#0f5c4a', '초 · 벽록'], ['#1d3d5a', '초 · 남'], ['#2c2320', '초 · 먹']].map(p =>
+          this.optItem(p[1], o.cho === p[0], set('cho', p[0]), o.cho === p[0] ? null : { bg: p[0], fg: '#fff', bd: p[0] })))
+      },
+      {
+        label: '서체 · 표기', hint: '한자 서체와 표기 방식',
+        items: Object.keys(this.FONTS).map(k => this.optItem(k, o.font === k, set('font', k)))
+          .concat([this.optItem('한자 車', o.notation === '한자', set('notation', '한자')),
+                   this.optItem('한글 차', o.notation === '한글', set('notation', '한글'))])
+      },
+      {
+        label: '장기판', hint: '판의 나무 톤',
+        items: Object.keys(this.TONES).map(k => this.optItem(k, o.tone === k, set('tone', k)))
+      }
+    ];
+  }
+
+  /* ---------- stats ---------- */
+  gradeOf(rec) {
+    const pts = rec.EASY.w + rec.NORMAL.w * 2 + rec.HARD.w * 4 + rec.ULTRA.w * 5;
+    if (pts >= 100) return { name: '유단자', note: '고급 AI를 상대로 안정적으로 이깁니다' };
+    if (pts >= 50) return { name: '초단', note: '고급 AI 승수를 더 쌓으면 유단자' };
+    if (pts >= 25) return { name: '1급', note: '중급 AI를 넘어 고급에 도전할 때' };
+    if (pts >= 10) return { name: '2급', note: '중급 AI 승률을 5할까지 올려보세요' };
+    if (pts >= 3) return { name: '3급', note: '초급 AI를 안정적으로 잡는 단계' };
+    return { name: '급외', note: '초급 AI로 세 판만 이겨보세요' };
+  }
+
+  copyStats() {
+    const rec = this.state.records, g = this.gradeOf(rec);
+    const line = ['장기 전적 · ' + g.name,
+      '초급 ' + rec.EASY.w + '승 ' + rec.EASY.l + '패 ' + rec.EASY.d + '무',
+      '중급 ' + rec.NORMAL.w + '승 ' + rec.NORMAL.l + '패 ' + rec.NORMAL.d + '무',
+      '고급 ' + rec.HARD.w + '승 ' + rec.HARD.l + '패 ' + rec.HARD.d + '무',
+      '초고급 ' + rec.ULTRA.w + '승 ' + rec.ULTRA.l + '패 ' + rec.ULTRA.d + '무'].join(' / ');
+    try { navigator.clipboard.writeText(line); } catch (e) { /* ignore */ }
+    this.setState({ copied: true });
+    setTimeout(() => this.setState({ copied: false }), 1600);
+  }
+
+  resetStats() {
+    const rec = { EASY: { w: 0, l: 0, d: 0 }, NORMAL: { w: 0, l: 0, d: 0 }, HARD: { w: 0, l: 0, d: 0 }, ULTRA: { w: 0, l: 0, d: 0 } };
+    this.setState({ records: rec });
+    try { localStorage.setItem('janggi.records.v1', JSON.stringify(rec)); } catch (e) { /* ignore */ }
+  }
+
+  /* ---------- render values ---------- */
+  renderVals() {
+    const E = this.E(), s = this.state, o = s.opts;
+    const tone = this.TONES[o.tone] || this.TONES['원목'];
+    const f = this.FACES[o.face];
+    const line = tone.line;
+    const gridLines = 'repeating-linear-gradient(to right, ' + line + ' 0 1px, transparent 1px 12.5%),' +
+      'repeating-linear-gradient(to bottom, ' + line + ' 0 1px, transparent 1px 11.1111%)';
+    const palaceX = 'linear-gradient(to bottom right, transparent calc(50% - .6px), ' + line + ' calc(50% - .6px) calc(50% + .6px), transparent calc(50% + .6px)),' +
+      'linear-gradient(to bottom left, transparent calc(50% - .6px), ' + line + ' calc(50% - .6px) calc(50% + .6px), transparent calc(50% + .6px))';
+
+    const base = {
+      isSetup: s.screen === 'setup', isGame: s.screen === 'game', isStats: s.screen === 'stats',
+      goSetup: () => this.setState({ screen: 'setup', dialogOpen: false }),
+      goStats: () => this.setState({ screen: 'stats', dialogOpen: false }),
+      startGame: () => this.startGame(),
+      rematch: () => this.startGame(),
+      closeDialog: () => this.setState({ dialogOpen: false }),
+      doPass: () => this.doPass(), doUndo: () => this.doUndo(), doResign: () => this.doResign(),
+      toggleSound: () => this.setState({ muted: !s.muted }),
+      soundLabel: s.muted ? '소리 켜기' : '소리 끄기',
+      copyStats: () => this.copyStats(), resetStats: () => this.resetStats(),
+      copyLabel: s.copied ? '복사됨' : '전적 요약 복사',
+      coreGroups: this.coreGroups(), lookGroups: this.lookGroups(),
+      lookOpen: s.lookOpen,
+      toggleLook: () => this.setState({ lookOpen: !s.lookOpen }),
+      lookToggleLabel: s.lookOpen ? '접기 ▲' : '펼치기 ▼',
+      lookSummary: o.shape + ' · ' + o.face + ' · ' + o.font + ' · ' + o.tone,
+      shapeClip: this.shape().clip,
+      hanSetup: s.hanSetup, choSetup: s.choSetup,
+      modeLabel: s.mode === 'AI' ? 'AI ' + this.LEVELNAME[s.level] : '로컬 2인',
+      startHint: s.mode === 'AI' ? '당신은 초(楚), 아래 진영입니다.' : '한 화면에서 번갈아 둡니다.',
+      boardBg: tone.bg, gridLines: gridLines, palaceX: palaceX, lineColor: line,
+      fontStack: this.FONTS[o.font] || this.FONTS['명조'],
+      previewPieces: [], pieces: [], markers: [], lastMarks: [], moveRows: [], noMoves: true,
+      scoreRows: [], capturedRows: [], fxNode: this.buildFx(),
+      shakeAnim: s.checkFx ? 'jalertshake 620ms ease-out' :
+        (s.fx ? (s.fx.id % 2 ? 'jshake1 ' : 'jshake2 ') + Math.round(240 + s.fx.tier * 150) + 'ms ease-out' : 'none'),
+      thinking: s.thinking, elapsed: '00:00', moveCount: 0,
+      turnGlyph: '楚', turnLabel: '초 차례', turnNote: '', turnColor: o.cho,
+      dialogOpen: s.dialogOpen, dialogTitle: '', dialogReason: '', dialogScore: '',
+      gradeName: '급외', gradeNote: '', totals: [], statCards: []
+    };
+
+    /* stats screen */
+    const rec = s.records, g = this.gradeOf(rec);
+    const tw = rec.EASY.w + rec.NORMAL.w + rec.HARD.w + rec.ULTRA.w;
+    const tl = rec.EASY.l + rec.NORMAL.l + rec.HARD.l + rec.ULTRA.l;
+    const td = rec.EASY.d + rec.NORMAL.d + rec.HARD.d + rec.ULTRA.d;
+    base.gradeName = g.name; base.gradeNote = g.note;
+    base.totals = [
+      { label: '총 대국', value: tw + tl + td }, { label: '승', value: tw }, { label: '패', value: tl },
+      { label: '승률', value: (tw + tl + td) ? Math.round((tw / (tw + tl + td)) * 100) + '%' : '—' }
+    ];
+    base.statCards = [
+      { key: 'EASY', name: 'AI 초급', depth: '2수 읽기', note: '가끔 실수를 섞습니다' },
+      { key: 'NORMAL', name: 'AI 중급', depth: '3수 읽기', note: '기물 교환을 계산합니다' },
+      { key: 'HARD', name: 'AI 고급', depth: '4수 읽기', note: '수읽기 시간이 조금 걸립니다' },
+      { key: 'ULTRA', name: 'AI 초고급', depth: '5수 읽기', note: '실수 없이 깊게 읽습니다' }
+    ].map(c => {
+      const r = rec[c.key], n = r.w + r.l + r.d;
+      return {
+        name: c.name, depth: c.depth, note: c.note,
+        rate: n ? Math.round((r.w / n) * 100) + '%' : '—',
+        record: r.w + '승 ' + r.l + '패 ' + r.d + '무',
+        wPct: n ? (r.w / n) * 100 : 0, dPct: n ? (r.d / n) * 100 : 0
+      };
+    });
+
+    if (!E) return base;
+
+    /* preview */
+    const pv = this.previewState();
+    if (pv) base.previewPieces = this.mapPieces(pv.board, false);
+
+    if (!s.game) return base;
+    const gm = s.game;
+    base.pieces = this.mapPieces(gm.board, true);
+    base.markers = s.legal.map(m => ({
+      x: ((E.FOF(m.to) - 1) / 8) * 100, y: ((E.ROF(m.to) - 1) / 9) * 100,
+      capture: !!m.cap, quiet: !m.cap,
+      aria: (m.cap ? '잡기 ' : '이동 ') + E.ROF(m.to) + '행 ' + E.FOF(m.to) + '열',
+      onClick: () => this.onPoint(m.to),
+      onKey: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.onPoint(m.to); } }
+    }));
+    const last = gm.history[gm.history.length - 1];
+    if (last && !last.pass) base.lastMarks = [last.from, last.to].map(i => ({
+      x: ((E.FOF(i) - 1) / 8) * 100, y: ((E.ROF(i) - 1) / 9) * 100
+    }));
+
+    const rows = [];
+    for (let i = gm.history.length - 1; i >= 0; i--) {
+      const rc = gm.history[i];
+      rows.push({
+        no: i + 1, text: E.notate(rc), mark: rc.s === 'HAN' ? '漢' : '楚',
+        color: this.textColor(rc.s),
+        bg: i === gm.history.length - 1 ? 'var(--color-accent-100)' : 'transparent'
+      });
+    }
+    base.moveRows = rows; base.noMoves = rows.length === 0;
+    base.moveCount = gm.history.length;
+
+    const sc = E.score(gm, 'CHO'), sh = E.score(gm, 'HAN');
+    base.scoreRows = [
+      { name: '초 (楚) ' + (s.mode === 'AI' ? '· 나' : ''), value: sc, pct: (sc / 73.5) * 100, color: o.cho },
+      { name: '한 (漢) ' + (s.mode === 'AI' ? '· AI' : ''), value: sh, pct: (sh / 73.5) * 100, color: o.han }
+    ];
+    const mini = (arr) => arr.map(p => ({ glyph: this.glyph(p), color: this.textColor(p.s), face: this.faceCss(f), clip: this.shape().clip }));
+    base.capturedRows = [
+      { name: '초가 잡은 기물', items: mini(gm.captured.CHO) },
+      { name: '한이 잡은 기물', items: mini(gm.captured.HAN) }
+    ];
+
+    const checked = E.isCheck(gm, gm.turn) && !s.over;
+    base.turnGlyph = gm.turn === 'HAN' ? '漢' : '楚';
+    base.turnLabel = (gm.turn === 'HAN' ? '한(漢)' : '초(楚)') + ' 차례';
+    base.turnColor = this.textColor(gm.turn);
+    base.turnNote = s.over ? '대국 종료' : (checked ? '장군! 멍군해야 합니다' :
+      (s.mode === 'AI' ? (gm.turn === s.human ? '당신이 둘 차례' : 'AI ' + this.LEVELNAME[s.level]) : '기물을 눌러 선택'));
+
+    const secs = Math.max(0, this._secs || 0);
+    base.elapsed = String(Math.floor(secs / 60)).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
+
+    if (s.over) {
+      const w = s.over.winner;
+      const humanWin = s.mode === 'AI' && w === s.human;
+      base.dialogTitle = w ? ((w === 'HAN' ? '한(漢)' : '초(楚)') + ' 승리' + (s.mode === 'AI' ? (humanWin ? ' — 당신의 승리' : ' — AI 승리') : '')) : '비김';
+      base.dialogReason = s.over.reason;
+      base.dialogScore = '최종 점수 · 초 ' + sc + ' / 한 ' + sh + ' (한 덤 1.5 포함)';
+    }
+    return base;
+  }
+}
+
+</script>
+</body>
+</html>

@@ -38,6 +38,13 @@ const ENVIRONMENTS = [
     note: 'Anthropic 터미널 에이전트에서 진행',
   },
   {
+    id: 'claude-code-design',
+    label: 'Claude Code Design',
+    color: '#8a3f10',
+    icon: 'claude.svg',
+    note: 'Claude Code Design에서 디자인 중심으로 진행',
+  },
+  {
     id: 'codex',
     label: 'Codex',
     color: '#0f766e',
@@ -52,6 +59,7 @@ const DISPLAY_ORDER = [
   'codex-astra',
   'opus5',
   'claude_opus5',
+  'claude_code_design_opus5',
   'sonnet5',
   'claude_sonnet5',
   'sol-fast',
@@ -354,7 +362,7 @@ const costEntries = [...entries].sort((left, right) => (right.record.usd ?? righ
 const fullScale = Math.max(1, Math.ceil(Math.max(...costEntries.map(entry => entry.record.usd ?? entry.record.estimate.usd)) / 10) * 10);
 const subscriptionEntries = costEntries.filter(entry => entry.record.estimate);
 const subscriptionScale = Math.max(1, Math.ceil(Math.max(...subscriptionEntries.map(entry => entry.record.estimate.usd))));
-const costCharts = costChart(costEntries, fullScale, '전체 10개 · 공통 달러 축')
+const costCharts = costChart(costEntries, fullScale, `전체 ${entries.length}개 · 공통 달러 축`)
   + costChart(subscriptionEntries, subscriptionScale, '구독형 3개 · 확대 축');
 const allocationSummary = `월 $${allocation.monthlyUsd} ÷ (${allocation.daysPerMonth}일 × 하루 ${allocation.windowsPerDay}개) = ${allocation.windowHours}시간 윈도우당 약 ${formatUsd(windowUsd)} · 월 ${monthlyWindows}개를 모두 활용하는 가정`;
 const allocationRows = subscriptionEntries.map(entry => `<tr><th scope="row">${escapeHtml(entry.environment.label + ' · ' + entry.title)}</th><td>${escapeHtml(entry.record.estimate.basis)}</td><td>${entry.record.estimate.windowEquivalent.toFixed(2)}개 × ($${allocation.monthlyUsd} / ${monthlyWindows})</td><td>약 ${formatUsd(entry.record.estimate.usd)}</td></tr>`).join('');
@@ -497,7 +505,7 @@ const implCards = entries
 const resourceLinks = [
   { href: '/comparison/', title: '전체 지표 표', desc: '폴더·파일·라인·문자·코드량과 파일 활동 시간을 한 표에서 확인' },
   { href: '/comparison/details.html', title: '기존 7종 심층 리포트', desc: '요구사항 충족도, 규칙 정확도(perft), 사용량 분석' },
-  { href: '/comparison/#process', title: '전체 개발 기록', desc: '10개 결과물의 사용량·시간 기록과 확보된 원문 로그' },
+  { href: '/comparison/#process', title: '전체 개발 기록', desc: `${entries.length}개 결과물의 사용량·시간 기록과 확보된 원문 로그` },
   { href: '/comparison/project-size-time-report.txt', title: '측정 원문', desc: '규모와 시간 측정 결과를 생성한 그대로' },
 ]
   .map(
@@ -515,7 +523,7 @@ const methodGaps = [
   .filter(Boolean)
   .join(' / ');
 const measurableCount = stats.projects.filter((project) => !project.copiedBaseline).length;
-const methodTime = '개발 당시 기록과 사용자 제공 값을 사용합니다. 파일 복사로 평탄화된 생성 시각을 세션 시간으로 대신하지 않습니다. Claude Code의 5시간은 사용량 집계 윈도우이며 개발 소요 시간이 아닙니다.';
+const methodTime = '개발 당시 기록과 사용자 제공 값을 사용합니다. 파일 복사로 평탄화된 생성 시각을 세션 시간으로 대신하지 않습니다. Claude Code와 Claude Code Design의 5시간은 사용량 집계 윈도우이며 개발 소요 시간이 아닙니다.';
 
 const analyzedAt = new Intl.DateTimeFormat('ko-KR', {
   timeZone: stats.timeZone,
@@ -534,7 +542,7 @@ const portalHtml = readFileSync(join(here, 'portal.template.html'), 'utf8')
   .replace('<!--COMPARISON_ROWS-->', comparisonRows)
   .replace('<!--RECORD_DATE-->', escapeHtml(developmentData.recordedAt))
   .replace('<!--ENV_COUNT-->', String(ENVIRONMENTS.length))
-  .replace('<!--IMPL_COUNT-->', String(entries.length))
+  .replaceAll('<!--IMPL_COUNT-->', String(entries.length))
   .replace('          <!--HERO_METRICS-->', heroMetrics)
   .replace('          <!--ENV_CARDS-->', envCards)
   .replace('          <!--CHARTS-->', charts)

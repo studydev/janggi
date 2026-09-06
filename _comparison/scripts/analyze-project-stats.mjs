@@ -5,7 +5,7 @@ import {
   readdirSync,
   writeFileSync,
 } from 'node:fs';
-import { basename, dirname, extname, join, relative } from 'node:path';
+import { basename, dirname, extname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -24,7 +24,11 @@ const PROJECTS = [
   'codex-astra',
   'claude_sonnet5',
   'claude_opus5',
+  'claude_code_design_opus5',
 ];
+// Claude Code Design 산출물은 현재 폴더 수정 시각으로 원래 제작 시간을 알 수 없다.
+// 사용자가 제공한 5시간 사용량 윈도우만 비교 기록으로 보존한다.
+const TIME_UNAVAILABLE = new Set(['claude_code_design_opus5']);
 
 const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
 // 본 작업이 끝난 뒤 잠깐 스쳐간 수정(색 조정 등)을 분리하는 간격
@@ -75,6 +79,11 @@ function shouldSkipFile(name) {
     name.endsWith('.log') ||
     (name.startsWith('.env') && name !== '.env.example')
   );
+}
+
+function isProvidedRuntime(project, path) {
+  const rel = relative(join(ROOT, project), path);
+  return project === 'claude_code_design_opus5' && (rel === 'support.js' || rel.startsWith(`_ds${sep}`));
 }
 
 function creationTimeMs(stats) {
@@ -177,7 +186,7 @@ function analyzeProject(name) {
   if (!rawEnd) throw new Error(`No file activity found for project: ${name}`);
 
   const rawDurationMs = rawEnd.timeMs - start.timeMs;
-  const copiedBaseline = hasCopiedBaseline(files);
+  const copiedBaseline = hasCopiedBaseline(files) || TIME_UNAVAILABLE.has(name);
 
   const clusters = [];
   for (const event of eventsAfterStart) {
@@ -211,7 +220,7 @@ function analyzeProject(name) {
     textFiles++;
     textLines += physicalLineCount(text);
     textCharacters += Array.from(text).length;
-    if (CODE_EXTENSIONS.has(extname(file.path).toLowerCase())) {
+    if (CODE_EXTENSIONS.has(extname(file.path).toLowerCase()) && !isProvidedRuntime(name, file.path)) {
       codeFiles++;
       codeLoc += text.split(/\r\n|\n|\r/).filter((line) => line.trim()).length;
     }

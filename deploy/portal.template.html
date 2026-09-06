@@ -724,7 +724,7 @@
       <header class="report-head">
         <p class="kicker">DEVELOPMENT STUDY · <!--ENV_COUNT-->개 플랫폼 · <!--IMPL_COUNT-->개 결과물</p>
         <h1>장기 게임 개발, 모델·플랫폼 비교</h1>
-        <p class="lede">GitHub Copilot · Claude Code · Codex에 같은 장기 명세를 제공한 개발 기록입니다. 비용·사용량·소요 시간과 완성된 화면을 함께 비교합니다. P10 AI·P11 온라인 대전은 요청 범위에서 제외했습니다.</p>
+        <p class="lede">GitHub Copilot · Claude Code · Claude Code Design · Codex의 장기 개발 기록입니다. 비용·사용량·소요 시간과 완성된 화면을 함께 비교합니다. Claude Code Design 결과물은 별도의 디자인 중심 추가 지시를 적용했습니다.</p>
         <div class="headline-meta"><span><strong>GHCP 100 크레딧 = $1</strong> · 사용자 제공 환산 기준</span><span>Claude Code·Codex는 구독 사용 한도 기준</span><span>개발 기록 기준 <!--RECORD_DATE--></span></div>
       </header>
 
@@ -732,10 +732,10 @@
         <p class="cost-disclaimer"><strong>가격 비교 주의:</strong> 구독제는 정확한 토큰당 비용을 측정하기 어렵기 때문에, 크레딧 기반 요금과 비용 구조가 일치하지 않을 수 있습니다. 아래 금액은 동일한 토큰 사용량에 대한 비용 비교가 아닙니다.</p>
         <div class="comparison-heading"><h2 id="comparison-title">전체 모델 비교</h2><p>크레딧 환산액 / 구독료 배분 추정액 · 실제 청구액 아님</p></div>
         <div class="filters">
-          <label>플랫폼<select id="platform-filter"><option value="all">전체 플랫폼</option><option value="copilot">GitHub Copilot</option><option value="claude-code">Claude Code</option><option value="codex">Codex</option></select></label>
+          <label>플랫폼<select id="platform-filter"><option value="all">전체 플랫폼</option><option value="copilot">GitHub Copilot</option><option value="claude-code">Claude Code</option><option value="claude-code-design">Claude Code Design</option><option value="codex">Codex</option></select></label>
           <label>정렬<select id="sort-order"><option value="default">모델·플랫폼 순</option><option value="cost">환산·추정액 낮은 순</option><option value="time">기록된 시간 짧은 순</option></select></label>
           <label class="search">모델 검색<input id="model-search" type="search" placeholder="모델명 또는 폴더명" /></label>
-          <p class="result-count" id="result-count" role="status" aria-live="polite">10 / 10개 결과물</p>
+          <p class="result-count" id="result-count" role="status" aria-live="polite"><!--IMPL_COUNT--> / <!--IMPL_COUNT-->개 결과물</p>
         </div>
         <div class="table-region" role="region" aria-label="전체 모델 비용·사용량 비교표" tabindex="0">
           <table class="comparison-table">
@@ -746,14 +746,14 @@
         </div>
         <p class="empty-state" id="empty-state" hidden>일치하는 결과물이 없습니다.</p>
         <div class="comparison-notes">
-          <p><strong>계산 근거가 다른 금액입니다.</strong> GHCP는 크레딧 ÷ 100, 구독형은 월 $20을 30일·하루 2개 윈도우에 배분한 추정입니다. Sonnet5 약 33%·Opus5 약 65%, Codex는 조건부 1.58개 윈도우를 적용합니다. 실제 사용료·추가 청구액이나 직접적인 가성비 순위가 아닙니다.</p>
-          <p><strong>동일 조건의 성능 순위가 아닙니다.</strong> Sol Fast는 Sol 복제 후 수정·검증했고, Astra는 인접 구현을 참고했습니다. Codex의 시간은 중단·재개 전체 포함 여부가 불명확합니다. 미기록은 0이 아니며, 라인·테스트 수는 품질 점수가 아닙니다.</p>
+          <p><strong>계산 근거가 다른 금액입니다.</strong> GHCP는 크레딧 ÷ 100, 구독형은 월 $20을 30일·하루 2개 윈도우에 배분한 추정입니다. Sonnet5 약 33%·Opus5 약 65%·Code Design Opus5 약 76%, Codex는 조건부 1.58개 윈도우를 적용합니다. 실제 사용료·추가 청구액이나 직접적인 가성비 순위가 아닙니다.</p>
+          <p><strong>동일 조건의 성능 순위가 아닙니다.</strong> Sol Fast는 Sol 복제 후 수정·검증했고, Astra는 인접 구현을 참고했습니다. Claude Code Design 결과물에는 별도 UX·시각 디자인 지시가 포함됩니다. 미기록은 0이 아니며, 라인·테스트 수는 품질 점수가 아닙니다.</p>
         </div>
       </section>
 
       <section class="block" id="costs" aria-labelledby="cost-title">
         <p class="cost-disclaimer"><strong>가격 비교 주의:</strong> 구독제는 정확한 토큰당 비용을 측정하기 어렵기 때문에, 크레딧 기반 요금과 비용 구조가 일치하지 않을 수 있습니다. 구독료 배분 추정액을 토큰당 단가나 실제 사용료로 해석하지 마세요.</p>
-        <div class="block-head"><h2 id="cost-title">비용을 나란히 보면</h2><p>전체 10개 결과물 고정 비교. 실선 막대는 GHCP 크레딧 환산, 사선 막대는 구독료 배분 추정입니다. 구독형 확대 그래프는 축 범위가 다릅니다.</p></div>
+        <div class="block-head"><h2 id="cost-title">비용을 나란히 보면</h2><p>전체 <!--IMPL_COUNT-->개 결과물 비교. 실선 막대는 GHCP 크레딧 환산, 사선 막대는 구독료 배분 추정입니다. 구독형 확대 그래프는 축 범위가 다릅니다.</p></div>
         <p class="allocation-formula"><!--ALLOCATION_SUMMARY--></p>
         <p class="cost-disclaimer">Claude와 GPT 각각 월 $20이라는 사용자 제공 금액을 사용합니다. 주간 한도를 고려해 하루 2개 윈도우를 활용한다고 단순화한 가정이며 공식 리셋 정책이 아닙니다. 실제 활용 횟수가 적으면 윈도우당 배분액은 커집니다. 두 서비스의 한도를 동일 성능이나 토큰량으로 간주하지 않습니다.</p>
         <div class="cost-layout"><!--COST_CHARTS--></div>
@@ -764,7 +764,7 @@
       <section class="block" id="implementations" aria-labelledby="impl-title">
         <div class="block-head">
           <h2 id="impl-title">만들어진 결과물</h2>
-          <p>같은 장기 명세에서 출발한 10개 결과물입니다. 캡처는 <!--SHOT_VIEWPORT--> 기준이며, 테마 전환을 지원하는 앱은 밝은 테마를 사용했습니다. 소개와 검증 지표는 저장된 자료 기준입니다.</p>
+          <p>같은 장기 명세에서 출발한 <!--IMPL_COUNT-->개 결과물입니다. Claude Code Design 결과물에는 디자인 중심 추가 지시가 포함됩니다. 캡처는 <!--SHOT_VIEWPORT--> 기준이며, 소개와 검증 지표는 저장된 자료 기준입니다.</p>
         </div>
         <div class="impl-grid">
           <!--IMPL_CARDS-->

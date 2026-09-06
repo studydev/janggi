@@ -39,7 +39,8 @@ try {
     assert.equal(new URL(href, baseUrl).pathname, `/${app.path}/`);
     const response = await context.request.get(new URL(href, baseUrl).href);
     assert.equal(response.status(), 200, app.dir + ' app HTTP');
-    assert((await response.text()).includes('<div id="root">'), app.dir + ' app document');
+    const documentText = await response.text();
+    assert(documentText.includes(app.dir === 'claude_code_design_opus5' ? '<x-dc>' : '<div id="root">'), app.dir + ' app document');
     const logResponse = await context.request.get(`${baseUrl}/comparison/logs/${app.dir}.txt`);
     assert.equal(logResponse.status(), 200, app.dir + ' log');
     assert((await logResponse.text()).includes('| Model |'));
@@ -47,17 +48,17 @@ try {
     await card.locator('img').evaluate(image => image.decode());
     assert(await card.locator('img').evaluate(image => image.naturalWidth > 0));
   }
-  for (const [platform, count] of [['copilot', 7], ['claude-code', 2], ['codex', 1]]) {
+  for (const [platform, count] of [['copilot', 7], ['claude-code', 2], ['claude-code-design', 1], ['codex', 1]]) {
     await page.locator('#platform-filter').selectOption(platform);
     assert.equal(await page.locator('.comparison-table tbody tr:visible').count(), count);
     assert.equal(await page.locator('.impl:visible').count(), count);
   }
   await page.locator('#platform-filter').selectOption('all');
   await page.locator('#sort-order').selectOption('cost');
-  assert.deepEqual(await rows.evaluateAll(items => items.slice(0, 4).map(item => item.dataset.project)), ['claude_sonnet5', 'claude_opus5', 'codex-astra', 'luna']);
+  assert.deepEqual(await rows.evaluateAll(items => items.slice(0, 4).map(item => item.dataset.project)), ['claude_sonnet5', 'claude_opus5', 'claude_code_design_opus5', 'codex-astra']);
   await page.locator('#sort-order').selectOption('time');
   assert.equal(await rows.first().getAttribute('data-project'), 'sol-fast');
-  assert.deepEqual(await rows.evaluateAll(items => items.slice(-2).map(item => item.dataset.time)), ['', '']);
+  assert.equal(await rows.evaluateAll(items => items.filter(item => !item.dataset.time).length), 3);
   await page.locator('#model-search').fill('sonnet');
   assert.equal(await page.locator('.comparison-table tbody tr:visible').count(), 2);
   await page.locator('#model-search').fill('no-matching-model');
@@ -66,9 +67,9 @@ try {
   await page.locator('#model-search').fill('');
   await page.locator('#sort-order').selectOption('default');
   assert.equal(await page.locator('.cost-chart').count(), 2);
-  assert.equal(await page.locator('.cost-chart').first().locator('.cost-row').count(), 10);
-  assert.equal(await page.locator('.cost-chart').last().locator('.cost-row').count(), 3);
-  assert.equal(await page.locator('.cost-chart').first().locator('.estimated').count(), 3);
+  assert.equal(await page.locator('.cost-chart').first().locator('.cost-row').count(), apps.length);
+  assert.equal(await page.locator('.cost-chart').last().locator('.cost-row').count(), 4);
+  assert.equal(await page.locator('.cost-chart').first().locator('.estimated').count(), 4);
   for (const app of apps) {
     const chartRow = page.locator('.cost-chart').first().locator(`[data-project="${app.dir}"]`);
     const record = records.get(app.dir);
@@ -98,9 +99,9 @@ try {
   await page.locator('#root > *').first().waitFor();
   await page.goBack();
   await page.locator('#comparison').waitFor();
-  assert.equal(await rows.count(), 10);
+  assert.equal(await rows.count(), apps.length);
   assert.deepEqual(errors, []);
-  console.log(`PASS: 10 apps, 3 platforms, costs, filters, sorting, search, screenshots, app/log links, app navigation and 1440/390/320px layouts. Screenshots: ${tmpdir()}/janggi-{portal,gallery}-{1440,390,320}.png`);
+  console.log(`PASS: ${apps.length} apps, 4 platforms, costs, filters, sorting, search, screenshots, app/log links, app navigation and 1440/390/320px layouts. Screenshots: ${tmpdir()}/janggi-{portal,gallery}-{1440,390,320}.png`);
 } finally {
   await browser.close();
 }

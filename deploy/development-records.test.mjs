@@ -6,10 +6,10 @@ import { developmentRecords, formatUsd, subscriptionEstimate } from './developme
 const apps = JSON.parse(readFileSync(new URL('./apps.json', import.meta.url), 'utf8'));
 const data = JSON.parse(readFileSync(new URL('./development-records.json', import.meta.url), 'utf8'));
 
-test('all ten apps and three platforms have development records', () => {
+test('all eleven apps and four platforms have development records', () => {
   const records = developmentRecords(apps, data);
-  assert.equal(records.size, 10);
-  assert.deepEqual([...new Set([...records.values()].map((record) => record.env))].sort(), ['claude-code', 'codex', 'copilot']);
+  assert.equal(records.size, 11);
+  assert.deepEqual([...new Set([...records.values()].map((record) => record.env))].sort(), ['claude-code', 'claude-code-design', 'codex', 'copilot']);
   for (const record of records.values()) {
     assert(readFileSync(new URL(`../_comparison/data/${record.logFile}`, import.meta.url), 'utf8').length > 0);
   }
@@ -23,12 +23,13 @@ test('GHCP credits convert to exact three-decimal USD amounts', () => {
 
 test('subscription usage is not a monetary cost or inferred time', () => {
   const records = developmentRecords(apps, data);
-  for (const name of ['claude_opus5', 'claude_sonnet5', 'codex-astra']) {
+  for (const name of ['claude_opus5', 'claude_sonnet5', 'claude_code_design_opus5', 'codex-astra']) {
     assert.equal(records.get(name).usd, null);
     assert.equal(formatUsd(records.get(name).usd), '직접 환산 불가');
   }
   assert.equal(records.get('claude_sonnet5').usedPercent, 33);
   assert.equal(records.get('claude_opus5').usedPercent, 65);
+  assert.equal(records.get('claude_code_design_opus5').usedPercent, 76);
   assert.equal(records.get('claude_opus5').durationSeconds, null);
   assert.match(records.get('codex-astra').usage, /42% 잔여/);
 });
@@ -46,6 +47,7 @@ test('subscription allocation uses 30 days and two five-hour windows per day', (
   const records = developmentRecords(apps, data);
   assert.equal(formatUsd(records.get('claude_sonnet5').estimate.usd), '$0.110');
   assert.equal(formatUsd(records.get('claude_opus5').estimate.usd), '$0.217');
+  assert.equal(formatUsd(records.get('claude_code_design_opus5').estimate.usd), '$0.253');
   assert.equal(formatUsd(records.get('codex-astra').estimate.usd), '$0.527');
   assert.equal(records.get('codex-astra').estimate.windowEquivalent, 1.58);
   assert.equal(records.get('codex-astra').estimate.conditional, true);

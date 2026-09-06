@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T06:45:11.858Z",
+  "generatedAt": "2026-09-06T12:35:53.926Z",
   "viewport": {
     "width": 1200,
     "height": 750
@@ -31,6 +31,20 @@
         "dark": "rgb(28, 24, 21)"
       },
       "bytes": 78107,
+      "error": null
+    },
+    {
+      "dir": "claude_code_design_opus5",
+      "path": "cdesign-opus5",
+      "title": "",
+      "startedVia": "대국 시작",
+      "file": "claude_code_design_opus5.jpg",
+      "themeAware": false,
+      "background": {
+        "light": "rgb(255, 255, 255)",
+        "dark": "rgb(255, 255, 255)"
+      },
+      "bytes": 85532,
       "error": null
     },
     {

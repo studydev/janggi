@@ -18,6 +18,7 @@ const FOLDERS = [
   'sonnet5',
   'claude_opus5',
   'claude_sonnet5',
+  'claude_code_design_opus5',
 ];
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', 'coverage', '.vite', 'build']);
 const CODE_EXT = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.css', '.html']);
@@ -35,7 +36,9 @@ function walk(dir, out = []) {
 
 function layerOf(rel) {
   const parts = rel.split(sep);
-  if (/\.(test|spec)\.[tj]sx?$/.test(rel) || parts.includes('__tests__') || parts.includes('tests')) return 'test';
+  if (rel === 'janggi-engine.js') return 'engine';
+  if (rel === 'Janggi.dc.html') return 'ui';
+  if (/\.(test|spec)\.(?:[tj]sx?|mjs|cjs)$/.test(rel) || parts.includes('__tests__') || parts.includes('tests')) return 'test';
   if (parts[0] === 'scripts') return 'scripts';
   if (parts[0] !== 'src') return 'config';
   const sub = parts[1] ?? '';
@@ -46,12 +49,16 @@ function layerOf(rel) {
   return 'app';
 }
 
+function isProvidedRuntime(folder, rel) {
+  return folder === 'claude_code_design_opus5' && (rel === 'support.js' || rel.startsWith(`_ds${sep}`));
+}
+
 const results = [];
 for (const folder of FOLDERS) {
   const dir = join(ROOT, folder);
   if (!existsSync(dir)) continue;
 
-  const files = walk(dir).filter((f) => CODE_EXT.has(extname(f)));
+  const files = walk(dir).filter((f) => CODE_EXT.has(extname(f)) && !isProvidedRuntime(folder, relative(dir, f)));
   const layers = {};
   let totalLoc = 0;
   let totalFiles = 0;
@@ -90,10 +97,12 @@ for (const folder of FOLDERS) {
       serviceWorker: has('public/sw.js') || has('public/service-worker.js'),
       viteConfig: has('vite.config.ts'),
     },
-    srcTree: readdirSync(join(dir, 'src'), { withFileTypes: true })
-      .filter((d) => d.isDirectory())
-      .map((d) => d.name)
-      .sort(),
+    srcTree: has('src')
+      ? readdirSync(join(dir, 'src'), { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name)
+        .sort()
+      : [],
   });
 }
 

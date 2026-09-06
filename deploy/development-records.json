@@ -16,6 +16,7 @@
     { "dir": "claude_opus5", "env": "claude-code", "logFile": "make-claude-opus5.md", "plan": "Pro", "durationSeconds": null, "steps": null, "windowHours": 5, "usedPercent": 65, "usage": "5시간 윈도우 약 65% 소진", "note": "사용자 관측값. USD는 월 구독료 배분 가정이며 실제 사용료가 아님." },
     { "dir": "sonnet5", "env": "copilot", "logFile": "make-ghcp-sonnet5.md", "credits": 1014.6, "durationSeconds": 3774, "steps": 41, "note": "신규 구현 세션 기록." },
     { "dir": "claude_sonnet5", "env": "claude-code", "logFile": "make-claude-sonnet5.md", "plan": "Pro", "durationSeconds": null, "steps": null, "windowHours": 5, "usedPercent": 33, "usage": "5시간 윈도우 약 33% 소진", "note": "사용자 관측값. USD는 월 구독료 배분 가정이며 실제 사용료가 아님." },
+    { "dir": "claude_code_design_opus5", "env": "claude-code-design", "logFile": "make-claude-code-design-opus5.md", "plan": "Pro", "durationSeconds": null, "steps": null, "windowHours": 5, "usedPercent": 76, "usage": "5시간 윈도우 약 76% 소진", "note": "사용자 관측값. 기본 명세에 디자인 중심 추가 지시를 적용한 결과물이며, UX·시각 품질은 사용자 평가에서 가장 높게 평가됨." },
     { "dir": "sol-fast", "env": "copilot", "logFile": "make-ghcp-sol-fast.md", "credits": 485.6, "durationSeconds": 719, "steps": 83, "note": "기존 Sol을 복제한 뒤 수정·검증. 신규 개발 시간과 동일 조건이 아님." },
     { "dir": "sol", "env": "copilot", "logFile": "make-ghcp-sol.md", "credits": 498.9, "durationSeconds": 3018, "steps": 236, "note": "신규 구현 세션 기록." },
     { "dir": "terra", "env": "copilot", "logFile": "make-ghcp-terra.md", "credits": 415.2, "durationSeconds": 2411, "steps": 179, "note": "신규 구현 세션 기록." },

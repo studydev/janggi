@@ -16,6 +16,14 @@
     "desc": "순수 TypeScript 엔진 + React·SVG 보드. 기보 저장/재생과 오프라인(PWA)을 지원한다."
   },
   {
+    "dir": "claude_code_design_opus5",
+    "path": "cdesign-opus5",
+    "title": "Claude Code Design · Opus 5",
+    "env": "claude-code-design",
+    "model": "Claude Opus 5",
+    "desc": "디자인 지시를 중심으로 만든 정적 장기. 3D 장기알·배치 미리보기·AI 전적·포획 및 장군 효과를 제공한다."
+  },
+  {
     "dir": "luna",
     "path": "luna",
     "title": "Luna",

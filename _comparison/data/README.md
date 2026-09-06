@@ -26,12 +26,14 @@
 | [codex-astra](make-codex-astra.md) | Codex / GPT-6 Astra (Ultra) | ChatGPT Pro | 24분 37초 (원문 기록) | 1회 소진 후 후속 연속 요청 시 42% 잔여 | 51 | 5,655 | 3,010 |
 | [claude_sonnet5](make-claude-sonnet5.md) | Claude Code / Claude Sonnet5 | Pro | 미기록 | 5시간 윈도우 약 33% 소진 | 69 | 10,985 | 4,772 |
 | [claude_opus5](make-claude-opus5.md) | Claude Code / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 65% 소진 | 69 | 10,259 | 5,716 |
+| [claude_code_design_opus5](make-claude-code-design-opus5.md) | Claude Code Design / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 76% 소진 | 14 | 3,955 | 1,356 |
 
 ## 비교 시 주의사항
 
 - 사용자 요청에 따라 월 $20·30일·하루 2개 윈도우 가정의 [비용 환산·구독료 배분 추정](cost-estimates.md)을 별도 제공한다. 실제 청구액이나 직접적인 비용 효율 비교가 아니다.
 - 크레딧과 사용량 윈도우 소진율은 단위와 한도 체계가 다르므로 직접 비교하거나 합산하지 않는다. 이 자료만으로 도구 간 비용 순위나 토큰당 효율을 계산할 수 없다.
 - Claude Code의 5시간은 개발 시간이 아닌 사용량 집계 구간이다. 약 33%와 약 65%를 시간으로 환산하지 않는다. 모델별 한도·기존 사용·동시 사용 조건이 확인되지 않아 두 비율만으로 상대 비용을 단정할 수도 없다.
+- Claude Code Design 결과물의 약 76%도 개발 시간이 아닌 사용량 집계 구간이다. 기본 장기 명세에 별도의 UX·시각 디자인 지시가 포함되어 있어, 기존 P0~P12 심층 분석과 동일한 조건의 기능 순위로 해석하지 않는다.
 - Codex는 한도 소진·중단·재설정·재개가 기록되어 있다. 42% 잔여를 전체 작업 소진율로 해석하지 않으며, 24분 37초가 전체 재개 구간을 포함하는지도 확인되지 않았다.
 - `sol-fast`는 기존 `sol`을 복제한 뒤 수정·검증한 작업이다. 다른 프로젝트의 신규 구현 시간과 동일 조건이 아니다. `astra`도 인접 엔진·테스트를 참고한 기록이 있어 완전 독립 구현 비교로 단정하지 않는다.
 - 파일 수·라인 수는 산출물 규모이며 품질·규칙 정확도·요구사항 충족도의 척도가 아니다. 테스트·문서·설정·잠금 파일·자산 포함 여부에 따라 값이 달라진다.
@@ -43,10 +45,10 @@
 
 - Files: 프로젝트 루트 아래 재귀 파일 수. 바이너리 및 심볼릭 링크도 포함한다.
 - Lines: 인식된 텍스트 파일의 빈 줄을 포함한 물리적 전체 라인 수. 코드뿐 아니라 문서·설정·잠금 파일·텍스트 자산도 포함하며, 바이너리와 심볼릭 링크의 내용은 제외한다.
-- 코드 비공백 LOC: `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.css`, `.html`의 공백이 아닌 라인 수. 테스트와 주석도 포함하므로 제품 소스만의 라인 수가 아니다.
+- 코드 비공백 LOC: `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.css`, `.html`의 공백이 아닌 라인 수. 테스트와 주석도 포함하므로 제품 소스만의 라인 수가 아니다. Claude Code Design 결과물은 외부 제공 런타임(`support.js`)과 디자인 시스템 번들을 이 수치에서 제외한다.
 - 텍스트 확장자: `.cjs`, `.css`, `.csv`, `.gitignore`, `.html`, `.js`, `.json`, `.jsx`, `.md`, `.mjs`, `.scss`, `.svg`, `.toml`, `.ts`, `.tsx`, `.txt`, `.webmanifest`, `.xml`, `.yaml`, `.yml`. `Dockerfile`, `LICENSE`, `NOTICE`도 포함한다.
 - 제외 폴더: `.git`, `.idea`, `.vite`, `build`, `coverage`, `dist`, `dist-ssr`, `logs`, `node_modules`, `playwright-report`, `test-results`.
 - 제외 파일: `.DS_Store`, `*.tsbuildinfo`, `*.local`, `*.log`, `.env.example`을 제외한 `.env*`.
-- 10개 프로젝트 합계: **596개 파일, 텍스트 전체 81,334줄, 코드 비공백 37,126줄**.
+- 11개 프로젝트 합계: **610개 파일, 텍스트 전체 85,291줄, 코드 비공백 38,484줄**.
 
 규모 보고서와 JSON 집계 자료를 다시 생성하는 명령은 저장소 루트에서 `npm --prefix _comparison run stats`이다. 이 명령은 `make-*.md` 요약 표를 자동으로 갱신하지 않는다.
