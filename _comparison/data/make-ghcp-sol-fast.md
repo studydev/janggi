@@ -1,37 +1,40 @@
-Model: GPT-5.6 Sol Fast (MAX 1M)
-Usage: 485.6 credit
-Time: 11m 59s
-Steps: 83
-files: 
-lines: 
+# GitHub Copilot 개발 기록: Sol Fast
+
+| 항목 | 값 |
+| --- | --- |
+| Model | GPT-5.6 Sol Fast (MAX 1M) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [sol-fast](../../sol-fast/) |
+| Usage | 485.6 크레딧 |
+| Time | 11분 59초 |
+| Steps | 83 |
+| Files | 61개 |
+| Lines | 8,546줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 4,071줄 |
+| 규모 측정일 | 2026-09-06 |
+
+## 해석 및 측정 기준
+
+- 이 작업은 기존 `sol` 프로젝트를 복제한 뒤 식별자 변경, 수정 및 검증을 수행했다. 처음부터 구현한 프로젝트와 개발 시간·생산성을 직접 비교하지 않는다.
+- 시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이며, 복제된 파일도 포함한다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 할 일 목록 업데이트됨
 
 `sol-fast`를 새 Vite/React 프로젝트로 구성하겠습니다. 먼저 프로젝트 생성 지침과 기존 `sol`의 규칙·엔진 구조를 짧게 확인해, P0~P9 및 P12를 한 번에 검증 가능한 범위로 잡겠습니다.
-
-Read 
-
-Read 
-
-Read 
-
-Read skill `project-setup-info-local`
+skill `project-setup-info-local`
 
 기존 `sol`은 이미 같은 명세의 React 18/Vite 구성을 갖고 있습니다. 가설은 이 구현을 새 프로젝트의 기준선으로 복제한 뒤, 테스트와 기능 목록으로 누락만 보완하는 것이 가장 빠르고 안전하다는 것이며, 먼저 파일 구성과 실제 검증 범위를 확인하겠습니다.
 
 Searched for files matching `janggi` · `sol/src/**/*.{ts,tsx,css}`, 40 matches
 
-Searched for files matching `janggi` · `sol/scripts/**/*`, 1 match
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
-확인 결과 `sol`은 요청 범위(P0~P9, P12)를 이미 엔진 테스트·랜덤 대국 검증·PWA까지 포함해 구현한 기준선입니다. 이제 생성물과 의존성 폴더를 제외해 `sol-fast`로 독립 복제한 다음, 곧바로 새 폴더 자체의 테스트를 돌려 복제가 유효한지 판별하겠습니다.
+Searched for files matching `janggi` · `sol/scripts/**/*`, 1 match확인 결과 `sol`은 요청 범위(P0~P9, P12)를 이미 엔진 테스트·랜덤 대국 검증·PWA까지 포함해 구현한 기준선입니다. 이제 생성물과 의존성 폴더를 제외해 `sol-fast`로 독립 복제한 다음, 곧바로 새 폴더 자체의 테스트를 돌려 복제가 유효한지 판별하겠습니다.
 
 Execution complete: sol-fast 프로젝트 생성
 
@@ -43,24 +46,10 @@ Execution complete: 복제 프로젝트 테스트
 
 Ran terminal command:  cd /Volumes/nvme1tb/Dev/janggi/sol-fast && npm ci && npm run test:run
 
-엔진 기준선은 55개 테스트를 모두 통과했습니다. 다음으로 새 프로젝트의 식별자와 배포 메타데이터만 `sol-fast`에 맞춰 분리하고, 이후 빌드·린트·1000판 랜덤 검증으로 전체 범위를 확인하겠습니다.
-
-Read 
-
-Read 
-
-Read , lines 1 to 35
-
-Read 
-
-Read 
-
+엔진 기준선은 55개 테스트를 모두 통과했습니다. 다음으로 새 프로젝트의 식별자와 배포 메타데이터만 `sol-fast`에 맞춰 분리하고, 이후 빌드·린트·1000판 랜덤 검증으로 전체 범위를 확인하겠습니다., lines 1 to 35
 새 폴더 안의 npm 식별자만 원본 `sol`을 가리키고 있어, 이를 `sol-fast`로 바꾸고 README가 새 프로젝트임을 드러내도록 최소 수정하겠습니다. 게임 규칙과 UI 동작은 검증된 기준선을 그대로 유지합니다.
 
-Generating patch (17 lines) in , , 
-
-
-```
+Generating patch (17 lines) in , , ```
 
 ```
 
@@ -70,10 +59,7 @@ Generating patch (17 lines) in , ,
 
 ```
 
-```
-
-
-할 일 4개 생성함
+```할 일 4개 생성함
 
 Execution complete: 식별자 변경 재검증
 
@@ -94,40 +80,23 @@ Ran terminal command:  cd /Volumes/nvme1tb/Dev/janggi/sol-fast && npm run lint
 두 경고 모두 `GameContext.tsx`에서 컴포넌트와 상태 헬퍼를 함께 내보내는 구조 때문입니다. 해당 export의 실제 사용처만 확인해, 공개할 필요가 없다면 내부화하는 가장 작은 수정으로 정리하겠습니다.
 
 Searched for regex `initialUiState|gameReducer` (`**/sol-fast/src/**`), 2 results
-
-Read 
-
-Read 
-
 Searched for regex `allowExportNames|only-export-components` (`**/sol-fast/node_modules/oxlint/**`), 7 results
 
 `gameReducer`는 외부 사용이 전혀 없어 내부 함수로 줄이고, 같은 모듈에서 의도적으로 공개하는 `useGame` 훅만 Fast Refresh 허용 목록에 명시하겠습니다. 기능 변경 없이 경고 원인만 정확히 제거하는 수정입니다.
 
-Generating patch (15 lines) in , 
-
-
-```
+Generating patch (15 lines) in , ```
 
 ```
 
 ```
 
-```
-
-
-Execution complete: 린트 수정 확인
+```Execution complete: 린트 수정 확인
 
 Ran terminal command:  npm run lint
 
 완료: *Create sol-fast folder and project*(1/4)
 
-린트가 오류·경고 0건으로 정리됐습니다. 이제 실제 브라우저에서 설정 화면과 대국 시작, 반응형 보드, 핵심 조작을 확인하기 위해 개발 서버를 띄우고 데스크톱·모바일 화면을 점검하겠습니다.
-
-
-
-
-
-Ran terminal command:  npm run dev -- --host 127.0.0.1 --port 4174 --strictPort
+린트가 오류·경고 0건으로 정리됐습니다. 이제 실제 브라우저에서 설정 화면과 대국 시작, 반응형 보드, 핵심 조작을 확인하기 위해 개발 서버를 띄우고 데스크톱·모바일 화면을 점검하겠습니다.Ran terminal command:  npm run dev -- --host 127.0.0.1 --port 4174 --strictPort
 
 첫 서버 명령에서 터미널이 `cd` 부분을 생략해 저장소 루트에서 실행되는 바람에 `package.json`을 찾지 못했습니다. 같은 터미널을 `sol-fast`로 이동시켜 서버 명령을 다시 실행하겠습니다.
 
@@ -151,11 +120,6 @@ Browser action failed
 대국 화면은 정상 진입했고 32개 기물의 한글 `aria-label`, 점수, 기보, 패스·무르기·무승부·기권·뒤집기 컨트롤이 모두 노출됩니다. 한 접근성 검사는 제목을 `heading`으로 잘못 가정해 타임아웃됐으므로, 실제 구조에 맞춰 보드 치수·가로 넘침과 착수 동작을 직접 검사하겠습니다.
 
 Searched for regex `legal|move-target|selected|board-shell|janggi-board|piece` (`**/sol-fast/src/styles/**`), 22 results
-
-Read 
-
-Read 
-
 Playwright 코드 실행함
 Completed with input: const board = page.getByRole('application', { name: '장기판' }); const box = await board.boundingBox(); if (!box) throw new Error('장기판 크기를 계산하지 못했습니다.'); await page.getByRole('img', { name: '초 졸, 7행 1열' }).click(); const targets = await page.locator('.move-target').count(); const targetX = box.x + box.width * (40 / 720); const targetY = box.y + box.height * (440 / 800); await page.mouse.click(targetX, targetY); return { targets, turn: await page.locator('.turn-banner strong').textContent(), moves: await page.locator('.move-list li').count(), undoDisabled: await page.getByRole('button', { name: '무르기' }).isDisabled(), board: { width: Math.round(box.width), height: Math.round(box.height) }, overflow: await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth) };
 
@@ -187,24 +151,12 @@ Completed with input: {
 
 Playwright 코드 실행함
 Completed with input: return await page.evaluate(() => Array.from(document.querySelectorAll('body *')).map((element) => { const rect = element.getBoundingClientRect(); return { tag: element.tagName.toLowerCase(), className: typeof element.className === 'string' ? element.className : element.getAttribute('class') || '', left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width), scrollWidth: element.scrollWidth }; }).filter((item) => item.right > document.documentElement.clientWidth + 1 || item.left < -1 || item.scrollWidth > item.width + 1).sort((a, b) => Math.max(b.right - 390, b.scrollWidth - b.width) - Math.max(a.right - 390, a.scrollWidth - a.width)).slice(0, 15));
+, lines 560 to 780
+, lines 980 to 1180원인은 반응형 CSS 그리드가 아니라 SVG 기물 좌표였습니다. 기물 `<g>`가 `translate(...px)` CSS 픽셀로 이동해 `viewBox` 축소와 함께 스케일되지 않았고, `overflow: visible` 때문에 보드 밖으로 그려졌습니다. 좌표를 SVG 사용자 단위의 `transform` 속성으로 바꿔 데스크톱·모바일 모두 같은 비율로 축소되게 하겠습니다.
 
-Read , lines 560 to 780
+Generating patch (12 lines) in ```
 
-Read , lines 980 to 1180
-
-Read 
-
-원인은 반응형 CSS 그리드가 아니라 SVG 기물 좌표였습니다. 기물 `<g>`가 `translate(...px)` CSS 픽셀로 이동해 `viewBox` 축소와 함께 스케일되지 않았고, `overflow: visible` 때문에 보드 밖으로 그려졌습니다. 좌표를 SVG 사용자 단위의 `transform` 속성으로 바꿔 데스크톱·모바일 모두 같은 비율로 축소되게 하겠습니다.
-
-Generating patch (12 lines) in 
-
-
-```
-
-```
-
-
-Playwright 코드 실행함
+```Playwright 코드 실행함
 Completed with input: await page.waitForTimeout(300); const board = page.getByRole('application', { name: '장기판' }); const box = await board.boundingBox(); const pieces = await page.locator('.piece').evaluateAll((items) => items.map((item) => { const rect = item.getBoundingClientRect(); return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom }; })); if (!box) throw new Error('장기판 크기를 계산하지 못했습니다.'); return { board: { left: Math.round(box.x), right: Math.round(box.x + box.width), width: Math.round(box.width) }, pieceBounds: { left: Math.round(Math.min(...pieces.map((item) => item.left))), right: Math.round(Math.max(...pieces.map((item) => item.right))) }, overflow: await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), turn: await page.locator('.turn-banner strong').textContent() };
 
 SVG 좌표 수정 후 390px 모바일 대국 화면의 스크린샷 캡처됨
@@ -230,185 +182,70 @@ Completed with input: const inspect = async (deviceWidth) => { await page.setVie
 
 SVG 수정 후 실제 CSS 390px와 최소 320px 모두 문서 폭이 뷰포트와 정확히 일치하고, 기물도 보드 안에 들어오며 터치 버튼 높이는 46px입니다. 이제 명세 P0~P9·P12를 파일별로 한 차례 대조해 빠진 기능이나 규칙 분기가 없는지 독립적으로 점검한 뒤 최종 검증하겠습니다.
 
-명세 구현 누락 점검
+명세 구현 누락 점검, lines 1 to 200
+, lines 1 to 100, lines 1 to 120
 
-Read 
+, lines 1 to 100
+, lines 1 to 80
+, lines 1 to 100
+, lines 1 to 120, lines 100 to 150
 
-Read 
+, lines 60 to 80
+, lines 1 to 150
+, lines 1 to 100
 
-Read , lines 1 to 200
+No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
+If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
+Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
+, lines 80 to 105
 
-Read 
+, lines 1 to 30
+, lines 150 to 231
 
-Read 
+, lines 100 to 150No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
+If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
+Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
+, lines 150 to 150
+, lines 50 to 113, lines 1 to 100
+No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
+If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
+Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
+, lines 100 to 300
+, lines 60 to 200
 
-Read 
-
-Read 
-
-Read 
-
-Read 
-
-Read , lines 1 to 100
-
-Read 
-
-Read 
-
-Read , lines 1 to 120
-
-Read 
-
-Read , lines 1 to 100
-
-Read , lines 1 to 80
-
-Read , lines 1 to 100
-
-Read , lines 1 to 120
-
-Read 
-
-Read 
-
-Read , lines 100 to 150
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
-Read , lines 60 to 80
-
-Read , lines 1 to 150
-
-Read , lines 1 to 100
+, lines 200 to 204
 
 No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
 
-Read , lines 80 to 105
-
-Read 
-
-Read , lines 1 to 30
-
-Read , lines 150 to 231
-
-Read 
-
-Read , lines 100 to 150
-
-Read 
+, lines 160 to 180
 
 No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 150 to 150
-
-Read , lines 50 to 113
-
-Read 
-
-Read 
-
-Read , lines 1 to 100
-
-Read 
-
-Read 
-
-No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
-If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
-Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 100 to 300
-
-Read , lines 60 to 200
-
-Read 
-
-Read , lines 200 to 204
-
-No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
-If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
-Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read 
-
-Read , lines 160 to 180
-
-No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
-If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
-Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 50 to 204
-
-Read 
-
-Read 
-
+, lines 50 to 204
 No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
 
 No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
+Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
+If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
+, lines 150 to 200
 
-Read 
+, lines 100 to 200
 
 No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 150 to 200
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
-Read , lines 100 to 200
-
-No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
+, lines 300 to 400
+, lines 400 to 500No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
 If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
 Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 300 to 400
-
-Read , lines 400 to 500
-
-Read 
-
-No matches found. Your search pattern might be excluded completely by either the search.exclude settings or .*ignore files.
-If you believe that it should have results, you can check into the .*ignore files and the exclude setting (here are some excluded patterns for reference:[**/node_modules,**/bower_components,**/*.code-search]).
-Then if you want to include those files you can call the tool again by setting "includeIgnoredFiles" to true.
-
-Read , lines 500 to 600
-
-Read 
-
-명세 대조 결과 엔진·기보·PWA·접근성의 핵심 요구는 모두 구현돼 있습니다. 자동 점검에서 반응형/색맹 CSS 누락 가능성이 제기됐지만 실제 파일에는 해당 미디어 쿼리와 팔레트가 존재하고 브라우저 수치도 이를 확인했으므로, 남은 P9 복구 흐름과 서비스 워커 등록만 실제 동작으로 확인하겠습니다.
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
-기보 역직렬화는 단순 shape 검사에 그치지 않고, 전체 수순을 엔진으로 재생한 뒤 최종 보드 해시와 차례까지 대조합니다. 현재 한 수 둔 상태를 새로고침해 “진행 중인 대국” 안내와 이어두기 복원이 실제로 동작하는지 확인하겠습니다.
+, lines 500 to 600명세 대조 결과 엔진·기보·PWA·접근성의 핵심 요구는 모두 구현돼 있습니다. 자동 점검에서 반응형/색맹 CSS 누락 가능성이 제기됐지만 실제 파일에는 해당 미디어 쿼리와 팔레트가 존재하고 브라우저 수치도 이를 확인했으므로, 남은 P9 복구 흐름과 서비스 워커 등록만 실제 동작으로 확인하겠습니다.기보 역직렬화는 단순 shape 검사에 그치지 않고, 전체 수순을 엔진으로 재생한 뒤 최종 보드 해시와 차례까지 대조합니다. 현재 한 수 둔 상태를 새로고침해 “진행 중인 대국” 안내와 이어두기 복원이 실제로 동작하는지 확인하겠습니다.
 
 Playwright 코드 실행함
 Completed with input: await page.reload(); const dialog = page.getByRole('dialog', { name: '진행 중인 대국' }); await dialog.waitFor(); const savedText = await dialog.locator('p').textContent(); await page.getByRole('button', { name: '이어두기' }).click(); await page.getByRole('application', { name: '장기판' }).waitFor(); return { savedText, turn: await page.locator('.turn-banner strong').textContent(), notation: await page.locator('.move-list em').textContent(), moveCount: await page.locator('.move-list li').count() };
@@ -424,10 +261,7 @@ Completed with input: const resume = page.getByRole('button', { name: '이어두
 
 Searched for regex `sol-janggi|janggi-sol` (`**/sol-fast/**`), 7 results
 
-Generating patch (22 lines) in , , 
-
-
-```
+Generating patch (22 lines) in , , ```
 
 ```
 
@@ -437,10 +271,7 @@ Generating patch (22 lines) in , ,
 
 ```
 
-```
-
-
-Execution complete: 기보 식별자 검증
+```Execution complete: 기보 식별자 검증
 
 Ran terminal command:  npx vitest run src/engine/game-record.test.ts
 
@@ -495,3 +326,6 @@ Completed with input:  cd /Volumes/nvme1tb/Dev/janggi && printf '%s\n' '=== git 
 - 프로덕션 미리보기: http://127.0.0.1:4175/
 
 변경 사항 적용함.
+~~~~
+
+</details>

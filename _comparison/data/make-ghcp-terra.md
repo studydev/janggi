@@ -1,19 +1,30 @@
-Model: GPT-5.6 terra (MAX 1M)
-Usage: 415.2 credit
-Time: 40m 11s
-Steps: 179
-files: 
-lines: 
+# GitHub Copilot 개발 기록: Terra
+
+| 항목 | 값 |
+| --- | --- |
+| Model | GPT-5.6 terra (MAX 1M) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [terra](../../terra/) |
+| Usage | 415.2 크레딧 |
+| Time | 40분 11초 |
+| Steps | 179 |
+| Files | 52개 |
+| Lines | 8,480줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 3,934줄 |
+| 규모 측정일 | 2026-09-06 |
+
+시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이며, 개발 당시 편집량이 아니다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 할 일 목록 업데이트됨
 
-`terra`를 독립적인 React/Vite 장기 게임으로 구성하겠습니다. 먼저 폴더 상태와 프로젝트 생성 규칙을 확인한 뒤, 문서의 P0-P9·P12 범위에서 엔진과 UI를 분리해 구현하겠습니다.
-
-Read 
-
-Read 
-
-Read skill `project-setup-info-local`
+`terra`를 독립적인 React/Vite 장기 게임으로 구성하겠습니다. 먼저 폴더 상태와 프로젝트 생성 규칙을 확인한 뒤, 문서의 P0-P9·P12 범위에서 엔진과 UI를 분리해 구현하겠습니다.skill `project-setup-info-local`
 
 `terra`는 비어 있고, 문서가 요구하는 스택도 React/Vite/TypeScript로 명확합니다. 초기 가설은 표준 Vite 기반에 순수 엔진 계층을 먼저 두면 UI가 규칙을 우회하지 않게 만들 수 있다는 것이며, 우선 스캐폴드와 의존성 설치가 정상 완료되는지 확인하겠습니다.
 
@@ -32,51 +43,14 @@ Vite 생성기가 최초 실행용 패키지 설치 확인을 요청했습니다
 터미널 출력 확인됨
 
 기본 Vite 프로젝트와 ESLint 설정은 생성되었고, 현재 의존성 설치가 마무리되는 중입니다. 그 다음에는 엔진의 좌표·기물·합법수 판정을 먼저 구현하고, 이를 소비하는 SVG 보드와 대국 화면을 연결하겠습니다.
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
 스캐폴드가 React 19를 선택했지만, 첨부 명세의 고정 전제는 React 18입니다. 이후 의존성을 그 버전에 맞춰 정리하고, `Vitest` 테스트로 엔진 규칙을 고정하겠습니다.
 
 터미널 출력 확인됨
 
 구현 경로를 확정했습니다. `App.tsx`를 화면 조립 지점으로 두고, `src/engine`이 모든 수 생성·장군 판정·결과를 소유하며 UI는 합법수 목록만 받아 표시하게 하겠습니다. 첫 검증은 엔진의 초기 배치 테스트와 TypeScript 빌드입니다.
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
 이제 프로젝트 헌법과 규칙 원문을 고정하고, 불변 보드 상태·좌표 변환·초기 배치를 추가하겠습니다. 이 단계는 UI나 이동 판정을 넣지 않으며, 바로 TypeScript 진단으로 좌표/타입 기반이 유효한지 확인합니다.
 
 Generating patch (324 lines) in , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , no problems found
 
 할 일 5개 생성함
@@ -88,53 +62,16 @@ Checked , , no problems found
 차 이동은 가로·세로 직진과 궁성 대각선이라는 독립 규칙이라 가장 먼저 고정하기 좋습니다. 빈 보드, 아군 차단, 적 포획, 궁성 대각선 통과·차단을 테스트로 추가하고 그 조건만 만족하는 생성기를 붙이겠습니다.
 
 Generating patch (112 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 차 생성기는 타입 검사를 통과했습니다. 포는 장기에서 가장 오류가 잦은 규칙이므로, 포대 수와 포-포 상호작용을 별도 테스트로 고정한 뒤 구현하겠습니다.
 
 Generating patch (140 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 포 생성기도 타입 검사를 통과했습니다. 이어서 마의 다리 막힘을 별도 규칙으로 고정합니다. 첫 직선 칸이 막히면 해당 방향의 두 대각 착수가 모두 사라지는지 확인합니다.
 
 Generating patch (86 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 시작 중: *Add board and state management*(3/5)
@@ -142,49 +79,16 @@ Checked , no problems found
 마 생성기는 정상적으로 타입 검사됐습니다. 상은 첫 직선과 두 번째 경유 지점 모두 막힘을 검사해야 하므로, 각 차단 위치를 따로 검증하는 테스트와 함께 추가하겠습니다.
 
 Generating patch (102 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 상 생성기도 타입 검사를 통과했습니다. 궁과 사는 같은 궁성 경로 제약을 공유하므로, 경계 이탈 금지와 대각선 위의 한 칸 이동을 동시에 검증하는 작은 공통 구현으로 추가하겠습니다.
 
 Generating patch (101 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 궁·사 이동도 타입 검사를 통과했습니다. 마지막 기본 기물인 졸/병은 처음부터 좌우 이동이 가능하고 상대 궁성에서만 전진 대각선이 열리는 장기 고유 규칙을 테스트로 확인하겠습니다.
 
 Generating patch (94 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 할 일 1개 추가됨
@@ -192,37 +96,11 @@ Checked , no problems found
 모든 기물의 의사이동 생성기가 타입 검사를 통과했습니다. 이제 이 생성기들을 한곳에서 조합해 장군 판정과 자기 궁 노출 필터를 만들고, 포획·패스·되돌리기의 상태 불변성도 엔진에서 처리하겠습니다.
 
 Generating patch (268 lines) in , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , no problems found
 
 합법수 필터와 상태 전환도 타입 검사를 통과했습니다. 다음 단계에서는 외통·빅장·반복 국면·점수 승부를 결과 모듈로 분리해, 화면이 승패 규칙을 직접 판단하지 않도록 하겠습니다.
 
 Generating patch (162 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , no problems found
 
 결과 모듈까지 타입 검사를 통과했습니다. 이제 작성한 Vitest 규칙 테스트를 실제로 실행해야 하므로, 보류 중인 의존성 설치 상태를 확인하고 테스트 도구를 연결하겠습니다.
@@ -236,13 +114,6 @@ Checked , no problems found
 패키지 설정을 React 18과 Vitest 실행 스크립트로 맞추겠습니다. 설치가 끝나면 방금 작성한 차·포·마·상·궁/사·졸/병·합법수·결과 테스트를 실제 실행해 규칙 엔진을 검증합니다.
 
 Generating patch (31 lines) in 
-
-
-```
-
-```
-
-
 Execution complete: 테스트 의존성 설치
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm install; $installExit = $LASTEXITCODE; npm test; $testExit = $LASTEXITCODE; Write-Output "INSTALL_EXIT=$installExit"; Write-Output "TEST_EXIT=$testExit"; exit $testExit
@@ -250,17 +121,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm install; $i
 기물과 승패 규칙의 실제 테스트가 33개 모두 통과했습니다. P6 범위로 초기 국면 perft와 결정적 랜덤 대국 검증기를 추가해, 궁 포획·궁성 이탈·포 규칙·졸 후진 같은 회귀를 자동으로 잡도록 하겠습니다.
 
 Generating patch (164 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Execution complete: 엔진 검증 실행
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm test -- src/engine/verification.test.ts
@@ -269,17 +129,6 @@ Completed with input: Set-Location 'C:\Work\Azure\janggi\terra'; npm test -- src
 검증기가 두 가지를 정확히 드러냈습니다. 초기 perft 기준값은 `31 / 961 / 30,506`이고, 1,000국 시뮬레이터에는 `createInitialState` import 누락이 있습니다. 이 두 항목만 보정한 뒤 동일한 엔진 검증을 다시 실행하겠습니다.
 
 Generating patch (10 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 시작 중: *Connect SVG board and game screen*(4/7)
 
 Execution complete: 엔진 검증 재실행
@@ -297,21 +146,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm test -- src
 검증 루프를 엔진 API 관점에서 정리합니다. 이미 계산한 합법수는 재계산하지 않고 적용하며, 각 수의 불변식 검사는 그 목록을 재사용해 1,000국 검증이 현실적인 시간 안에 끝나게 하겠습니다.
 
 Generating patch (70 lines) in , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Execution complete: 효율화된 엔진 검증
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.Diagnostics.Stopwatch]::StartNew(); npm test -- src/engine/verification.test.ts; $code = $LASTEXITCODE; $sw.Stop(); Write-Output "=== EXIT_CODE: $code ==="; Write-Output ("=== DURATION_MS: {0} ===" -f $sw.ElapsedMilliseconds)
@@ -319,13 +153,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.D
 1,000국 불변식 검증은 19초 내 통과했습니다. perft만 리팩터링 후 이전 이름을 참조하고 있어 실패했으므로, 이미 합법수인 재귀 수에도 같은 경량 적용 함수를 사용하도록 한 줄 보정하겠습니다.
 
 Generating patch (7 lines) in 
-
-
-```
-
-```
-
-
 Execution complete: 엔진 검증 재확인
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.Diagnostics.Stopwatch]::StartNew(); npm test -- src/engine/verification.test.ts; $code = $LASTEXITCODE; $sw.Stop(); Write-Output "=== EXIT_CODE: $code ==="; Write-Output ("=== DURATION_MS: {0} ===" -f $sw.ElapsedMilliseconds)
@@ -333,13 +160,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.D
 엔진 검증은 1,000국 포함 2개 테스트가 통과했습니다. 이제 UI에는 외부 규칙을 넣지 않고 `GameContext`가 엔진 호출을 소유하게 하며, SVG 보드·기보 재생·자동 저장·접근성 조작을 그 위에 올리겠습니다. 먼저 버튼 아이콘에 사용할 기존 생태계 표준 라이브러리를 추가합니다.
 
 Generating patch (7 lines) in 
-
-
-```
-
-```
-
-
 Execution complete: 아이콘 의존성 설치
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm install
@@ -347,25 +167,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm install
 상태 전환은 `GameContext`가 소유하고, 보드 컴포넌트는 좌표와 클릭/드래그/키보드 입력만 전달하도록 만들겠습니다. 이로써 기보 재생이나 저장을 추가해도 규칙 판단이 UI로 새지 않습니다.
 
 Generating patch (504 lines) in , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , , no problems found
 
 세션 계층은 타입 진단을 통과했습니다. 기보 JSON에는 현재 보드, 수순, 시간, 화면 방향과 종료 결과가 함께 저장되며, 복구·가져오기 모두 최소 구조 검증을 거칩니다. 다음은 이 API만 소비하는 SVG 보드입니다.
@@ -373,13 +174,6 @@ Checked , , , no problems found
 보드는 교차점 좌표계를 SVG `viewBox`로 고정하고, 마우스·터치·키보드 입력을 동일한 좌표 요청으로 변환합니다. 선택과 착수 가능 여부는 모두 Context가 제공한 엔진 결과에 위임하겠습니다.
 
 Generating patch (261 lines) in 
-
-
-```
-
-```
-
-
 Checked , no problems found
 
 시작 중: *Add move dispatcher and game rules*(7/7)
@@ -387,41 +181,11 @@ Checked , no problems found
 SVG 보드 자체는 타입 진단을 통과했습니다. 이어서 기보 표기와 대국 화면을 연결해 실제 두 명의 로컬 플레이어가 착수·패스·무르기·기권·무승부·재생·JSON 입출력을 모두 수행할 수 있게 하겠습니다.
 
 Generating patch (613 lines) in , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , , , no problems found
 
 화면 조립부는 타입 진단을 통과했습니다. 이제 게임 도구로서 밀도는 유지하되, 전통 장기판의 재질감과 한·초의 뚜렷한 대비를 가진 반응형 화면으로 기존 Vite 기본 스타일을 교체하겠습니다.
 
 Generating patch (1240 lines) in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , no problems found
 
 스타일 진단은 통과했습니다. 다음 검증에서는 전체 TypeScript 빌드로 Context, 기보 입출력, SVG 보드가 실제 번들로 조합되는지 확인하겠습니다.
@@ -434,21 +198,11 @@ Completed with input: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.D
 전체 빌드는 규칙 코드의 사용하지 않는 import 하나에서만 멈췄습니다. 해당 import를 제거하고 동일한 빌드를 재실행하겠습니다.
 
 Generating patch (6 lines) in 
-
-
-```
-
-```
-
-
 Execution complete: 빌드 재검증
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $start = Get-Date; Write-Output '=== npm run build ==='; npm run build; $code = $LASTEXITCODE; $duration = (Get-Date) - $start; Write-Output "=== BUILD_EXIT_CODE: $code ==="; Write-Output ("=== DURATION_SECONDS: {0:N3} ===" -f $duration.TotalSeconds)
 
 전체 앱 빌드는 성공했고 번들도 생성되었습니다. 마지막으로 실제 브라우저에서 초기 설정과 대국 화면을 확인해 SVG 판이 비어 있지 않고, 모바일 폭에서도 텍스트나 도구가 겹치지 않는지 검증하겠습니다.
-
-
-
 Ran terminal command: Set-Location 'c:\Work\Azure\janggi\terra'; npm run dev -- --host 127.0.0.1 --port 5173
 
 기존 개발 서버가 `5173`을 사용 중이어서 이번 검증 서버는 `http://127.0.0.1:5174/`에서 실행했습니다. 이 주소로 초기 화면을 열고 대국 시작까지 실제 상호작용을 확인합니다.
@@ -475,9 +229,6 @@ Playwright 코드 실행함
 Completed with input: await page.getByRole('button', { name: '대국 시작' }).evaluate((button) => button.click()); await page.waitForTimeout(300); return { boardCount: await page.locator('svg.janggi-board').count(), pieceCount: await page.locator('.piece').count(), toolbarCount: await page.locator('[role="toolbar"]').count(), body: await page.locator('body').evaluate((body) => ({ scrollWidth: body.scrollWidth, scrollHeight: body.scrollHeight })) };
 
 대국 화면은 실제로 렌더링되었고, 초기 32개 기물·도구 모음·기보 패널이 모두 DOM에 존재하며 320px 폭에서 수평 오버플로도 없습니다. 다음으로 실제 착수와 기보 업데이트를 확인하고, 데스크톱/모바일 스크린샷을 점검하겠습니다.
-
-
-
 모바일 장기 대국 화면의 스크린샷 캡처됨
 
 장기판의 스크린샷 캡처됨
@@ -491,87 +242,12 @@ Completed with input: const board = page.locator('svg.janggi-board'); await boar
 키보드로 초 졸을 실제로 `5행 7열 → 5행 6열`로 이동시켜 차례 전환과 기보 갱신까지 확인했습니다. 남은 P12 범위로 색맹 팔레트 전환, 오류 복구, 오프라인 PWA 등록과 README를 보완하고, 종료 후 저장본이 다시 복구 후보로 남지 않도록 세션 흐름도 정리하겠습니다.
 
 Generating patch (116 lines) in , , , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , , , no problems found
 
 색맹 대응 팔레트와 종료 후 저장본 정리는 타입 진단을 통과했습니다. PWA 메타데이터, 서비스 워커 등록, 오류 경계, 실행 문서의 기존 내용을 확인한 뒤 해당 파일들만 최소 범위로 보완하겠습니다.
-
-Read 
-
-Read 
-
-Read 
-
-Read 
-
 기존 진입 문서는 기본 Vite 템플릿이었습니다. 이를 게임 실행·규칙·구조 문서로 바꾸고, 배포 빌드에서만 동작하는 서비스 워커와 오류 경계를 추가하겠습니다.
 
 Generating patch (297 lines) in , , , , , , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , , no problems found
 
 PWA·오류 경계·문서까지 타입 진단을 통과했습니다. 이제 화면 검증을 마무리하기 위해 브라우저 뷰포트를 명시적으로 설정해 데스크톱과 모바일 레이아웃, 그리고 저장·되돌리기 흐름을 점검하겠습니다.
@@ -587,33 +263,6 @@ Browser action failed
 검토 중 P7의 “한자/한글 기물 표기 전환” 옵션이 아직 빠져 있는 것을 확인했습니다. 보드 라벨과 저장 세션에 이 선택을 추가해, 색맹 팔레트처럼 대국 중에도 전환되고 기보 복구 시 유지되게 하겠습니다.
 
 Generating patch (166 lines) in , , , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Checked , , , , no problems found
 
 시작 중: *Implement movement rules for all pieces*(6/9)
@@ -628,25 +277,6 @@ Completed with input: Set-Location 'C:\Work\Azure\janggi\terra'; Write-Output '=
 전체 35개 테스트는 통과했고, 린트는 `useGame` 훅과 컴포넌트가 같은 모듈에 있어 Fast Refresh 규칙 하나만 실패했습니다. 훅 export를 없애고 Context 소비자를 컴포넌트로 분리해 기존 동작은 유지하면서 규칙을 만족시키겠습니다.
 
 Generating patch (120 lines) in , , , 
-
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-
 Execution complete: 린트 재검증
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; npm run lint
@@ -666,13 +296,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $sw = [System.D
 `src` 범위 린트는 오류 없이 통과했습니다. 전체 프로젝트 명령이 정적 PWA 파일까지 느리게 순회하며 멈추는 상태이므로, 애플리케이션 소스 검증을 명시하는 `lint` 스크립트로 좁혀 반복 가능한 품질 검사를 만들겠습니다.
 
 Generating patch (6 lines) in 
-
-
-```
-
-```
-
-
 Execution complete: 최종 품질 검사
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $results = @(); foreach ($name in @('lint','test','build')) { $file = Join-Path $env:TEMP ("terra-$name-$([guid]::NewGuid()).log"); $sw = [Diagnostics.Stopwatch]::StartNew(); & npm run $name *>&1 | Tee-Object -FilePath $file; $code = $LASTEXITCODE; $sw.Stop(); $results += [pscustomobject]@{Name=$name; Code=$code; Seconds=[math]::Round($sw.Elapsed.TotalSeconds,2); File=$file} }; Write-Output '=== COMMAND_SUMMARY ==='; $results | ForEach-Object { "{0}: {1} ({2}s)" -f $_.Name, $(if ($_.Code -eq 0) {'PASS'} else {'FAIL'}), $_.Seconds }; Write-Output '=== LINT_DIAGNOSTICS ==='; $lint = Get-Content $results[0].File; $lint | Where-Object { $_ -match '(error|warning|eslint|problem|✖|×)' } | Select-Object -First 100; Write-Output '=== TEST_SUMMARY ==='; $test = Get-Content $results[1].File; $test | Where-Object { $_ -match '(Test Files|Tests| passed|failed|PASS|FAIL|Duration)' } | Select-Object -Last 30; Write-Output '=== BUILD_ASSETS ==='; $build = Get-Content $results[2].File; $build | Where-Object { $_ -match '(dist/|built in|KB|kB|bytes|assets|chunk)' } | Select-Object -Last 50; Write-Output '=== LOG_PATHS ==='; $results | ForEach-Object { "{0}: {1}" -f $_.Name, $_.File }
@@ -736,3 +359,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\terra'; $results=@(); $
 완료: *Implement movement rules for all pieces*(6/9)
 
 변경 사항 적용함.
+~~~~
+
+</details>

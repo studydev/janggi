@@ -1,9 +1,26 @@
-Model: Claude Opus5 (MAX 1M)
-Usage: 1301.6 credit
-Time: 40m 36s
-Steps: 48
-files: 
-lines: 
+# GitHub Copilot 개발 기록: Opus5
+
+| 항목 | 값 |
+| --- | --- |
+| Model | Claude Opus5 (MAX 1M) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [opus5](../../opus5/) |
+| Usage | 1,301.6 크레딧 |
+| Time | 40분 36초 |
+| Steps | 48 |
+| Files | 54개 |
+| Lines | 7,193줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 3,682줄 |
+| 규모 측정일 | 2026-09-06 |
+
+시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이며, 개발 당시 편집량이 아니다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 할 일 목록 업데이트됨
 
@@ -13,135 +30,25 @@ Read
 
 Node 24 확인. `opus5`에 프로젝트를 구성하겠습니다. 먼저 스캐폴딩과 규칙 명세부터 만듭니다. 
 
-Created 
-
- 
-
-Created 
-
- 
-
-Created 
-
- 
-
-Created 
-
- 
-
-Created 
-
-Created 
-
 규칙 명세 고정 완료. 이제 엔진(P2)을 만듭니다. 
-
-Created 
 
 할 일 5개 생성함
 
-Created 
-
 이제 기물별 이동 생성기(P3)를 만듭니다.  
 
-Created 
-
- 
-
-Created 
-
- 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
 Replacing 22 lines with 10 lines in 
-
-
-```
-
-```
-
-
 Replacing 1 lines with 1 lines in 
-
-Created 
-
-
-```
-
-```
-
-
 시작 중: *Create game rules module*(3/5)
 
 합법수·장군 판정(P4)과 승패 판정(P5)을 만듭니다.   
 
-Created 
-
 Replacing 4 lines with 14 lines in 
-
-
-```
-
-```
-
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
 엔진 테스트(P3~P6)를 작성합니다. 
-
-Created 
-
- 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
 
 할 일 목록 업데이트됨
 
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Replacing 14 lines with 14 lines in 
-
-
-```
-
-```
+Replacing 14 lines with 14 lines in ```
 P6 검증 모듈과 스크립트를 만듭니다.  
-
-Created 
-
-Created 
-
-Created 
-
-Created 
 
 의존성을 설치하고 엔진 테스트를 돌립니다.  
 
@@ -153,21 +60,8 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\opus5'; Write-Output '=
 
 설치가 진행되는 동안 UI(P7~P9, P12)를 작성합니다.  
 
-Created 
-
 Replacing 24 lines with 17 lines in 
-
-
-```
-
-```
-
-
 시작 중: *Develop move generation logic*(4/9)
-
-Created 
-
-Created 
 
 터미널 출력 확인됨
 
@@ -176,17 +70,6 @@ No matches found.
 Read , lines 1 to 40
 
 Replacing 12 lines with 12 lines in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Execution complete: vitest 3 재설치 후 테스트/타입체크
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\opus5'; Write-Output '=== npm install ==='; npm install; $installCode = $LASTEXITCODE; Write-Output "=== INSTALL_EXIT_CODE: $installCode ==="; if ($installCode -eq 0) { Write-Output '=== npx vitest run ==='; npx vitest run; $testCode = $LASTEXITCODE; Write-Output "=== TEST_EXIT_CODE: $testCode ==="; Write-Output '=== npx tsc --noEmit ==='; npx tsc --noEmit; $tscCode = $LASTEXITCODE; Write-Output "=== TSC_EXIT_CODE: $tscCode ===" } else { Write-Output '=== tests/typecheck skipped because npm install failed ===' }
@@ -199,43 +82,8 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\opus5'; npx tsx scripts
 
 perft가 수기 계산(31수)과 일치합니다. 회귀 기준값을 테스트로 고정합니다.   
 
-Created 
-
 Replacing 8 lines with 8 lines in 
-
-
-```
-
-```
-
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
 시작 중: *Build React UI components for game*(5/9)
-
-Created 
-
-Created 
-
-Created 
-
-Created 
-
-Created 
 
 Checked , , , , , , , , , , , no problems found
 
@@ -246,9 +94,6 @@ Execution complete: 빌드 및 전체 테스트
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\opus5'; Write-Output '=== npm run build ==='; npm run build 2>&1; $buildCode = $LASTEXITCODE; Write-Output "=== BUILD_EXIT_CODE: $buildCode ==="; if (Test-Path dist) { Write-Output '=== DIST_FILES ==='; Get-ChildItem dist -Recurse -File | ForEach-Object { $relative = $_.FullName.Substring((Resolve-Path dist).Path.Length + 1); '{0} {1} bytes' -f $relative, $_.Length } }; Write-Output '=== npx vitest run ==='; npx vitest run 2>&1; $testCode = $LASTEXITCODE; Write-Output "=== TEST_EXIT_CODE: $testCode ==="
 
 Ran terminal command: Set-Location 'C:\Work\Azure\janggi\opus5'; npm run dev
-
-
-
 `브라우저` 열림
 
 Browser action failed
@@ -322,13 +167,6 @@ Completed with input: return await page.evaluate(() => {
 });
 
 Replacing 10 lines with 12 lines in 
-
-
-```
-
-```
-
-
 Browser action failed
 
 `브라우저` 열림
@@ -383,13 +221,6 @@ await page.screenshot({ path: 'C:/Work/Azure/janggi/opus5/.screens/game.png' });
 return JSON.stringify(log);
 
 Replacing 26 lines with 33 lines in 
-
-
-```
-
-```
-
-
 Playwright 코드 실행함
 Completed with input: const log = {};
 await page.goto('http://localhost:5175/', { waitUntil: 'load' });
@@ -557,17 +388,6 @@ return 'ok';
 Viewed image 
 
 Replacing 10 lines with 11 lines in , 
-
-
-```
-
-```
-
-```
-
-```
-
-
 Playwright 코드 실행함
 Completed with input: const out = {};
 const clickBtn = (text) => page.evaluate((t) => {
@@ -644,13 +464,6 @@ out.resumed = await page.evaluate(() => ({
 return JSON.stringify(out);
 
 Replacing 7 lines with 9 lines in 
-
-
-```
-
-```
-
-
 Playwright 코드 실행함
 Completed with input: await page.setViewportSize({ width: 420, height: 860 });
 await page.waitForTimeout(400);
@@ -673,8 +486,6 @@ Viewed image
 Viewed image 
 
 README를 작성하고 최종 검증합니다.   
-
-Created 
 
 Execution complete: 최종 빌드/테스트/검증
 
@@ -707,8 +518,6 @@ opus5/
   src/state/            useReducer 상태 + 기보 저장/검증 파서
   src/ui/               SVG 렌더링·입력만 담당 (규칙 판단 없음)
   scripts/              콘솔 대국·회귀 검증
-```
-
 ## 샹치 오구현 방지 지점
 
 포는 이동·공격 모두 포대 1개 필수(포는 포를 넘거나 잡지 못함), 상은 1직진+2대각에 중간 2지점 각각 차단 판정, 졸/병은 처음부터 좌우 이동 가능·후진 불가, 차·궁·사의 궁성 대각선 이동, 강(河) 없음, 한 수 쉬기 허용. 공격 판정(`isAttacked`)은 이동 생성기를 그대로 재사용해 규칙이 갈라지지 않게 했습니다.
@@ -728,8 +537,9 @@ npm install
 npm run dev     # 개발 서버
 npm test        # 엔진 테스트
 npm run verify  # 랜덤 1000판 규칙 위반 검사
-```
-
 검증 중 두 가지를 실제로 고쳤습니다. SVG 보드가 `max-height`로 잘리던 문제는 viewBox 비율을 유지하는 `max-width` 계산으로 바꿨고, `setPointerCapture` 예외가 클릭 착수를 통째로 막던 문제는 착수 처리를 먼저 하고 캡처를 예외 처리하도록 순서를 바꿨습니다.
 
 변경 사항 적용함.
+~~~~
+
+</details>

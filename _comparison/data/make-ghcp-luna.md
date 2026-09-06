@@ -1,9 +1,26 @@
-Model: GPT-5.6 luna (MAX 1M)
-Usage: 65.3 credit
-Time: 48m 39s
-Steps: 201
-files: 
-lines: 
+# GitHub Copilot 개발 기록: Luna
+
+| 항목 | 값 |
+| --- | --- |
+| Model | GPT-5.6 luna (MAX 1M) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [luna](../../luna/) |
+| Usage | 65.3 크레딧 |
+| Time | 48분 39초 |
+| Steps | 201 |
+| Files | 48개 |
+| Lines | 4,329줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 2,133줄 |
+| 규모 측정일 | 2026-09-06 |
+
+시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이며, 개발 당시 편집량이 아니다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 할 일 목록 업데이트됨
 
@@ -909,3 +926,6 @@ Ran terminal command: Set-Location 'C:\Work\Azure\janggi\luna'; Write-Output '==
 완료: *Implement movement rules and tests*(5/7)
 
 변경 사항 적용함.
+~~~~
+
+</details>

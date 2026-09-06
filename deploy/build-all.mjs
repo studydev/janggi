@@ -5,11 +5,14 @@ import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { developmentRecords, formatUsd } from './development-records.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
 const outDir = process.env.OUT_DIR ? resolve(process.env.OUT_DIR) : join(root, 'dist-site');
 const apps = JSON.parse(readFileSync(join(here, 'apps.json'), 'utf8'));
+const developmentData = JSON.parse(readFileSync(join(here, 'development-records.json'), 'utf8'));
+const records = developmentRecords(apps, developmentData);
 const comparisonRoot = join(root, '_comparison');
 const dataDir = join(comparisonRoot, 'data');
 const readData = (file) => JSON.parse(readFileSync(join(dataDir, file), 'utf8'));
@@ -114,18 +117,18 @@ const dateFormatter = new Intl.DateTimeFormat('ko-KR', {
 const formatActivityTime = (timestamp) => dateFormatter.format(new Date(timestamp)).replace(/\. /g, '.');
 
 function readProcessLog(name) {
-  const fileName = `make-${name}.md`;
+  const record = records.get(name);
+  const fileName = record.logFile;
   const text = readFileSync(join(dataDir, fileName), 'utf8');
-  const field = (key) => text.match(new RegExp(`^${key}:[ \\t]*(.*)$`, 'm'))?.[1]?.trim() || '미기록';
-  const usage = field('Usage');
+  const model = text.split('\n').find((line) => line.startsWith('| Model |'))?.split('|')[2]?.trim() ?? '미기록';
   return {
     name,
     fileName,
     text,
-    model: field('Model'),
-    usage: usage.toLowerCase() === 'credit' ? '미기록' : usage,
-    declaredTime: field('Time'),
-    steps: field('Steps'),
+    model,
+    usage: record.env === 'copilot' ? `${formatNumber(record.credits)} 크레딧 · ${formatUsd(record.usd)}` : `${record.plan} · ${record.usage}`,
+    declaredTime: record.durationSeconds == null ? '미기록' : formatDuration(record.durationSeconds * 1000),
+    steps: record.steps == null ? '미기록' : String(record.steps),
     lineCount: physicalLineCount(text),
     characterCount: Array.from(text).length,
   };
@@ -224,10 +227,17 @@ function barChart(items, { format, unit }) {
 }
 
 
-rmSync(outDir, { recursive: true, force: true });
+const portalOnly = process.argv.includes('--portal-only');
+if (portalOnly) {
+  for (const app of apps) {
+    if (!existsSync(join(outDir, app.path, 'index.html'))) throw new Error(`Build apps first: ${app.dir}`);
+  }
+} else {
+  rmSync(outDir, { recursive: true, force: true });
+}
 mkdirSync(outDir, { recursive: true });
 
-for (const app of apps) {
+for (const app of portalOnly ? [] : apps) {
   const cwd = join(root, app.dir);
   console.log(`\n=== build ${app.dir} -> /${app.path}/ ===`);
   execFileSync(npm, ['run', 'build', '--', `--base=/${app.path}/`], {
@@ -243,7 +253,7 @@ const statsByName = new Map(stats.projects.map((project) => [project.name, proje
 const codeByName = new Map(code.projects.map((project) => [project.folder, project]));
 const checksByName = new Map(checks.results.map((result) => [result.folder, result]));
 const sessionByName = new Map(tokens.sessions.map((session) => [session.folder, session]));
-const processLogs = new Map(['sol-fast', 'astra', 'codex-astra'].map((name) => [name, readProcessLog(name)]));
+const processLogs = new Map(apps.map((app) => [app.dir, readProcessLog(app.dir)]));
 const thumbnails = existsSync(join(dataDir, 'thumbnails.json')) ? readData('thumbnails.json') : null;
 
 /** 테마 파라미터를 지원하는 앱은 캡처와 같은 밝은 테마로 열리게 한다. */
@@ -259,12 +269,18 @@ const entries = apps
     const session = sessionByName.get(app.dir);
     const log = processLogs.get(app.dir) ?? null;
     const environment = ENVIRONMENTS.find((item) => item.id === app.env) ?? ENVIRONMENTS[0];
-    const declaredMs = parseDeclaredTime(log?.declaredTime);
-    const build = initialBuild(session, project, declaredMs);
+    const record = records.get(app.dir);
+    const build = record.durationSeconds == null ? null : {
+      ms: record.durationSeconds * 1000,
+      source: '개발 기록',
+      bounded: false,
+      note: record.note,
+    };
 
     return {
       ...app,
       environment,
+      record,
       project,
       log,
       files: project.fileCount,
@@ -293,6 +309,28 @@ const totals = {
   verified: entries.filter((entry) => entry.verified).length,
   timed: entries.filter((entry) => entry.buildMs != null).length,
 };
+
+const comparisonRows = entries.map((entry, index) => {
+  const usage = entry.record.env === 'copilot'
+    ? `${formatNumber(entry.record.credits)} 크레딧`
+    : `${entry.record.plan} · ${entry.record.usage}`;
+  const image = entry.thumb
+    ? `<img src="/${escapeHtml(entry.thumb)}" alt="" width="72" height="45" />`
+    : '';
+  return `<tr data-project="${escapeHtml(entry.dir)}" data-env="${entry.environment.id}" data-order="${index}" data-cost="${entry.record.usd ?? ''}" data-time="${entry.record.durationSeconds ?? ''}">
+    <th scope="row"><a class="result-link" href="#result-${entry.dir}">${image}<span>${escapeHtml(entry.log.model)}<small>${escapeHtml(entry.dir)}</small></span></a></th>
+    <td><span class="platform" style="--env:${entry.environment.color}">${brandIcon(entry.environment)}${escapeHtml(entry.environment.label)}</span></td>
+    <td class="usage-cell">${escapeHtml(usage)}</td>
+    <td class="money">${entry.record.usd == null ? '<span class="not-priced">직접 환산 불가</span>' : formatUsd(entry.record.usd)}</td>
+    <td class="numeric">${entry.buildMs == null ? '미기록' : formatDuration(entry.buildMs)}</td>
+    <td class="numeric">${entry.record.steps ?? '미기록'}</td>
+    <td class="numeric">${formatNumber(entry.files)}</td>
+    <td class="numeric">${formatNumber(entry.lines)}</td>
+    <td class="numeric">${formatNumber(entry.codeLoc)}</td>
+    <td class="result-note">${escapeHtml(entry.record.note)}</td>
+    <td><a class="app-link" href="${escapeHtml(entry.href)}" aria-label="${escapeHtml(entry.environment.label + ' ' + entry.title)} 앱 열기">앱 열기</a></td>
+  </tr>`;
+}).join('\n');
 
 const heroMetrics = [
   { label: '구현', value: `${entries.length}<span>종</span>` },
@@ -333,20 +371,20 @@ const envCards = ENVIRONMENTS.map((environment) => {
 
 const chartDefinitions = [
   {
-    title: '초기 구현 시간',
-    sub: '명세를 받고 첫 구현이 끝날 때까지',
-    unit: '초기 구현 시간',
+    title: '기록된 개발 시간',
+    sub: '개발 기록에 남은 시간, 미기록은 추정하지 않음',
+    unit: '개발 시간',
     pick: (entry) => entry.buildMs,
     format: (value) => formatSpan(value),
-    caption: `다음 지시 직전에 마지막으로 손눐 파일 시각까지를 구간으로 잡는다. 그 시각이 남지 않은 구현은 다음 지시가 들어온 시점을 상한(≤)으로 쓰며, 이 값은 대기 시간을 포함한다. 색 변경·재실행 같은 이후 작업은 제외했다.`,
+    caption: 'Sol Fast는 기존 Sol 복제·수정 작업이다. Codex는 한도 중단·재개 전체를 포함하는지 불명확하다. Claude Code 두 건은 시간 미기록이다.',
   },
   {
     title: '코드 분량',
-    sub: '주석·빈 줄을 뺀 TS·JS·CSS·HTML 라인',
+    sub: '빈 줄을 뺀 TS·JS·CSS·HTML 라인, 주석·테스트 포함',
     unit: '코드 LOC',
     pick: (entry) => entry.codeLoc,
     format: (value) => `${formatNumber(value)} LOC`,
-    caption: '문서와 설정을 제외한 실제 코드만 센 값이다. 많다고 좋은 것은 아니며 구조 선택의 차이를 보여 준다.',
+    caption: '코드 확장자의 비공백 라인 수이며 주석·테스트도 포함한다. 많다고 좋은 것은 아니며 구조 선택의 차이를 보여 준다.',
   },
   {
     title: '스스로 만든 검증',
@@ -392,9 +430,9 @@ const chartLegend = ENVIRONMENTS.map(
 
 const implCards = entries
   .map((entry) => {
-    const image = `<img src="${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.title)} 대국 시작 직후 화면" loading="lazy" width="1200" height="750" />`;
+    const image = `<img src="/${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.environment.label + ' · ' + entry.title)} 대국 화면" loading="lazy" width="1200" height="750" />`;
     const shot = entry.thumb
-      ? `<a class="impl-shot" href="${escapeHtml(entry.href)}">${image}</a>`
+      ? `<a class="impl-shot" href="/${escapeHtml(entry.thumb)}" target="_blank" rel="noopener" aria-label="${escapeHtml(entry.title)} 스크린샷 원본 새 탭에서 보기">${image}</a>`
       : '<div class="impl-shot missing">화면 캡처 준비 중</div>';
     const themeTag = entry.themeAware ? '<span class="tag-theme">다크 모드도 지원</span>' : '';
     const time = entry.buildMs
@@ -403,7 +441,7 @@ const implCards = entries
     const tests = entry.testCases == null ? '<dd class="pending">미수집</dd>' : `<dd>${formatNumber(entry.testCases)}개</dd>`;
     const bundle = entry.bundleKb == null ? '<dd class="pending">미수집</dd>' : `<dd>${formatNumber(Math.round(entry.bundleKb))} kB</dd>`;
 
-    return `          <article class="impl" style="--env:${entry.environment.color}">
+    return `          <article class="impl" id="result-${entry.dir}" data-project="${entry.dir}" data-env="${entry.environment.id}" style="--env:${entry.environment.color}">
             ${shot}
             <div class="impl-body">
               <div class="tags">
@@ -412,15 +450,17 @@ const implCards = entries
               </div>
               <h3>${escapeHtml(entry.title)}</h3>
               <p class="model">${escapeHtml(entry.environment.label)} - ${escapeHtml(entry.model)}</p>
+              <p class="description">${escapeHtml(entry.desc)}</p>
+              <p class="build-note">${escapeHtml(entry.record.note)}</p>
               <dl>
                 <div><dt>코드</dt><dd>${formatNumber(entry.codeLoc)} LOC</dd></div>
                 <div><dt>통과 테스트</dt>${tests}</div>
-                <div><dt>초기 구현</dt>${time}</div>
+                <div><dt>기록된 개발 시간</dt>${time}</div>
                 <div><dt>번들 JS</dt>${bundle}</div>
               </dl>
               <footer>
-                <a href="${escapeHtml(entry.href)}">직접 대국해 보기 &rarr;</a>
-                <span class="path">/${escapeHtml(entry.path)}/</span>
+                <a class="app-link" href="${escapeHtml(entry.href)}">앱 열기 &rarr;</a>
+                <a href="/comparison/logs/${escapeHtml(entry.dir)}.txt">개발 기록</a>
               </footer>
             </div>
           </article>`;
@@ -430,7 +470,7 @@ const implCards = entries
 const resourceLinks = [
   { href: '/comparison/', title: '전체 지표 표', desc: '폴더·파일·라인·문자·코드량과 파일 활동 시간을 한 표에서 확인' },
   { href: '/comparison/details.html', title: '기존 7종 심층 리포트', desc: '요구사항 충족도, 규칙 정확도(perft), 사용량 분석' },
-  { href: '/comparison/#process', title: '개발 로그 원문', desc: '새로 추가한 3종의 세션 기록과 진행 과정' },
+  { href: '/comparison/#process', title: '전체 개발 기록', desc: '10개 결과물의 사용량·시간 기록과 확보된 원문 로그' },
   { href: '/comparison/project-size-time-report.txt', title: '측정 원문', desc: '규모와 시간 측정 결과를 생성한 그대로' },
 ]
   .map(
@@ -448,7 +488,7 @@ const methodGaps = [
   .filter(Boolean)
   .join(' / ');
 const measurableCount = stats.projects.filter((project) => !project.copiedBaseline).length;
-const methodTime = `명세를 받은 시점부터 다음 지시가 들어오기 직전에 마지막으로 수정된 파일 시각까지를 재다. 파일 시각이 남은 구현은 ${measurableCount}종이고, 나머지는 저장소를 옮기면서 생성 시각이 한 시점으로 눌려 “초와 한의 컴러를 바꿔달” 같은 다음 지시 시점을 상한(≤)으로 씁니다.`;
+const methodTime = '개발 당시 기록과 사용자 제공 값을 사용합니다. 파일 복사로 평탄화된 생성 시각을 세션 시간으로 대신하지 않습니다. Claude Code의 5시간은 사용량 집계 윈도우이며 개발 소요 시간이 아닙니다.';
 
 const analyzedAt = new Intl.DateTimeFormat('ko-KR', {
   timeZone: stats.timeZone,
@@ -461,6 +501,8 @@ const shotViewport = thumbnails ? `${thumbnails.viewport.width}×${thumbnails.vi
 if (existsSync(thumbsDir)) cpSync(thumbsDir, join(outDir, 'thumbs'), { recursive: true });
 
 const portalHtml = readFileSync(join(here, 'portal.template.html'), 'utf8')
+  .replace('<!--COMPARISON_ROWS-->', comparisonRows)
+  .replace('<!--RECORD_DATE-->', escapeHtml(developmentData.recordedAt))
   .replace('<!--ENV_COUNT-->', String(ENVIRONMENTS.length))
   .replace('<!--IMPL_COUNT-->', String(entries.length))
   .replace('          <!--HERO_METRICS-->', heroMetrics)

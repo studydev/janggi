@@ -1,9 +1,29 @@
-Model: GPT-6 Astra (MAX 872K)
-Usage: 2627.3 credit
-Time: 56m 5s
-Steps: 173
-files: 73
-lines: +3165 -551
+# GitHub Copilot 개발 기록: Astra
+
+| 항목 | 값 |
+| --- | --- |
+| Model | GPT-6 Astra (MAX 872K) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [astra](../../astra/) |
+| Usage | 2,627.3 크레딧 |
+| Time | 56분 5초 |
+| Steps | 173 |
+| Files | 74개 |
+| Lines | 10,999줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 2,829줄 |
+| 규모 측정일 | 2026-09-06 |
+
+## 해석 및 측정 기준
+
+- 원래 세션의 파일 기록은 73개, 라인 변경량은 `+3,165 / -551`이다. 현재 폴더의 전체 파일·라인 수와 구분해 보존한다.
+- 시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 
 할 일 목록 업데이트됨
@@ -1012,3 +1032,6 @@ PWA는 배포 빌드에서 동작합니다. 실행·배포 방법은 `README.md`
 완료: *Connect UI for gameplay interactions*(5/7)
 
 변경 사항 적용함.
+~~~~
+
+</details>

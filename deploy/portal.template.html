@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <title>같은 프롬프트, 다른 도구 — 장기 게임 구현 비교</title>
+    <title>장기 개발 비교 | 모델·플랫폼·비용·결과물</title>
     <meta
       name="description"
       content="GitHub Copilot · Claude Code · Codex에서 같은 장기 게임 명세로 만든 구현들을 지표와 화면으로 비교합니다."
@@ -16,12 +16,12 @@
     <style>
       :root {
         color-scheme: light;
-        --canvas: #f3f1ea;
+        --canvas: #f5f7f6;
         --paper: #fff;
         --ink: #15181c;
         --muted: #5f6771;
         --faint: #8b929a;
-        --line: #dcdad1;
+        --line: #d9e1dd;
         --deep: #14261f;
         --cho: #136f5b;
         --han: #b23a30;
@@ -36,9 +36,7 @@
       }
       body {
         margin: 0;
-        background:
-          radial-gradient(900px 420px at 82% -8%, rgba(19, 111, 91, 0.09), transparent 62%),
-          radial-gradient(700px 380px at 4% 0%, rgba(178, 58, 48, 0.07), transparent 60%), var(--canvas);
+        background: linear-gradient(180deg, #edf4f0 0, var(--canvas) 440px);
         color: var(--ink);
         font-family: 'Pretendard', 'IBM Plex Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
         line-height: 1.62;
@@ -48,13 +46,13 @@
       h2,
       h3 {
         font-family: 'Iowan Old Style', 'Noto Serif KR', 'AppleMyungjo', serif;
-        letter-spacing: -0.01em;
+        letter-spacing: 0;
       }
       a {
         color: inherit;
       }
       .shell {
-        width: min(1180px, calc(100% - 40px));
+        width: min(1440px, calc(100% - 40px));
         margin: 0 auto;
       }
 
@@ -63,7 +61,7 @@
         top: 0;
         z-index: 20;
         border-bottom: 1px solid rgba(220, 218, 209, 0.9);
-        background: rgba(243, 241, 234, 0.92);
+        background: rgba(245, 247, 246, 0.96);
         backdrop-filter: blur(12px);
       }
       .topbar .shell {
@@ -115,7 +113,7 @@
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
         font-size: 12px;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0;
         text-transform: uppercase;
       }
       .hero-grid {
@@ -126,7 +124,7 @@
       }
       h1 {
         margin: 0;
-        font-size: clamp(34px, 5.2vw, 60px);
+        font-size: 36px;
         line-height: 1.1;
         font-weight: 700;
       }
@@ -191,13 +189,13 @@
         color: var(--muted);
         font-size: 11px;
         font-weight: 700;
-        letter-spacing: 0.03em;
+        letter-spacing: 0;
         text-transform: uppercase;
       }
       .metrics dd {
         margin: 4px 0 0;
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: clamp(19px, 2.1vw, 26px);
+        font-size: 24px;
         font-weight: 700;
         line-height: 1.2;
       }
@@ -221,7 +219,7 @@
       }
       .block-head h2 {
         margin: 0;
-        font-size: clamp(24px, 3vw, 32px);
+        font-size: 28px;
         line-height: 1.22;
       }
       .block-head p {
@@ -373,7 +371,7 @@
         width: 100%;
         height: auto;
         aspect-ratio: 8 / 5;
-        object-fit: cover;
+        object-fit: contain;
         object-position: top center;
       }
       .tags {
@@ -415,7 +413,7 @@
         color: var(--env);
         font-size: 10.5px;
         font-weight: 800;
-        letter-spacing: 0.02em;
+        letter-spacing: 0;
         text-transform: uppercase;
       }
       .env-tag .brand {
@@ -585,7 +583,7 @@
       }
       @media (max-width: 640px) {
         .shell {
-          width: min(100% - 28px, 1180px);
+          width: min(100% - 28px, 1440px);
         }
         .topbar .shell {
           flex-direction: column;
@@ -612,16 +610,82 @@
           scroll-behavior: auto;
         }
       }
+      [hidden] { display: none !important; }
+      :focus-visible { outline: 3px solid #2f6fed; outline-offset: 3px; }
+      .skip-link { position: absolute; top: -80px; left: 16px; z-index: 30; padding: 12px; background: white; }
+      .skip-link:focus { top: 12px; }
+      .report-head { padding: 32px 0 20px; border-bottom: 2px solid var(--deep); }
+      .report-head h1 { font-size: 32px; line-height: 1.3; }
+      .report-head .kicker { margin-bottom: 8px; }
+      .report-head .lede { margin-top: 10px; max-width: 960px; font-size: 14px; }
+      .report-head .headline-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 16px; color: var(--muted); font-size: 12px; }
+      .report-head .headline-meta strong { color: var(--cho); }
+      #comparison { padding-top: 22px; }
+      .comparison-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; }
+      .comparison-heading h2 { font-size: 22px; margin: 0; }
+      .comparison-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+      .filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; padding: 16px 0; }
+      .filters label { display: grid; gap: 4px; font-size: 12px; font-weight: 700; }
+      .filters select, .filters input { min-height: 44px; max-width: 100%; border: 1px solid #aebdb5; border-radius: 4px; background: white; color: var(--ink); padding: 8px 10px; font: inherit; }
+      .filters input { width: 230px; }
+      .result-count { margin: 0 0 11px auto; font-size: 12px; font-variant-numeric: tabular-nums; }
+      .table-region { overflow-x: auto; background: white; border-block: 1px solid var(--line); }
+      .comparison-table { width: 100%; min-width: 1260px; border-collapse: collapse; font-size: 12px; line-height: 1.55; }
+      .comparison-table caption { text-align: left; padding: 10px 14px; color: var(--muted); background: #eef2ef; font-size: 12px; }
+      .comparison-table th, .comparison-table td { text-align: left; border-bottom: 1px solid var(--line); padding: 13px 10px; vertical-align: middle; }
+      .comparison-table thead th { font-weight: 700; color: #47554d; background: #f7f9f8; white-space: nowrap; }
+      .comparison-table tbody tr:hover { background: #f4f8f6; }
+      .comparison-table tbody th { width: 230px; font-weight: 700; }
+      .comparison-table .numeric { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .result-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+      .result-link img { object-fit: contain; flex: none; border: 1px solid var(--line); border-radius: 3px; }
+      .result-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 400; }
+      .platform { display: inline-flex; align-items: center; gap: 5px; color: var(--env); font-weight: 700; white-space: nowrap; }
+      .usage-cell { min-width: 150px; max-width: 180px; }
+      .money { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--cho); white-space: nowrap; }
+      .not-priced { font-size: 11px; font-weight: 500; color: var(--muted); }
+      .result-note { min-width: 170px; max-width: 215px; color: var(--muted); font-size: 11px; }
+      .app-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; white-space: nowrap; color: var(--cho); font-weight: 700; text-underline-offset: 3px; }
+      .comparison-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+      .comparison-notes p { margin: 0; font-size: 12px; color: var(--muted); }
+      .comparison-notes strong { color: var(--ink); }
+      .empty-state { text-align: center; padding: 28px; color: var(--muted); }
+      .description { margin: 0 0 12px; font-size: 14px; }
+      .build-note { margin: 0 0 18px; padding-left: 10px; border-left: 2px solid var(--env); font-size: 12px; color: var(--muted); }
+      .impl { scroll-margin-top: 84px; min-width: 0; }
+      .impl footer a { min-height: 44px; display: inline-flex; align-items: center; }
+      .block-head, .impl-body, .env-card, .chart { overflow-wrap: anywhere; }
+      .env-card { border-radius: 0; border-inline: 0; background: transparent; }
+      figure.chart { border-radius: 0; border-inline: 0; background: transparent; }
+      .method { border-radius: 0; }
+      figure.chart figcaption, .impl dd .src, footer.page { color: #5f6771; }
+      @media (max-width: 640px) {
+        html { scroll-padding-top: 112px; }
+        .brand small { display: none; }
+        .report-head { padding-top: 22px; }
+        .report-head h1 { font-size: 27px; }
+        .filters label { flex: 1 1 130px; min-width: 0; }
+        .filters label.search { flex-basis: 100%; }
+        .filters input { width: 100%; }
+        .result-count { margin: 0; }
+        .comparison-notes { grid-template-columns: 1fr; }
+        .block-head { gap: 12px; }
+        .block-head h2 { font-size: 24px; }
+        .impl { scroll-margin-top: 120px; }
+        .impl-body { padding-inline: 16px; }
+      }
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#comparison">비교표로 바로가기</a>
     <header class="topbar">
       <div class="shell">
-        <a class="brand" href="#top">楚漢 장기 구현 비교<small>SAME PROMPT LAB</small></a>
+        <a class="brand" href="#top">장기 개발 비교<small>MODEL / PLATFORM</small></a>
         <nav aria-label="페이지 탐색">
+          <a href="#comparison">비용·사용량</a>
+          <a href="#implementations">결과물</a>
           <a href="#environments">환경</a>
           <a href="#charts">지표</a>
-          <a href="#implementations">구현</a>
           <a href="#resources">자료</a>
           <a href="/comparison/">상세 비교</a>
         </nav>
@@ -629,29 +693,43 @@
     </header>
 
     <main class="shell" id="top">
-      <section class="hero">
-        <div class="hero-grid">
-          <div>
-            <p class="kicker">Same prompt · <!--ENV_COUNT--> environments · <!--IMPL_COUNT--> builds</p>
-            <h1>같은 명세를 주면<br />도구마다 <em>무엇이 달라질까</em></h1>
-          </div>
-          <div>
-            <p class="lede">
-              <strong>GitHub Copilot · Claude Code · Codex</strong>에서 같은 장기 게임 명세(P0~P12, AI·온라인 대전 제외)를
-              각각 독립 세션으로 구현했습니다. 이 페이지는 그 결과물을 <strong>지표와 첫 화면</strong>으로 비교합니다.
-              각 구현은 직접 실행해 볼 수도 있습니다.
-            </p>
-            <div class="cta">
-              <a class="button" href="#charts">지표 비교 보기</a>
-              <a class="button ghost" href="#implementations">화면·체험</a>
-              <a class="button ghost" href="/comparison/">상세 데이터</a>
-            </div>
-          </div>
-        </div>
+      <header class="report-head">
+        <p class="kicker">DEVELOPMENT STUDY · <!--ENV_COUNT-->개 플랫폼 · <!--IMPL_COUNT-->개 결과물</p>
+        <h1>장기 게임 개발, 모델·플랫폼 비교</h1>
+        <p class="lede">GitHub Copilot · Claude Code · Codex에 같은 장기 명세를 제공한 개발 기록입니다. 비용·사용량·소요 시간과 완성된 화면을 함께 비교합니다. P10 AI·P11 온라인 대전은 요청 범위에서 제외했습니다.</p>
+        <div class="headline-meta"><span><strong>GHCP 100 크레딧 = $1</strong> · 사용자 제공 환산 기준</span><span>Claude Code·Codex는 구독 사용 한도 기준</span><span>개발 기록 기준 <!--RECORD_DATE--></span></div>
+      </header>
 
-        <dl class="metrics">
-          <!--HERO_METRICS-->
-        </dl>
+      <section id="comparison" aria-labelledby="comparison-title">
+        <div class="comparison-heading"><h2 id="comparison-title">전체 모델 비교</h2><p>USD는 크레딧 환산액이며 실제 청구액이 아닙니다.</p></div>
+        <div class="filters">
+          <label>플랫폼<select id="platform-filter"><option value="all">전체 플랫폼</option><option value="copilot">GitHub Copilot</option><option value="claude-code">Claude Code</option><option value="codex">Codex</option></select></label>
+          <label>정렬<select id="sort-order"><option value="default">모델·플랫폼 순</option><option value="cost">GHCP 환산액 낮은 순</option><option value="time">기록된 시간 짧은 순</option></select></label>
+          <label class="search">모델 검색<input id="model-search" type="search" placeholder="모델명 또는 폴더명" /></label>
+          <p class="result-count" id="result-count" role="status" aria-live="polite">10 / 10개 결과물</p>
+        </div>
+        <div class="table-region" role="region" aria-label="전체 모델 비용·사용량 비교표" tabindex="0">
+          <table class="comparison-table">
+            <caption>개발 기록과 현재 산출물 규모 · 구독형 사용량은 달러로 환산하지 않음</caption>
+            <thead><tr><th scope="col">모델 / 결과물</th><th scope="col">플랫폼</th><th scope="col">사용량</th><th scope="col">환산액 (USD)</th><th scope="col">개발 시간</th><th scope="col">Steps</th><th scope="col">파일</th><th scope="col">전체 라인</th><th scope="col">코드 LOC</th><th scope="col">비교 조건</th><th scope="col">실행</th></tr></thead>
+            <tbody><!--COMPARISON_ROWS--></tbody>
+          </table>
+        </div>
+        <p class="empty-state" id="empty-state" hidden>일치하는 결과물이 없습니다.</p>
+        <div class="comparison-notes">
+          <p><strong>비용과 사용 한도는 다른 단위입니다.</strong> GHCP만 사용 크레딧을 100으로 나눕니다. Claude Code Pro는 5시간 윈도우의 약 33%·65% 소진이며, Codex는 한도 1회 소진 후 후속 요청 시 42% 잔여입니다. 구독료·토큰·총 비용으로 직접 환산할 수 없습니다.</p>
+          <p><strong>동일 조건의 성능 순위가 아닙니다.</strong> Sol Fast는 Sol 복제 후 수정·검증했고, Astra는 인접 구현을 참고했습니다. Codex의 시간은 중단·재개 전체 포함 여부가 불명확합니다. 미기록은 0이 아니며, 라인·테스트 수는 품질 점수가 아닙니다.</p>
+        </div>
+      </section>
+
+      <section class="block" id="implementations" aria-labelledby="impl-title">
+        <div class="block-head">
+          <h2 id="impl-title">만들어진 결과물</h2>
+          <p>같은 장기 명세에서 출발한 10개 결과물입니다. 캡처는 <!--SHOT_VIEWPORT--> 기준이며, 테마 전환을 지원하는 앱은 밝은 테마를 사용했습니다. 소개와 검증 지표는 저장된 자료 기준입니다.</p>
+        </div>
+        <div class="impl-grid">
+          <!--IMPL_CARDS-->
+        </div>
       </section>
 
       <section class="block" id="environments" aria-labelledby="env-title">
@@ -683,19 +761,6 @@
         </div>
       </section>
 
-      <section class="block" id="implementations" aria-labelledby="impl-title">
-        <div class="block-head">
-          <h2 id="impl-title">첫 화면부터 비교하기</h2>
-          <p>
-            모든 구현을 같은 조건(<!--SHOT_VIEWPORT-->, 밝은 테마)에서 대국을 시작한 직후 화면으로 캡처했습니다. 가로로 나란한 두
-            카드는 같은 모델을 다른 환경에서 만든 결과입니다. 카드를 눌러 실제 대국까지 바로 이어집니다.
-          </p>
-        </div>
-        <div class="impl-grid">
-          <!--IMPL_CARDS-->
-        </div>
-      </section>
-
       <section class="block" id="resources" aria-labelledby="res-title">
         <div class="block-head">
           <h2 id="res-title">근거 자료와 한계</h2>
@@ -706,18 +771,17 @@
         </div>
         <div class="method">
           <div>
-            <h3>초기 구현 시간</h3>
+            <h3>기록된 개발 시간</h3>
             <p><!--METHOD_TIME--></p>
           </div>
           <div>
-            <h3>제외한 수정</h3>
-            <p>본 작업이 끝난 뒤 20분 넘게 떨어져 잠깐 발생한 소규모 손질(색 조정 등)은 꼬리 구간으로 보고 측정에서 제외했습니다.</p>
+            <h3>비용 환산</h3>
+            <p>GHCP는 사용자 제공 기준인 100 크레딧당 $1로 계산합니다. 플랜 포함량·구독료·세금은 반영하지 않은 환산액입니다. 다른 플랫폼의 윈도우 사용률과 합산하지 않습니다.</p>
           </div>
           <div>
             <h3>규모·검증</h3>
             <p>
-              의존성과 빌드 산출물을 제외한 현재 파일 기준입니다. 테스트 수와 번들 크기는 <code>vitest run</code>,
-              <code>vite build</code>를 직접 실행해 수집했습니다.
+              의존성과 빌드 산출물을 제외한 현재 파일 기준입니다. 전체 라인은 문서·설정·빈 줄을 포함하며 코드 LOC는 주석·테스트를 포함한 비공백 줄입니다. 테스트 수와 번들 크기는 이전 수집 시점의 실행 결과입니다.
             </p>
           </div>
           <div>
@@ -732,5 +796,41 @@
         <span><a href="https://github.com/studydev/janggi">github.com/studydev/janggi</a></span>
       </footer>
     </main>
+    <script>
+      const platformFilter = document.querySelector('#platform-filter');
+      const sortOrder = document.querySelector('#sort-order');
+      const modelSearch = document.querySelector('#model-search');
+      const tableBody = document.querySelector('.comparison-table tbody');
+      const gallery = document.querySelector('.impl-grid');
+      const rows = [...tableBody.rows];
+      const cards = new Map([...gallery.children].map(card => [card.dataset.project, card]));
+      function updateComparison() {
+        const query = modelSearch.value.trim().toLocaleLowerCase('ko');
+        const selected = platformFilter.value;
+        const sortKey = sortOrder.value;
+        const sorted = [...rows].sort((left, right) => {
+          if (sortKey === 'default') return Number(left.dataset.order) - Number(right.dataset.order);
+          const leftValue = left.dataset[sortKey] === '' ? Infinity : Number(left.dataset[sortKey]);
+          const rightValue = right.dataset[sortKey] === '' ? Infinity : Number(right.dataset[sortKey]);
+          return (leftValue - rightValue) || Number(left.dataset.order) - Number(right.dataset.order);
+        });
+        let visible = 0;
+        for (const row of sorted) {
+          const matches = (selected === 'all' || row.dataset.env === selected)
+            && row.querySelector('th').textContent.toLocaleLowerCase('ko').includes(query);
+          row.hidden = !matches;
+          const card = cards.get(row.dataset.project);
+          card.hidden = !matches;
+          tableBody.append(row);
+          gallery.append(card);
+          if (matches) visible += 1;
+        }
+        document.querySelector('#result-count').textContent = `${visible} / ${rows.length}개 결과물`;
+        document.querySelector('#empty-state').hidden = visible !== 0;
+      }
+      platformFilter.addEventListener('change', updateComparison);
+      sortOrder.addEventListener('change', updateComparison);
+      modelSearch.addEventListener('input', updateComparison);
+    </script>
   </body>
 </html>

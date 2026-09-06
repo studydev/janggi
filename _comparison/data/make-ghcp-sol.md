@@ -1,9 +1,26 @@
-Model: GPT-5.6 sol (MAX 1M)
-Usage: 498.9 credit
-Time: 50m 18s
-Steps: 236
-files: 
-lines: 
+# GitHub Copilot 개발 기록: Sol
+
+| 항목 | 값 |
+| --- | --- |
+| Model | GPT-5.6 sol (MAX 1M) |
+| 도구 | GitHub Copilot |
+| 프로젝트 | [sol](../../sol/) |
+| Usage | 498.9 크레딧 |
+| Time | 50분 18초 |
+| Steps | 236 |
+| Files | 61개 |
+| Lines | 8,548줄 (텍스트 전체, 빈 줄 포함) |
+| 코드 비공백 LOC | 4,071줄 |
+| 규모 측정일 | 2026-09-06 |
+
+시간·사용량·Steps는 제공된 기록을 유지했다. 파일·라인 수는 [공통 집계 기준](README.md#측정-기준)에 따른 현재 실측값이며, 개발 당시 편집량이 아니다.
+
+## 개발 로그
+
+<details>
+<summary>원문 펼치기</summary>
+
+~~~~text
 
 할 일 목록 업데이트됨
 
@@ -1024,3 +1041,6 @@ Checked , no problems found
 완료: *Set up game logic and rules*(3/4)
 
 변경 사항 적용함.
+~~~~
+
+</details>
