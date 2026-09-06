@@ -33,3 +33,10 @@ test('design document keeps its local runtime dependencies', () => {
   assert.match(html, /src="janggi-engine\.js"/);
   assert.match(html, /_ds\/industry-/);
 });
+
+test('design document gives every move a placement sound and spaces AI replies', () => {
+  const html = readFileSync('Janggi.dc.html', 'utf8');
+  assert.match(html, /placeSound\(\)/);
+  assert.match(html, /scheduleAI\(g, delay = 1000\)/);
+  assert.match(html, /\}, delay\);/);
+});

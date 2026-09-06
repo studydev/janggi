@@ -496,6 +496,7 @@ class Component extends DCLogic {
     const s = this.state, E = this.E(), g = s.game;
     const victim = g.board[mv.to];
     const next = E.makeMove(g, mv);
+    this.placeSound();
     const patch = { game: next, sel: null, legal: [], snapshots: s.snapshots.concat([g]) };
     if (victim) {
       const val = E.VAL[victim.t];
@@ -520,7 +521,7 @@ class Component extends DCLogic {
     if (this.state.mode === 'AI' && next.turn !== this.state.human) this.scheduleAI(next);
   }
 
-  scheduleAI(g) {
+  scheduleAI(g, delay = 1000) {
     this.setState({ thinking: true });
     clearTimeout(this._aiT);
     this._aiT = setTimeout(() => {
@@ -535,6 +536,7 @@ class Component extends DCLogic {
       }
       const victim = cur.board[mv.to];
       const nx = E.makeMove(cur, mv);
+      this.placeSound();
       const patch = { game: nx, sel: null, legal: [], snapshots: s.snapshots.concat([cur]) };
       if (victim) {
         const val = E.VAL[victim.t];
@@ -551,7 +553,7 @@ class Component extends DCLogic {
       this.addCheckWarning(nx, patch, victim ? 130 : 0);
       this.setState(patch);
       this.afterMove(nx);
-    }, 220);
+    }, delay);
   }
 
   finish(g, res) {
@@ -605,6 +607,35 @@ class Component extends DCLogic {
       }
       return this._ac;
     } catch (e) { return null; }
+  }
+
+  placeSound() {
+    if (this.state.muted) return;
+    try {
+      const ac = this.wakeAudio();
+      if (!ac) return;
+      const t = ac.currentTime;
+      const osc = ac.createOscillator(), tone = ac.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(210, t);
+      osc.frequency.exponentialRampToValueAtTime(92, t + 0.075);
+      tone.gain.setValueAtTime(0.0001, t);
+      tone.gain.exponentialRampToValueAtTime(0.12, t + 0.006);
+      tone.gain.exponentialRampToValueAtTime(0.0001, t + 0.095);
+      osc.connect(tone).connect(ac.destination);
+      osc.start(t); osc.stop(t + 0.11);
+
+      const length = Math.floor(ac.sampleRate * 0.045);
+      const buffer = ac.createBuffer(1, length, ac.sampleRate);
+      const samples = buffer.getChannelData(0);
+      for (let i = 0; i < length; i++) samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3.2);
+      const noise = ac.createBufferSource(), gain = ac.createGain(), filter = ac.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 1800;
+      gain.gain.value = 0.09;
+      noise.buffer = buffer;
+      noise.connect(filter).connect(gain).connect(ac.destination);
+      noise.start(t);
+    } catch (e) { /* Audio is optional. */ }
   }
 
   boom(value) {

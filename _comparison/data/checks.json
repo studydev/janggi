@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T12:39:59.920Z",
+  "generatedAt": "2026-09-06T13:05:48.123Z",
   "results": [
     {
       "folder": "luna",
@@ -286,25 +286,25 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 274,
-        "tail": "> claude-code-design-opus5-janggi@1.0.0 test\n> node --test janggi.test.mjs\n✔ initial game offers legal first moves and swaps turns after a move (2.793667ms)\n✔ check detection identifies an exposed opposing general (0.854416ms)\n✔ design document keeps its local runtime dependencies (0.201375ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 78.182042",
+        "ms": 279,
+        "tail": "> claude-code-design-opus5-janggi@1.0.0 test\n> node --test janggi.test.mjs\n✔ initial game offers legal first moves and swaps turns after a move (3.132ms)\n✔ check detection identifies an exposed opposing general (0.41775ms)\n✔ design document keeps its local runtime dependencies (0.172958ms)\n✔ design document gives every move a placement sound and spaces AI replies (0.154041ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 72.9535",
         "stats": {
           "failed": 0,
-          "passed": 3,
-          "total": 3,
+          "passed": 4,
+          "total": 4,
           "files": 1
         }
       },
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 246,
+        "ms": 258,
         "tail": "> claude-code-design-opus5-janggi@1.0.0 check\n> node check.mjs\nStatic assets and JavaScript syntax: passed"
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 153,
+        "ms": 155,
         "tail": "> claude-code-design-opus5-janggi@1.0.0 build\n> node build.mjs\nBuilt static Claude Code Design app → dist/",
         "bundleKb": 82.16
       }

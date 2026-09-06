@@ -467,7 +467,7 @@ const implCards = entries
   .map((entry) => {
     const image = `<img src="/${escapeHtml(entry.thumb)}" alt="${escapeHtml(entry.environment.label + ' · ' + entry.title)} 대국 화면" loading="lazy" width="1200" height="750" />`;
     const shot = entry.thumb
-      ? `<a class="impl-shot" href="/${escapeHtml(entry.thumb)}" target="_blank" rel="noopener" aria-label="${escapeHtml(entry.title)} 스크린샷 원본 새 탭에서 보기">${image}</a>`
+      ? `<a class="impl-shot" href="${escapeHtml(entry.href)}" aria-label="${escapeHtml(entry.title)} 게임으로 이동">${image}</a>`
       : '<div class="impl-shot missing">화면 캡처 준비 중</div>';
     const themeTag = entry.themeAware ? '<span class="tag-theme">다크 모드도 지원</span>' : '';
     const time = entry.buildMs
@@ -500,18 +500,6 @@ const implCards = entries
             </div>
           </article>`;
   })
-  .join('\n');
-
-const resourceLinks = [
-  { href: '/comparison/', title: '전체 지표 표', desc: '폴더·파일·라인·문자·코드량과 파일 활동 시간을 한 표에서 확인' },
-  { href: '/comparison/details.html', title: '기존 7종 심층 리포트', desc: '요구사항 충족도, 규칙 정확도(perft), 사용량 분석' },
-  { href: '/comparison/#process', title: '전체 개발 기록', desc: `${entries.length}개 결과물의 사용량·시간 기록과 확보된 원문 로그` },
-  { href: '/comparison/project-size-time-report.txt', title: '측정 원문', desc: '규모와 시간 측정 결과를 생성한 그대로' },
-]
-  .map(
-    (link) =>
-      `          <a class="resource" href="${escapeHtml(link.href)}"><strong>${escapeHtml(link.title)}</strong><span>${escapeHtml(link.desc)}</span></a>`,
-  )
   .join('\n');
 
 const timeGaps = entries.filter((entry) => entry.buildMs == null).map((entry) => entry.title);
@@ -548,7 +536,6 @@ const portalHtml = readFileSync(join(here, 'portal.template.html'), 'utf8')
   .replace('          <!--CHARTS-->', charts)
   .replace('          <!--CHART_LEGEND-->', chartLegend)
   .replace('          <!--IMPL_CARDS-->', implCards)
-  .replace('          <!--RESOURCE_LINKS-->', resourceLinks)
   .replace('<!--SHOT_VIEWPORT-->', escapeHtml(shotViewport))
   .replace('<!--METHOD_TIME-->', escapeHtml(methodTime))
   .replace('<!--METHOD_GAPS-->', escapeHtml(methodGaps || '현재 확보된 범위에서는 빈 값이 없습니다.'))

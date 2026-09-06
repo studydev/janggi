@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T12:39:59.192Z",
+  "generatedAt": "2026-09-06T13:05:47.369Z",
   "projects": [
     {
       "folder": "luna",
@@ -478,11 +478,11 @@
     {
       "folder": "claude_code_design_opus5",
       "totalFiles": 5,
-      "totalLoc": 1356,
+      "totalLoc": 1391,
       "layers": {
         "ui": {
           "files": 1,
-          "loc": 940
+          "loc": 969
         },
         "config": {
           "files": 2,
@@ -494,11 +494,11 @@
         },
         "test": {
           "files": 1,
-          "loc": 31
+          "loc": 37
         }
       },
       "testFiles": 1,
-      "testCases": 3,
+      "testCases": 4,
       "artifacts": {
         "RULES": false,
         "CLAUDE": false,

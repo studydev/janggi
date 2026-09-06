@@ -37,6 +37,8 @@ try {
     const link = card.locator('.app-link');
     const href = await link.getAttribute('href');
     assert.equal(new URL(href, baseUrl).pathname, `/${app.path}/`);
+    const shot = card.locator('.impl-shot');
+    assert.equal(await shot.getAttribute('href'), href, app.dir + ' screenshot target');
     const response = await context.request.get(new URL(href, baseUrl).href);
     assert.equal(response.status(), 200, app.dir + ' app HTTP');
     const documentText = await response.text();
@@ -48,6 +50,7 @@ try {
     await card.locator('img').evaluate(image => image.decode());
     assert(await card.locator('img').evaluate(image => image.naturalWidth > 0));
   }
+  assert.equal(await page.locator('#resources .resource').count(), 0, 'legacy report links removed');
   for (const [platform, count] of [['copilot', 7], ['claude-code', 2], ['claude-code-design', 1], ['codex', 1]]) {
     await page.locator('#platform-filter').selectOption(platform);
     assert.equal(await page.locator('.comparison-table tbody tr:visible').count(), count);
@@ -94,7 +97,7 @@ try {
     await page.locator('#costs').screenshot({ path: join(tmpdir(), `janggi-costs-${width}.png`), style: '.topbar { visibility: hidden !important; }' });
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.locator('.impl .app-link').first().click();
+  await page.locator('.impl .impl-shot').first().click();
   await page.waitForURL('**/astra/');
   await page.locator('#root > *').first().waitFor();
   await page.goBack();

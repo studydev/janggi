@@ -26,7 +26,7 @@
 | [codex-astra](make-codex-astra.md) | Codex / GPT-6 Astra (Ultra) | ChatGPT Pro | 24분 37초 (원문 기록) | 1회 소진 후 후속 연속 요청 시 42% 잔여 | 51 | 5,655 | 3,010 |
 | [claude_sonnet5](make-claude-sonnet5.md) | Claude Code / Claude Sonnet5 | Pro | 미기록 | 5시간 윈도우 약 33% 소진 | 69 | 10,985 | 4,772 |
 | [claude_opus5](make-claude-opus5.md) | Claude Code / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 65% 소진 | 69 | 10,259 | 5,716 |
-| [claude_code_design_opus5](make-claude-code-design-opus5.md) | Claude Code Design / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 76% 소진 | 14 | 3,955 | 1,356 |
+| [claude_code_design_opus5](make-claude-code-design-opus5.md) | Claude Code Design / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 76% 소진 | 14 | 3,993 | 1,391 |
 
 ## 비교 시 주의사항
 
@@ -49,6 +49,6 @@
 - 텍스트 확장자: `.cjs`, `.css`, `.csv`, `.gitignore`, `.html`, `.js`, `.json`, `.jsx`, `.md`, `.mjs`, `.scss`, `.svg`, `.toml`, `.ts`, `.tsx`, `.txt`, `.webmanifest`, `.xml`, `.yaml`, `.yml`. `Dockerfile`, `LICENSE`, `NOTICE`도 포함한다.
 - 제외 폴더: `.git`, `.idea`, `.vite`, `build`, `coverage`, `dist`, `dist-ssr`, `logs`, `node_modules`, `playwright-report`, `test-results`.
 - 제외 파일: `.DS_Store`, `*.tsbuildinfo`, `*.local`, `*.log`, `.env.example`을 제외한 `.env*`.
-- 11개 프로젝트 합계: **610개 파일, 텍스트 전체 85,291줄, 코드 비공백 38,484줄**.
+- 11개 프로젝트 합계: **610개 파일, 텍스트 전체 85,329줄, 코드 비공백 38,519줄**.
 
 규모 보고서와 JSON 집계 자료를 다시 생성하는 명령은 저장소 루트에서 `npm --prefix _comparison run stats`이다. 이 명령은 `make-*.md` 요약 표를 자동으로 갱신하지 않는다.
