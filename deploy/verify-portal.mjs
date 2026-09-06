@@ -18,6 +18,9 @@ try {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(baseUrl);
+  for (const section of ['#comparison', '#costs']) {
+    assert.match(await page.locator(section).innerText(), /구독제는 정확한 토큰당 비용을 측정하기 어렵기 때문에.*비용 구조가 일치하지 않을 수 있습니다/);
+  }
   const rows = page.locator('.comparison-table tbody tr');
   const cards = page.locator('.impl');
   assert.equal(await rows.count(), apps.length);
@@ -27,7 +30,9 @@ try {
     const card = page.locator(`#result-${app.dir}`);
     assert.equal(await row.count(), 1, app.dir);
     assert.equal(await row.getAttribute('data-env'), app.env);
-    assert.equal(await row.locator('.money').innerText(), formatUsd(records.get(app.dir).usd));
+    const record = records.get(app.dir);
+    assert.equal(await row.locator('.cost-value').innerText(), `${record.usd == null ? '약 ' : ''}${formatUsd(record.usd ?? record.estimate.usd)}`);
+    assert.match(await row.locator('.cost-kind').innerText(), record.usd == null ? /배분 추정/ : /크레딧 환산/);
     assert((await card.locator('.description').innerText()).length > 10);
     const link = card.locator('.app-link');
     const href = await link.getAttribute('href');
@@ -49,8 +54,7 @@ try {
   }
   await page.locator('#platform-filter').selectOption('all');
   await page.locator('#sort-order').selectOption('cost');
-  assert.equal(await rows.first().getAttribute('data-project'), 'luna');
-  assert.deepEqual(await rows.evaluateAll(items => items.slice(-3).map(item => item.dataset.cost)), ['', '', '']);
+  assert.deepEqual(await rows.evaluateAll(items => items.slice(0, 4).map(item => item.dataset.project)), ['claude_sonnet5', 'claude_opus5', 'codex-astra', 'luna']);
   await page.locator('#sort-order').selectOption('time');
   assert.equal(await rows.first().getAttribute('data-project'), 'sol-fast');
   assert.deepEqual(await rows.evaluateAll(items => items.slice(-2).map(item => item.dataset.time)), ['', '']);
@@ -61,6 +65,16 @@ try {
   assert.equal(await page.locator('.impl:visible').count(), 0);
   await page.locator('#model-search').fill('');
   await page.locator('#sort-order').selectOption('default');
+  assert.equal(await page.locator('.cost-chart').count(), 2);
+  assert.equal(await page.locator('.cost-chart').first().locator('.cost-row').count(), 10);
+  assert.equal(await page.locator('.cost-chart').last().locator('.cost-row').count(), 3);
+  assert.equal(await page.locator('.cost-chart').first().locator('.estimated').count(), 3);
+  for (const app of apps) {
+    const chartRow = page.locator('.cost-chart').first().locator(`[data-project="${app.dir}"]`);
+    const record = records.get(app.dir);
+    assert.equal(Number(await chartRow.getAttribute('data-value')), record.usd ?? record.estimate.usd);
+  }
+  assert.match(await page.locator('.allocation-formula').innerText(), /월 \$20.*30일.*2개.*\$0.333.*60개/);
   for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: width === 1440 ? 1000 : 844 });
     await page.evaluate(() => window.scrollTo(0, 0));
@@ -70,6 +84,13 @@ try {
     await page.screenshot({ path: join(tmpdir(), `janggi-portal-${width}.png`) });
     await page.locator('.impl').first().scrollIntoViewIfNeeded();
     await page.screenshot({ path: join(tmpdir(), `janggi-gallery-${width}.png`) });
+    await page.locator('#costs').scrollIntoViewIfNeeded();
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `cost chart overflow at ${width}`);
+    for (const bar of await page.locator('.cost-bar').all()) {
+      const bounds = await bar.boundingBox();
+      assert(bounds.width > 0 && bounds.height > 0, 'nonblank cost bar');
+    }
+    await page.locator('#costs').screenshot({ path: join(tmpdir(), `janggi-costs-${width}.png`), style: '.topbar { visibility: hidden !important; }' });
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.locator('.impl .app-link').first().click();

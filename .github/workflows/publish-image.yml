@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate comparison data
+        run: node --test deploy/development-records.test.mjs
+
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -70,8 +73,14 @@ jobs:
             exit 1
           fi
           home=$(curl -fsS http://127.0.0.1:8080/)
-          case "$home" in *'같은 명세를 주면'*) ;; *) echo "::error::landing copy missing"; exit 1 ;; esac
-          test "$(grep -c 'thumbs/' <<<"$home")" = "10"
+          case "$home" in *'장기 게임 개발, 모델·플랫폼 비교'*) ;; *) echo "::error::landing copy missing"; exit 1 ;; esac
+          case "$home" in *'구독제는 정확한 토큰당 비용을 측정하기 어렵기 때문에'*) ;; *) echo "::error::cost disclaimer missing"; exit 1 ;; esac
+          test "$(grep -c '<tr data-project=' <<<"$home")" = "10"
+          test "$(grep -c '<article class="impl"' <<<"$home")" = "10"
+          for project in claude_opus5 claude_sonnet5 luna opus5 sol sol-fast astra codex-astra sonnet5 terra; do
+            curl -fsS "http://127.0.0.1:8080/thumbs/$project.jpg" -o /dev/null
+            curl -fsS "http://127.0.0.1:8080/comparison/logs/$project.txt" -o /dev/null
+          done
           for p in copus csonn luna opus5 sol sol-fast astra codex-astra sonn5 terra comparison; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8080/$p/")
             echo "/$p/ -> $code"

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { developmentRecords, formatUsd } from './development-records.mjs';
+import { developmentRecords, formatUsd, subscriptionEstimate } from './development-records.mjs';
 
 const apps = JSON.parse(readFileSync(new URL('./apps.json', import.meta.url), 'utf8'));
 const data = JSON.parse(readFileSync(new URL('./development-records.json', import.meta.url), 'utf8'));
@@ -40,4 +40,21 @@ test('missing, duplicate, unknown and mismatched records fail closed', () => {
   const changed = structuredClone(data);
   changed.records[0].env = 'codex';
   assert.throws(() => developmentRecords(apps, changed), /Platform mismatch/);
+});
+
+test('subscription allocation uses 30 days and two five-hour windows per day', () => {
+  const records = developmentRecords(apps, data);
+  assert.equal(formatUsd(records.get('claude_sonnet5').estimate.usd), '$0.110');
+  assert.equal(formatUsd(records.get('claude_opus5').estimate.usd), '$0.217');
+  assert.equal(formatUsd(records.get('codex-astra').estimate.usd), '$0.527');
+  assert.equal(records.get('codex-astra').estimate.windowEquivalent, 1.58);
+  assert.equal(records.get('codex-astra').estimate.conditional, true);
+  assert.equal(records.get('claude_opus5').estimate.windowUsd, 20 / 60);
+  assert.equal(records.get('astra').estimate, null);
+  const record = data.records.find(entry => entry.dir === 'claude_sonnet5');
+  assert.equal(subscriptionEstimate(record, { ...data.subscriptionAllocation, windowsPerDay: 1 }).usd, 0.22);
+  assert.throws(() => subscriptionEstimate(record, { ...data.subscriptionAllocation, daysPerMonth: 0 }), /Invalid allocation/);
+  const codex = data.records.find(entry => entry.dir === 'codex-astra');
+  assert.throws(() => subscriptionEstimate({ ...codex, remainingPercent: 101 }, data.subscriptionAllocation), /Invalid Codex/);
+  assert.throws(() => subscriptionEstimate({ ...codex, assumedFullWindows: undefined }, data.subscriptionAllocation), /Invalid Codex/);
 });

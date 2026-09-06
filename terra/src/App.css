@@ -182,13 +182,13 @@
 }
 
 .formation-picker.formation-cho .formation-option.is-selected {
-  border-color: var(--vermilion);
-  background: var(--vermilion-soft);
+  border-color: var(--jade);
+  background: var(--jade-soft);
 }
 
 .formation-picker.formation-han .formation-option.is-selected {
-  border-color: var(--jade);
-  background: var(--jade-soft);
+  border-color: var(--vermilion);
+  background: var(--vermilion-soft);
 }
 
 .formation-glyphs {
@@ -200,11 +200,11 @@
 }
 
 .formation-cho .formation-glyphs {
-  color: var(--vermilion);
+  color: var(--jade);
 }
 
 .formation-han .formation-glyphs {
-  color: var(--jade);
+  color: var(--vermilion);
 }
 
 .rule-options {
@@ -402,11 +402,11 @@
 }
 
 .turn-han {
-  background: var(--jade);
+  background: var(--vermilion);
 }
 
 .turn-cho {
-  background: var(--vermilion);
+  background: var(--jade);
 }
 
 .topbar-actions {
@@ -446,11 +446,11 @@
 }
 
 .player-panel.player-cho {
-  --side-color: var(--vermilion);
+  --side-color: var(--jade);
 }
 
 .player-panel.player-han {
-  --side-color: var(--jade);
+  --side-color: var(--vermilion);
 }
 
 .player-panel.is-active {
@@ -710,18 +710,18 @@
 }
 
 .piece-han .piece-disc {
-  fill: #edf4ee;
-  stroke: var(--jade);
-}
-
-.piece-cho .piece-disc {
   fill: #fff4eb;
   stroke: var(--vermilion);
 }
 
+.piece-cho .piece-disc {
+  fill: #edf4ee;
+  stroke: var(--jade);
+}
+
 .piece-inner-ring {
   fill: none;
-  stroke: var(--jade);
+  stroke: var(--vermilion);
   stroke-width: 1.4;
   opacity: 0.7;
 }
@@ -733,11 +733,11 @@
 }
 
 .piece-han .piece-symbol {
-  fill: var(--jade);
+  fill: var(--vermilion);
 }
 
 .piece-cho .piece-symbol {
-  fill: var(--vermilion);
+  fill: var(--jade);
 }
 
 .piece-in-check .piece-disc {

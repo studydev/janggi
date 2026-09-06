@@ -311,17 +311,19 @@ const totals = {
 };
 
 const comparisonRows = entries.map((entry, index) => {
+  const cost = entry.record.usd ?? entry.record.estimate?.usd;
+  const costKind = entry.record.usd != null ? '크레딧 환산' : entry.record.estimate.conditional ? '조건부 배분 추정' : '구독료 배분 추정';
   const usage = entry.record.env === 'copilot'
     ? `${formatNumber(entry.record.credits)} 크레딧`
     : `${entry.record.plan} · ${entry.record.usage}`;
   const image = entry.thumb
     ? `<img src="/${escapeHtml(entry.thumb)}" alt="" width="72" height="45" />`
     : '';
-  return `<tr data-project="${escapeHtml(entry.dir)}" data-env="${entry.environment.id}" data-order="${index}" data-cost="${entry.record.usd ?? ''}" data-time="${entry.record.durationSeconds ?? ''}">
+  return `<tr data-project="${escapeHtml(entry.dir)}" data-env="${entry.environment.id}" data-order="${index}" data-cost="${cost ?? ''}" data-time="${entry.record.durationSeconds ?? ''}">
     <th scope="row"><a class="result-link" href="#result-${entry.dir}">${image}<span>${escapeHtml(entry.log.model)}<small>${escapeHtml(entry.dir)}</small></span></a></th>
     <td><span class="platform" style="--env:${entry.environment.color}">${brandIcon(entry.environment)}${escapeHtml(entry.environment.label)}</span></td>
     <td class="usage-cell">${escapeHtml(usage)}</td>
-    <td class="money">${entry.record.usd == null ? '<span class="not-priced">직접 환산 불가</span>' : formatUsd(entry.record.usd)}</td>
+    <td class="money"><span class="cost-value">${entry.record.usd == null ? '약 ' : ''}${formatUsd(cost)}</span><small class="cost-kind">${costKind}</small></td>
     <td class="numeric">${entry.buildMs == null ? '미기록' : formatDuration(entry.buildMs)}</td>
     <td class="numeric">${entry.record.steps ?? '미기록'}</td>
     <td class="numeric">${formatNumber(entry.files)}</td>
@@ -331,6 +333,31 @@ const comparisonRows = entries.map((entry, index) => {
     <td><a class="app-link" href="${escapeHtml(entry.href)}" aria-label="${escapeHtml(entry.environment.label + ' ' + entry.title)} 앱 열기">앱 열기</a></td>
   </tr>`;
 }).join('\n');
+
+const allocation = developmentData.subscriptionAllocation;
+const monthlyWindows = allocation.daysPerMonth * allocation.windowsPerDay;
+const windowUsd = allocation.monthlyUsd / monthlyWindows;
+function costChart(chartEntries, scale, title) {
+  return `<figure class="cost-chart"><h3>${title}</h3>
+    <p class="cost-axis">선형 축: $0 → ${formatUsd(scale)} USD</p>
+    <ol>${chartEntries.map(entry => {
+      const value = entry.record.usd ?? entry.record.estimate.usd;
+      const estimated = entry.record.usd == null;
+      const kind = estimated ? (entry.record.estimate.conditional ? '조건부 배분 추정' : '구독료 배분 추정') : '크레딧 환산';
+      return `<li class="cost-row" data-project="${entry.dir}" data-value="${value}" data-scale="${scale}">
+        <span class="cost-label">${escapeHtml(entry.title)}<small>${escapeHtml(entry.environment.label)} · ${kind}</small></span>
+        <span class="cost-track" aria-hidden="true"><span class="cost-bar${estimated ? ' estimated' : ''}" style="width:${value / scale * 100}%;--env:${entry.environment.color}"></span></span>
+        <strong>${estimated ? '약 ' : ''}${formatUsd(value)}</strong></li>`;
+    }).join('')}</ol></figure>`;
+}
+const costEntries = [...entries].sort((left, right) => (right.record.usd ?? right.record.estimate.usd) - (left.record.usd ?? left.record.estimate.usd));
+const fullScale = Math.max(1, Math.ceil(Math.max(...costEntries.map(entry => entry.record.usd ?? entry.record.estimate.usd)) / 10) * 10);
+const subscriptionEntries = costEntries.filter(entry => entry.record.estimate);
+const subscriptionScale = Math.max(1, Math.ceil(Math.max(...subscriptionEntries.map(entry => entry.record.estimate.usd))));
+const costCharts = costChart(costEntries, fullScale, '전체 10개 · 공통 달러 축')
+  + costChart(subscriptionEntries, subscriptionScale, '구독형 3개 · 확대 축');
+const allocationSummary = `월 $${allocation.monthlyUsd} ÷ (${allocation.daysPerMonth}일 × 하루 ${allocation.windowsPerDay}개) = ${allocation.windowHours}시간 윈도우당 약 ${formatUsd(windowUsd)} · 월 ${monthlyWindows}개를 모두 활용하는 가정`;
+const allocationRows = subscriptionEntries.map(entry => `<tr><th scope="row">${escapeHtml(entry.environment.label + ' · ' + entry.title)}</th><td>${escapeHtml(entry.record.estimate.basis)}</td><td>${entry.record.estimate.windowEquivalent.toFixed(2)}개 × ($${allocation.monthlyUsd} / ${monthlyWindows})</td><td>약 ${formatUsd(entry.record.estimate.usd)}</td></tr>`).join('');
 
 const heroMetrics = [
   { label: '구현', value: `${entries.length}<span>종</span>` },
@@ -501,6 +528,9 @@ const shotViewport = thumbnails ? `${thumbnails.viewport.width}×${thumbnails.vi
 if (existsSync(thumbsDir)) cpSync(thumbsDir, join(outDir, 'thumbs'), { recursive: true });
 
 const portalHtml = readFileSync(join(here, 'portal.template.html'), 'utf8')
+  .replace('<!--COST_CHARTS-->', costCharts)
+  .replace('<!--ALLOCATION_SUMMARY-->', escapeHtml(allocationSummary))
+  .replace('<!--ALLOCATION_ROWS-->', allocationRows)
   .replace('<!--COMPARISON_ROWS-->', comparisonRows)
   .replace('<!--RECORD_DATE-->', escapeHtml(developmentData.recordedAt))
   .replace('<!--ENV_COUNT-->', String(ENVIRONMENTS.length))

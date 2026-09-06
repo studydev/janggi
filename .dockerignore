@@ -14,9 +14,7 @@ _comparison/data/*
 !_comparison/data/checks.json
 !_comparison/data/tokens.json
 !_comparison/data/thumbnails.json
-!_comparison/data/make-astra.md
-!_comparison/data/make-codex-astra.md
-!_comparison/data/make-sol-fast.md
+!_comparison/data/make-*.md
 !_comparison/screenshots/
 !_comparison/screenshots/**
 **/*.tsbuildinfo

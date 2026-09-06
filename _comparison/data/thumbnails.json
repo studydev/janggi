@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T16:54:10.536Z",
+  "generatedAt": "2026-09-06T06:45:11.858Z",
   "viewport": {
     "width": 1200,
     "height": 750
@@ -44,7 +44,7 @@
         "light": "rgb(247, 244, 239)",
         "dark": "rgb(61, 59, 58)"
       },
-      "bytes": 77568,
+      "bytes": 78677,
       "error": null
     },
     {
@@ -142,7 +142,7 @@
         "light": "rgb(245, 242, 233)",
         "dark": "rgb(245, 242, 233)"
       },
-      "bytes": 92414,
+      "bytes": 92370,
       "error": null
     }
   ]

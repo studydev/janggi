@@ -100,8 +100,8 @@ button:focus-visible, [tabindex]:focus-visible, input:focus-visible { outline: 2
 .setup-player-heading div span { color: var(--cp-text-muted); font-size: 0.72rem; }
 .setup-choice-value { margin-left: auto; color: var(--cp-text-muted); font-family: Consolas, "Courier New", Courier, monospace; font-size: 0.72rem; letter-spacing: 0.06em; }
 .side-pip { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--cp-text); border-radius: 50%; background: var(--cp-surface); }
-.han-pip, .player-han .side-pip { border-color: var(--cp-success); }
-.cho-pip, .player-cho .side-pip { border-color: var(--cp-accent); }
+.han-pip, .player-han .side-pip { border-color: var(--cp-danger); }
+.cho-pip, .player-cho .side-pip { border-color: var(--cp-success); }
 .setup-choice-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .setup-choice { display: flex; flex-direction: column; align-items: stretch; gap: 11px; min-height: 74px; padding: 10px; border: 1px solid var(--cp-border); border-radius: 10px; color: var(--cp-text-muted); background: var(--cp-surface); text-align: left; transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease; }
 .setup-choice:hover { border-color: var(--cp-border-strong); transform: translateY(-2px); }
@@ -157,11 +157,11 @@ button:focus-visible, [tabindex]:focus-visible, input:focus-visible { outline: 2
 .piece { transition: transform 180ms ease; }
 .piece-face { fill: var(--cp-surface); stroke: var(--cp-text); stroke-width: 1.3; }
 .piece-edge { fill: none; stroke-width: 1.6; }
-.piece-han .piece-edge { stroke: var(--cp-success); }
-.piece-cho .piece-edge { stroke: var(--cp-accent); }
+.piece-han .piece-edge { stroke: var(--cp-danger); }
+.piece-cho .piece-edge { stroke: var(--cp-success); }
 .piece-glyph { fill: var(--cp-text); font-family: serif; font-size: 21px; font-weight: 700; }
-.piece-han .piece-glyph { fill: var(--cp-success); }
-.piece-cho .piece-glyph { fill: var(--cp-accent); }
+.piece-han .piece-glyph { fill: var(--cp-danger); }
+.piece-cho .piece-glyph { fill: var(--cp-success); }
 .board-point.is-selected .piece-face { fill: var(--cp-accent-soft); stroke: var(--cp-accent); stroke-width: 2; }
 .board-point.is-checked .piece-face { fill: var(--cp-highlight); stroke: var(--cp-danger); stroke-width: 2; }
 .board-tools { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
@@ -173,12 +173,14 @@ button:focus-visible, [tabindex]:focus-visible, input:focus-visible { outline: 2
 .game-sidebar { display: flex; flex-direction: column; gap: 18px; padding-top: 15px; }
 .players-stack { display: grid; gap: 9px; }
 .player-card { padding: 16px 18px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-panel); }
-.player-card.is-turn { border-color: var(--cp-accent); box-shadow: inset 3px 0 0 var(--cp-accent); }
+.player-cho { --side-color: var(--cp-success); }
+.player-han { --side-color: var(--cp-danger); }
+.player-card.is-turn { border-color: var(--side-color); box-shadow: inset 3px 0 0 var(--side-color); }
 .player-card-top, .player-card-main, .captured-line, .panel-heading, .replay-controls, .draw-notice, .action-row { display: flex; align-items: center; justify-content: space-between; }
 .player-card-top { color: var(--cp-text-muted); font-size: 0.68rem; }
 .player-card-top .side-pip { margin-right: 6px; }
 .player-role { margin-right: auto; }
-.turn-live { color: var(--cp-accent); font-weight: 700; }
+.turn-live { color: var(--side-color); font-weight: 700; }
 .player-card-main { margin: 11px 0 14px; }
 .player-card-main h3 { margin: 0; font-size: 1.35rem; font-weight: 600; }
 .player-card-main p { margin: 3px 0 0; color: var(--cp-text-muted); font-size: 0.68rem; }

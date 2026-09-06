@@ -1,3 +1,30 @@
+export function subscriptionEstimate(record, allocation) {
+  if (record.env === 'copilot') return null;
+  for (const key of ['monthlyUsd', 'daysPerMonth', 'windowsPerDay', 'windowHours']) {
+    if (!Number.isFinite(allocation?.[key]) || allocation[key] <= 0) throw new Error(`Invalid allocation: ${key}`);
+  }
+  const windowUsd = allocation.monthlyUsd / (allocation.daysPerMonth * allocation.windowsPerDay);
+  if (record.env === 'codex' && (!Number.isInteger(record.assumedFullWindows) || record.assumedFullWindows < 0
+    || !Number.isFinite(record.remainingPercent) || record.remainingPercent < 0 || record.remainingPercent > 100)) {
+    throw new Error(`Invalid Codex scenario: ${record.dir}`);
+  }
+  const windowEquivalent = record.env === 'codex'
+    ? record.assumedFullWindows + (100 - record.remainingPercent) / 100
+    : record.usedPercent / 100;
+  if (!Number.isFinite(windowEquivalent) || windowEquivalent < 0 || (record.env !== 'codex' && windowEquivalent > 1)) {
+    throw new Error(`Invalid subscription usage: ${record.dir}`);
+  }
+  return {
+    usd: windowUsd * windowEquivalent,
+    windowUsd,
+    windowEquivalent,
+    conditional: record.env === 'codex',
+    basis: record.env === 'codex'
+      ? `조건부: ${record.assumedFullWindows}개 윈도우 전량 + 재설정 후 ${100 - record.remainingPercent}% = ${windowEquivalent}개. 각 윈도우가 100%에서 시작하고 이 작업만 사용했다고 가정.`
+      : `관측 소진율 약 ${record.usedPercent}%에 구독료를 비례 배분.`,
+  };
+}
+
 export function developmentRecords(apps, data) {
   if (data.creditsPerUsd !== 100) throw new Error('Expected 100 credits per USD');
   const appNames = new Set(apps.map((app) => app.dir));
@@ -23,6 +50,7 @@ export function developmentRecords(apps, data) {
     records.set(record.dir, {
       ...record,
       usd: record.env === 'copilot' ? record.credits / data.creditsPerUsd : null,
+      estimate: subscriptionEstimate(record, data.subscriptionAllocation),
     });
   }
   for (const app of apps) {

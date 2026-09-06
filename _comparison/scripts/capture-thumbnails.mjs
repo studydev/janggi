@@ -19,6 +19,13 @@ const require = createRequire(join(ROOT, 'astra', 'package.json'));
 const { chromium } = require('playwright');
 
 const apps = JSON.parse(readFileSync(join(ROOT, 'deploy', 'apps.json'), 'utf8'));
+const selectedProjects = process.env.THUMB_PROJECTS?.split(',').filter(Boolean);
+if (selectedProjects?.some(name => !apps.some(app => app.dir === name))) {
+  throw new Error('Unknown project in THUMB_PROJECTS');
+}
+const previous = selectedProjects && existsSync(DATA_PATH)
+  ? JSON.parse(readFileSync(DATA_PATH, 'utf8')).thumbnails
+  : [];
 
 const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
@@ -110,6 +117,7 @@ async function capture(app, colorScheme, file) {
 }
 
 for (const app of apps) {
+  if (selectedProjects && !selectedProjects.includes(app.dir)) continue;
   const light = await capture(app, 'light', `${app.dir}.jpg`);
   const dark = await capture(app, 'dark', null);
   const themeAware = Boolean(light.background && dark.background && light.background !== dark.background);
@@ -137,7 +145,11 @@ server.close();
 
 writeFileSync(
   DATA_PATH,
-  JSON.stringify({ generatedAt: new Date().toISOString(), viewport: VIEWPORT, thumbnails: captured }, null, 2) + '\n',
+  JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    viewport: VIEWPORT,
+    thumbnails: apps.map(app => captured.find(shot => shot.dir === app.dir) ?? previous.find(shot => shot.dir === app.dir)).filter(Boolean),
+  }, null, 2) + '\n',
   'utf8',
 );
 console.log(`\n→ ${OUT_DIR}`);
