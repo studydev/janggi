@@ -3,7 +3,7 @@
 | 항목 | 값 |
 | --- | --- |
 | Model | GPT-6 Astra (Ultra) |
-| 도구 | Codex (ChatGPT Pro 플랜) |
+| 도구 | Codex (ChatGPT Plus 플랜) |
 | 프로젝트 | [codex-astra](../../codex-astra/) |
 | Usage | 사용 한도 1회 소진 후, 후속 연속 요청 시 42% 잔여 |
 | Time | 24분 37초 (원문 기록) |

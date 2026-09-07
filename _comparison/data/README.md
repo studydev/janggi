@@ -23,7 +23,7 @@
 
 | 프로젝트 및 기록 | 도구 및 모델 | 플랜 | 소요 시간 | 사용량 관측 | Files | Lines | 코드 비공백 LOC |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: |
-| [codex-astra](make-codex-astra.md) | Codex / GPT-6 Astra (Ultra) | ChatGPT Pro | 24분 37초 (원문 기록) | 1회 소진 후 후속 연속 요청 시 42% 잔여 | 51 | 5,655 | 3,010 |
+| [codex-astra](make-codex-astra.md) | Codex / GPT-6 Astra (Ultra) | ChatGPT Plus | 24분 37초 (원문 기록) | 1회 소진 후 후속 연속 요청 시 42% 잔여 | 51 | 5,655 | 3,010 |
 | [claude_sonnet5](make-claude-sonnet5.md) | Claude Code / Claude Sonnet5 | Pro | 미기록 | 5시간 윈도우 약 33% 소진 | 69 | 10,985 | 4,772 |
 | [claude_opus5](make-claude-opus5.md) | Claude Code / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 65% 소진 | 69 | 10,259 | 5,716 |
 | [claude_code_design_opus5](make-claude-code-design-opus5.md) | Claude Code Design / Claude Opus5 | Pro | 미기록 | 5시간 윈도우 약 76% 소진 | 14 | 3,993 | 1,391 |

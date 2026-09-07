@@ -11,7 +11,7 @@
   "rateSource": "사용자 제공 환산 기준. 실제 청구액이나 플랜 구독료가 아닌 크레딧 환산액.",
   "records": [
     { "dir": "astra", "env": "copilot", "logFile": "make-ghcp-astra.md", "credits": 2627.3, "durationSeconds": 3365, "steps": 173, "note": "인접 프로젝트의 엔진·테스트를 참고한 구현." },
-    { "dir": "codex-astra", "env": "codex", "logFile": "make-codex-astra.md", "plan": "ChatGPT Pro", "durationSeconds": 1477, "steps": null, "assumedFullWindows": 1, "remainingPercent": 42, "usage": "한도 1회 소진 후 42% 잔여", "note": "중단·사용량 재설정 후 연속 요청 시 잔여량. 전체 작업의 총 소진율과 시간 범위는 불명확." },
+    { "dir": "codex-astra", "env": "codex", "logFile": "make-codex-astra.md", "plan": "ChatGPT Plus", "durationSeconds": 1477, "steps": null, "assumedFullWindows": 1, "remainingPercent": 42, "usage": "한도 1회 소진 후 42% 잔여", "note": "중단·사용량 재설정 후 연속 요청 시 잔여량. 전체 작업의 총 소진율과 시간 범위는 불명확." },
     { "dir": "opus5", "env": "copilot", "logFile": "make-ghcp-opus5.md", "credits": 1301.6, "durationSeconds": 2436, "steps": 48, "note": "신규 구현 세션 기록." },
     { "dir": "claude_opus5", "env": "claude-code", "logFile": "make-claude-opus5.md", "plan": "Pro", "durationSeconds": null, "steps": null, "windowHours": 5, "usedPercent": 65, "usage": "5시간 윈도우 약 65% 소진", "note": "사용자 관측값. USD는 월 구독료 배분 가정이며 실제 사용료가 아님." },
     { "dir": "sonnet5", "env": "copilot", "logFile": "make-ghcp-sonnet5.md", "credits": 1014.6, "durationSeconds": 3774, "steps": 41, "note": "신규 구현 세션 기록." },
