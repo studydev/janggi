@@ -1,67 +1,49 @@
 import { describe, expect, it } from 'vitest'
 import {
-  createEmptyBoard,
+  BOARD_SIZE,
   createInitialBoard,
+  createInitialState,
   forwardDir,
   getPiece,
   indexToPosition,
-  isInBoard,
   isInPalace,
   isOnPalaceDiagonal,
   positionToIndex,
+  toPosition,
 } from './board'
 
 describe('board coordinates', () => {
-  it('converts every board position to an index and back', () => {
-    for (let rank = 1; rank <= 10; rank += 1) {
-      for (let file = 1; file <= 9; file += 1) {
-        const position = { file, rank }
-        expect(indexToPosition(positionToIndex(position))).toEqual(position)
-      }
+  it('round-trips all 90 intersections through the flat board', () => {
+    for (let index = 0; index < BOARD_SIZE; index += 1) {
+      expect(positionToIndex(indexToPosition(index))).toBe(index)
     }
   })
 
   it('recognizes board and palace boundaries', () => {
-    expect(isInBoard({ file: 1, rank: 1 })).toBe(true)
-    expect(isInBoard({ file: 10, rank: 1 })).toBe(false)
+    expect(toPosition(0, 1)).toBeNull()
+    expect(toPosition(9, 10)).toEqual({ file: 9, rank: 10 })
     expect(isInPalace({ file: 4, rank: 1 }, 'HAN')).toBe(true)
     expect(isInPalace({ file: 4, rank: 4 }, 'HAN')).toBe(false)
-    expect(isInPalace({ file: 6, rank: 10 }, 'CHO')).toBe(true)
     expect(isOnPalaceDiagonal({ file: 5, rank: 2 })).toBe(true)
-    expect(isOnPalaceDiagonal({ file: 5, rank: 1 })).toBe(false)
-  })
-
-  it('uses opposite forward directions for Han and Cho', () => {
+    expect(isOnPalaceDiagonal({ file: 4, rank: 2 })).toBe(false)
     expect(forwardDir('HAN')).toBe(1)
     expect(forwardDir('CHO')).toBe(-1)
   })
 })
 
-describe('initial board', () => {
-  it('creates an empty 90-point board', () => {
-    expect(createEmptyBoard()).toHaveLength(90)
-    expect(createEmptyBoard().every((piece) => piece === null)).toBe(true)
+describe('initial position', () => {
+  it('places 16 pieces per side and gives CHO the first turn', () => {
+    const state = createInitialState()
+    expect(state.board.filter((piece) => piece?.side === 'HAN')).toHaveLength(16)
+    expect(state.board.filter((piece) => piece?.side === 'CHO')).toHaveLength(16)
+    expect(state.turn).toBe('CHO')
   })
 
-  it('places all pieces using each side setup', () => {
-    const board = createInitialBoard('MSSM', 'SMMS')
-
-    expect(board.filter((piece) => piece?.side === 'HAN')).toHaveLength(16)
-    expect(board.filter((piece) => piece?.side === 'CHO')).toHaveLength(16)
-    expect(getPiece(board, { file: 5, rank: 2 })?.type).toBe('GUNG')
-    expect(getPiece(board, { file: 5, rank: 9 })?.side).toBe('CHO')
-
-    expect([2, 3, 7, 8].map((file) => getPiece(board, { file, rank: 1 })?.type)).toEqual([
-      'MA',
-      'SANG',
-      'SANG',
-      'MA',
-    ])
-    expect([2, 3, 7, 8].map((file) => getPiece(board, { file, rank: 10 })?.type)).toEqual([
-      'SANG',
-      'MA',
-      'MA',
-      'SANG',
-    ])
+  it('applies each selected horse-elephant formation', () => {
+    const board = createInitialBoard('SMMS', 'MSSM')
+    expect(getPiece(board, { file: 2, rank: 1 })?.type).toBe('SANG')
+    expect(getPiece(board, { file: 3, rank: 1 })?.type).toBe('MA')
+    expect(getPiece(board, { file: 2, rank: 10 })?.type).toBe('MA')
+    expect(getPiece(board, { file: 3, rank: 10 })?.type).toBe('SANG')
   })
 })

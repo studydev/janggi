@@ -1,32 +1,29 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
-
-interface ErrorBoundaryProps {
-  readonly children: ReactNode
-}
+import { RotateCcw } from 'lucide-react'
 
 interface ErrorBoundaryState {
   readonly failed: boolean
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<{ readonly children: ReactNode }, ErrorBoundaryState> {
   state: ErrorBoundaryState = { failed: false }
 
   static getDerivedStateFromError(): ErrorBoundaryState {
     return { failed: true }
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('Janggi UI error', error, info.componentStack)
+  componentDidCatch(error: Error, info: ErrorInfo): void {
+    console.error('Janggi UI error', error, info)
   }
 
   render() {
     if (this.state.failed) {
       return (
-        <main className="error-screen">
+        <main className="error-state">
           <span className="brand-seal" aria-hidden="true">將</span>
-          <h1>화면을 복구하지 못했습니다.</h1>
-          <button type="button" className="primary-action" onClick={() => window.location.reload()}>
-            다시 열기
+          <h1>대국판을 복구할 수 없습니다.</h1>
+          <button className="primary-button" type="button" onClick={() => window.location.reload()}>
+            <RotateCcw aria-hidden="true" /> 다시 열기
           </button>
         </main>
       )

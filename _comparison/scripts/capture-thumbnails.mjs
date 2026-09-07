@@ -15,8 +15,9 @@ const PORT = Number(process.env.THUMB_PORT ?? 4321);
 const VIEWPORT = { width: 1200, height: 750 };
 const START_PATTERN = /(대국\s*시작|게임\s*시작|새\s*대국|대국\s*개시|시작하기|바로\s*시작|플레이|start)/i;
 
-const require = createRequire(join(ROOT, 'astra', 'package.json'));
-const { chromium } = require('playwright');
+// playwright-core 는 _comparison 에만 설치돼 있어 시스템 Edge 채널로 띄운다.
+const require = createRequire(join(ROOT, '_comparison', 'package.json'));
+const { chromium } = require('playwright-core');
 
 const apps = JSON.parse(readFileSync(join(ROOT, 'deploy', 'apps.json'), 'utf8'));
 const selectedProjects = process.env.THUMB_PROJECTS?.split(',').filter(Boolean);
@@ -87,7 +88,7 @@ if (!existsSync(SITE_DIR)) throw new Error(`Missing built site: ${SITE_DIR}. nod
 mkdirSync(OUT_DIR, { recursive: true });
 
 const server = await startServer();
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ channel: 'msedge', headless: true });
 const captured = [];
 
 async function capture(app, colorScheme, file) {

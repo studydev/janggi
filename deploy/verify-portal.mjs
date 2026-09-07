@@ -60,7 +60,7 @@ try {
   await page.locator('#sort-order').selectOption('cost');
   assert.deepEqual(await rows.evaluateAll(items => items.slice(0, 4).map(item => item.dataset.project)), ['claude_sonnet5', 'claude_opus5', 'claude_code_design_opus5', 'codex-astra']);
   await page.locator('#sort-order').selectOption('time');
-  assert.equal(await rows.first().getAttribute('data-project'), 'sol-fast');
+  assert.equal(await rows.first().getAttribute('data-project'), 'codex-astra');
   assert.equal(await rows.evaluateAll(items => items.filter(item => !item.dataset.time).length), 3);
   await page.locator('#model-search').fill('sonnet');
   assert.equal(await page.locator('.comparison-table tbody tr:visible').count(), 2);

@@ -1,48 +1,49 @@
-# sol-fast 장기
+# React + TypeScript + Vite
 
-한국 장기 규칙을 적용한 브라우저 기반 로컬 2인 게임입니다. React 18, strict TypeScript, Vite, SVG로 구현했으며 규칙 엔진은 UI와 분리된 순수 모듈입니다.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+# 두는 장기
+
+React 18, TypeScript, SVG로 만든 로컬 2인용 한국 장기 게임입니다. 규칙 엔진은 UI와 분리된 순수 TypeScript 모듈이며 오프라인 PWA로 동작합니다.
 
 ## 실행
 
-```bash
+```powershell
 npm install
 npm run dev
 ```
 
-프로덕션 확인과 테스트:
+프로덕션 확인:
 
-```bash
+```powershell
 npm run build
-npm run lint
-npm run test:run
-npm run validate:random
+npm run preview
 ```
 
-## 구현 범위
+## 검증
 
-- 마상 배치 4종과 빅장·기물 표기·색맹 팔레트 설정
-- 장기 기물 7종의 이동, 장군·멍군·외통, 패스, 빅장, 반복, 점수 판정
-- SVG 보드의 클릭·드래그·터치·키보드 조작과 보드 뒤집기
-- 점수, 잡힌 기물, 기보, 경과 시간, 무르기·기권·무승부 제안
-- JSON 기보 내보내기·불러오기·수순 재생과 localStorage 자동 복구
-- 반응형 UI, 오류 경계, 설치 가능한 오프라인 PWA
+```powershell
+npm run test:run
+npm run validate:perft
+npm run validate:random
+npm run lint
+```
 
-AI 상대와 온라인 대전은 이번 범위에 포함하지 않았습니다.
+- 초기 국면 perft 기준값(pass 포함): depth 1 `32`, depth 2 `1024`, depth 3 `33506`
+- `validate:random`: 결정적 난수로 1,000판을 진행하며 궁 포획, 궁성 이탈, 포 규칙, 졸·병 후진을 검사합니다.
 
 ## 구조
 
-| 경로 | 역할 |
-| --- | --- |
-| `src/engine/` | 보드 모델, 기물 이동, 합법수, 결과, 기보, 검증 |
-| `src/engine/moves/` | 기물별 의사이동 생성기 |
-| `src/ui/` | SVG 보드, 설정·대국 화면, reducer와 Context |
-| `scripts/random-game.ts` | 랜덤 대국 불변식 검증 실행기 |
-| `public/` | PWA 매니페스트, 아이콘, 서비스 워커 |
+- `src/engine`: 좌표, 초기 배치, 기물 이동, 합법수, 장군, 승패, 점수, 기보 직렬화와 검증
+- `src/game`: `useReducer`와 Context 기반 게임 상태
+- `src/ui`: props 기반 SVG 보드와 설정·대국 화면
+- `RULES.md`: 구현의 최우선 규칙 명세
 
-엔진은 React, DOM, 브라우저 API를 참조하지 않습니다. UI는 엔진이 반환한 합법수만 표시하고 착수합니다.
+기물 클릭 또는 드래그로 착수할 수 있고, 보드에 키보드 포커스를 둔 뒤 방향키와 Enter로도 조작할 수 있습니다. 진행 중인 대국은 브라우저에 자동 저장되며 JSON 기보 가져오기·내보내기와 전체 리플레이를 지원합니다.
 
-## 규칙과 검증
-
-프로젝트 규칙의 단일 근거는 제공된 장기 명세를 그대로 옮긴 [`RULES.md`](RULES.md)입니다. 강이 없고, 상은 1칸 직진 후 2칸 대각선으로 움직이며, 포는 이동과 공격 모두 포대 하나를 요구합니다.
-
-기본 `MSMS/MSMS` 배치의 패스 포함 perft 기준값은 depth 1~3에서 각각 `32`, `1,024`, `33,506`입니다. 랜덤 검증은 1000판에서 궁 포획·궁성 이탈·포 상호작용·졸/병 후퇴·상태 변이를 검사합니다.
+AI 상대(P10)와 온라인 대전(P11)은 이번 구현 범위에서 제외했습니다.

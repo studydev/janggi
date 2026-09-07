@@ -17,7 +17,7 @@ test('all eleven apps and four platforms have development records', () => {
 
 test('GHCP credits convert to exact three-decimal USD amounts', () => {
   const records = developmentRecords(apps, data);
-  const expected = { astra: '$26.273', opus5: '$13.016', sonnet5: '$10.146', 'sol-fast': '$4.856', sol: '$4.989', terra: '$4.152', luna: '$0.653' };
+  const expected = { astra: '$26.273', 'sol-fast': '$18.258', opus5: '$13.016', sonnet5: '$10.146', sol: '$4.989', terra: '$4.152', luna: '$0.653' };
   for (const [name, usd] of Object.entries(expected)) assert.equal(formatUsd(records.get(name).usd), usd);
 });
 

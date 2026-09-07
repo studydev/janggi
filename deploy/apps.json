@@ -53,7 +53,7 @@
     "title": "Sol Fast",
     "env": "copilot",
     "model": "GPT-5.6 Sol Fast",
-    "desc": "기존 Sol의 검증된 구조를 바탕으로 빠르게 완성한 strict TypeScript 로컬 대국."
+    "desc": "순수 엔진을 먼저 통과시키고 UI를 올린 React 18 · strict TypeScript 로컬 대국. 랜덤 1,000판 규칙 검증을 거쳤다."
   },
   {
     "dir": "astra",

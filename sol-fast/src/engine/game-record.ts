@@ -1,113 +1,81 @@
-import { hashPosition } from './board'
-import { makeMove, pass, undoMove } from './rules'
-import type { GameState, Piece, Position } from './types'
+import { createInitialState, isInBoard } from './board'
+import { makeMove, passTurn } from './rules'
+import type { Formation, GameConfig, GameSetup, GameState, MoveRecord } from './types'
 
-interface GameEnvelope {
-  readonly format: 'janggi-sol-fast'
+const FORMATIONS = new Set<Formation>(['MSMS', 'SMSM', 'MSSM', 'SMMS'])
+
+interface SavedGame {
   readonly version: 1
-  readonly savedAt: string
-  readonly state: GameState
+  readonly setup: GameSetup
+  readonly config: GameConfig
+  readonly moves: ReadonlyArray<MoveRecord>
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function isPosition(value: unknown): value is Position {
-  return (
-    isRecord(value) &&
-    Number.isInteger(value.file) &&
-    Number.isInteger(value.rank) &&
-    Number(value.file) >= 1 &&
-    Number(value.file) <= 9 &&
-    Number(value.rank) >= 1 &&
-    Number(value.rank) <= 10
-  )
-}
-
-function isPiece(value: unknown): value is Piece {
-  const sides = ['HAN', 'CHO']
-  const types = ['GUNG', 'SA', 'CHA', 'PO', 'MA', 'SANG', 'JOL']
-  return (
-    isRecord(value) &&
-    typeof value.id === 'string' &&
-    sides.includes(String(value.side)) &&
-    types.includes(String(value.type))
-  )
-}
-
-function isGameState(value: unknown): value is GameState {
-  if (!isRecord(value)) return false
-  if (!Array.isArray(value.board) || value.board.length !== 90) return false
-  if (!value.board.every((piece) => piece === null || isPiece(piece))) return false
-  if (value.turn !== 'HAN' && value.turn !== 'CHO') return false
-  if (!Array.isArray(value.capturedPieces) || !value.capturedPieces.every(isPiece)) return false
-  if (!Array.isArray(value.positionHistory) || !value.positionHistory.every((entry) => typeof entry === 'string')) {
-    return false
+function readSavedGame(value: unknown): SavedGame {
+  if (!isRecord(value) || value.version !== 1) throw new Error('지원하지 않는 기보 형식입니다.')
+  if (!isRecord(value.setup)
+    || !FORMATIONS.has(value.setup.han as Formation)
+    || !FORMATIONS.has(value.setup.cho as Formation)) {
+    throw new Error('기물 배치 정보가 올바르지 않습니다.')
   }
-  if (!isRecord(value.config)) return false
-  if (typeof value.config.bikjangEnabled !== 'boolean') return false
-  if (!Number.isInteger(value.config.repetitionCount) || Number(value.config.repetitionCount) < 2) return false
-  if (!Array.isArray(value.moveHistory)) return false
-  return value.moveHistory.every((move) => {
-    if (!isRecord(move) || typeof move.isPass !== 'boolean') return false
-    if (move.isPass) return move.from === null && move.to === null
-    return isPosition(move.from) && isPosition(move.to) && isPiece(move.piece)
-  })
+  if (!isRecord(value.config)
+    || typeof value.config.bikjang !== 'boolean'
+    || !Number.isInteger(value.config.repetitionCount)
+    || (value.config.repetitionCount as number) < 2) {
+    throw new Error('대국 설정이 올바르지 않습니다.')
+  }
+  if (!Array.isArray(value.moves)) throw new Error('기보 목록이 없습니다.')
+
+  return {
+    version: 1,
+    setup: value.setup as unknown as GameSetup,
+    config: value.config as unknown as GameConfig,
+    moves: value.moves as unknown as ReadonlyArray<MoveRecord>,
+  }
 }
 
 export function serializeGame(state: GameState): string {
-  const envelope: GameEnvelope = {
-    format: 'janggi-sol-fast',
+  const saved: SavedGame = {
     version: 1,
-    savedAt: new Date().toISOString(),
-    state,
+    setup: state.setup,
+    config: state.config,
+    moves: state.moveHistory,
   }
-  return JSON.stringify(envelope, null, 2)
+  return JSON.stringify(saved, null, 2)
 }
 
-export function replayState(liveState: GameState, ply: number): GameState {
-  if (!Number.isInteger(ply) || ply < 0 || ply > liveState.moveHistory.length) {
-    throw new RangeError('재생 수순이 기보 범위를 벗어났습니다.')
-  }
-
-  const records = [...liveState.moveHistory]
-  let state = liveState
-  while (state.moveHistory.length > 0) state = undoMove(state)
-
-  for (const record of records.slice(0, ply)) {
+export function replayGame(state: GameState, moveCount: number): GameState {
+  const end = Math.max(0, Math.min(Math.trunc(moveCount), state.moveHistory.length))
+  let replay = createInitialState(state.setup, state.config)
+  for (const record of state.moveHistory.slice(0, end)) {
     if (record.isPass) {
-      state = pass(state)
-    } else if (record.from && record.to) {
-      state = makeMove(state, { from: record.from, to: record.to })
-    } else {
-      throw new Error('기보에 잘못된 수가 있습니다.')
+      replay = passTurn(replay)
+      continue
     }
+    if (!record.from || !record.to || !isInBoard(record.from) || !isInBoard(record.to)) {
+      throw new Error('기보에 잘못된 좌표가 있습니다.')
+    }
+    replay = makeMove(replay, { from: record.from, to: record.to })
   }
-  return state
+  return replay
 }
 
-export function deserializeGame(json: string): GameState {
+export function parseGame(source: string): GameState {
+  let raw: unknown
   try {
-    const envelope: unknown = JSON.parse(json)
-    if (
-      !isRecord(envelope) ||
-      envelope.format !== 'janggi-sol-fast' ||
-      envelope.version !== 1 ||
-      !isGameState(envelope.state)
-    ) {
-      throw new Error('shape')
-    }
-
-    const rebuilt = replayState(envelope.state, envelope.state.moveHistory.length)
-    if (
-      rebuilt.turn !== envelope.state.turn ||
-      hashPosition(rebuilt.board, rebuilt.turn) !== hashPosition(envelope.state.board, envelope.state.turn)
-    ) {
-      throw new Error('position')
-    }
-    return rebuilt
+    raw = JSON.parse(source)
   } catch {
-    throw new Error('올바른 장기 기보 파일이 아닙니다.')
+    throw new Error('JSON 기보를 읽을 수 없습니다.')
   }
+
+  const saved = readSavedGame(raw)
+  const shell = {
+    ...createInitialState(saved.setup, saved.config),
+    moveHistory: saved.moves,
+  }
+  return replayGame(shell, saved.moves.length)
 }

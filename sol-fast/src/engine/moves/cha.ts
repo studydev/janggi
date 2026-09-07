@@ -1,36 +1,22 @@
-import {
-  getPalaceDiagonalNeighbors,
-  getPiece,
-  isInPalace,
-  isOnPalaceDiagonal,
-  palaceSideAt,
-} from '../board'
+import { getPiece } from '../board'
 import type { Board, Position } from '../types'
-import { generateSlidingMoves, ORTHOGONAL_DIRECTIONS, type Direction } from './shared'
-
-function palaceDirections(position: Position): Direction[] {
-  return getPalaceDiagonalNeighbors(position).map((neighbor) => ({
-    file: neighbor.file - position.file,
-    rank: neighbor.rank - position.rank,
-  }))
-}
+import {
+  collectSlidingMoves,
+  getOrthogonalRay,
+  getPalaceDiagonalRays,
+  ORTHOGONAL_DIRECTIONS,
+} from './common'
 
 export function generateChaMoves(board: Board, position: Position): Position[] {
   const piece = getPiece(board, position)
   if (!piece || piece.type !== 'CHA') return []
 
-  const moves = generateSlidingMoves(board, position, piece.side, ORTHOGONAL_DIRECTIONS)
-  const palaceSide = palaceSideAt(position)
-  if (!palaceSide || !isOnPalaceDiagonal(position)) return moves
+  const rays = ORTHOGONAL_DIRECTIONS.map((direction) => getOrthogonalRay(
+    position,
+    direction.file,
+    direction.rank,
+  ))
 
-  return [
-    ...moves,
-    ...generateSlidingMoves(
-      board,
-      position,
-      piece.side,
-      palaceDirections(position),
-      (target) => isInPalace(target, palaceSide) && isOnPalaceDiagonal(target),
-    ),
-  ]
+  return [...rays, ...getPalaceDiagonalRays(position)]
+    .flatMap((ray) => collectSlidingMoves(board, piece.side, ray))
 }

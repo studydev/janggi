@@ -1,53 +1,29 @@
-import { getPiece, isInBoard } from '../board'
+import { getPiece, toPosition } from '../board'
 import type { Board, Position } from '../types'
-import { canLand } from './shared'
+import { canLand } from './common'
 
-interface MaRoute {
-  readonly leg: Position
-  readonly destinations: readonly Position[]
-}
-
-function routesFrom(position: Position): MaRoute[] {
-  return [
-    {
-      leg: { file: position.file, rank: position.rank - 1 },
-      destinations: [
-        { file: position.file - 1, rank: position.rank - 2 },
-        { file: position.file + 1, rank: position.rank - 2 },
-      ],
-    },
-    {
-      leg: { file: position.file + 1, rank: position.rank },
-      destinations: [
-        { file: position.file + 2, rank: position.rank - 1 },
-        { file: position.file + 2, rank: position.rank + 1 },
-      ],
-    },
-    {
-      leg: { file: position.file, rank: position.rank + 1 },
-      destinations: [
-        { file: position.file - 1, rank: position.rank + 2 },
-        { file: position.file + 1, rank: position.rank + 2 },
-      ],
-    },
-    {
-      leg: { file: position.file - 1, rank: position.rank },
-      destinations: [
-        { file: position.file - 2, rank: position.rank - 1 },
-        { file: position.file - 2, rank: position.rank + 1 },
-      ],
-    },
-  ]
-}
+const HORSE_PATHS = [
+  { leg: [0, -1], destinations: [[-1, -2], [1, -2]] },
+  { leg: [0, 1], destinations: [[-1, 2], [1, 2]] },
+  { leg: [-1, 0], destinations: [[-2, -1], [-2, 1]] },
+  { leg: [1, 0], destinations: [[2, -1], [2, 1]] },
+] as const
 
 export function generateMaMoves(board: Board, position: Position): Position[] {
   const piece = getPiece(board, position)
   if (!piece || piece.type !== 'MA') return []
 
-  return routesFrom(position).flatMap((route) => {
-    if (!isInBoard(route.leg) || getPiece(board, route.leg)) return []
-    return route.destinations.filter(
-      (destination) => isInBoard(destination) && canLand(board, destination, piece.side),
-    )
+  return HORSE_PATHS.flatMap((path) => {
+    const leg = toPosition(position.file + path.leg[0], position.rank + path.leg[1])
+    if (!leg || getPiece(board, leg)) return []
+
+    return path.destinations
+      .map(([fileDelta, rankDelta]) => toPosition(
+        position.file + fileDelta,
+        position.rank + rankDelta,
+      ))
+      .filter((destination): destination is Position => (
+        destination !== null && canLand(board, destination, piece.side)
+      ))
   })
 }

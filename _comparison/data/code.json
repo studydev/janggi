@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T13:05:47.369Z",
+  "generatedAt": "2026-09-07T04:44:33.083Z",
   "projects": [
     {
       "folder": "luna",
@@ -14,13 +14,13 @@
           "files": 3,
           "loc": 317
         },
-        "test": {
-          "files": 6,
-          "loc": 361
-        },
         "engine": {
           "files": 16,
           "loc": 751
+        },
+        "test": {
+          "files": 6,
+          "loc": 361
         },
         "ui": {
           "files": 6,
@@ -142,48 +142,48 @@
     },
     {
       "folder": "sol-fast",
-      "totalFiles": 44,
-      "totalLoc": 4071,
+      "totalFiles": 38,
+      "totalLoc": 3680,
       "layers": {
         "config": {
-          "files": 3,
-          "loc": 63
-        },
-        "scripts": {
-          "files": 1,
-          "loc": 5
+          "files": 2,
+          "loc": 111
         },
         "app": {
           "files": 4,
-          "loc": 290
+          "loc": 1081
         },
         "test": {
-          "files": 11,
-          "loc": 579
+          "files": 6,
+          "loc": 463
         },
         "engine": {
-          "files": 18,
-          "loc": 1064
+          "files": 17,
+          "loc": 926
+        },
+        "state": {
+          "files": 4,
+          "loc": 182
         },
         "ui": {
-          "files": 7,
-          "loc": 2070
+          "files": 5,
+          "loc": 917
         }
       },
-      "testFiles": 11,
-      "testCases": 55,
+      "testFiles": 6,
+      "testCases": 35,
       "artifacts": {
         "RULES": true,
         "CLAUDE": true,
         "README": true,
-        "manifest": true,
-        "serviceWorker": true,
+        "manifest": false,
+        "serviceWorker": false,
         "viteConfig": true
       },
       "srcTree": [
         "assets",
         "engine",
-        "styles",
+        "game",
         "ui"
       ]
     },
@@ -228,7 +228,6 @@
         "viteConfig": true
       },
       "srcTree": [
-        "assets",
         "engine",
         "ui"
       ]
@@ -246,13 +245,13 @@
           "files": 3,
           "loc": 213
         },
-        "test": {
-          "files": 6,
-          "loc": 557
-        },
         "engine": {
           "files": 15,
           "loc": 449
+        },
+        "test": {
+          "files": 6,
+          "loc": 557
         },
         "state": {
           "files": 4,
@@ -300,13 +299,13 @@
           "files": 4,
           "loc": 600
         },
-        "test": {
-          "files": 12,
-          "loc": 789
-        },
         "engine": {
           "files": 16,
           "loc": 971
+        },
+        "test": {
+          "files": 12,
+          "loc": 789
         },
         "state": {
           "files": 2,
@@ -346,13 +345,13 @@
           "files": 3,
           "loc": 81
         },
-        "test": {
-          "files": 12,
-          "loc": 737
-        },
         "engine": {
           "files": 17,
           "loc": 740
+        },
+        "test": {
+          "files": 12,
+          "loc": 737
         },
         "state": {
           "files": 2,
@@ -374,6 +373,7 @@
         "viteConfig": true
       },
       "srcTree": [
+        "assets",
         "engine",
         "state",
         "ui"
@@ -396,13 +396,13 @@
           "files": 5,
           "loc": 250
         },
-        "test": {
-          "files": 16,
-          "loc": 1382
-        },
         "engine": {
           "files": 17,
           "loc": 1608
+        },
+        "test": {
+          "files": 16,
+          "loc": 1382
         },
         "ui": {
           "files": 14,
@@ -480,10 +480,6 @@
       "totalFiles": 5,
       "totalLoc": 1391,
       "layers": {
-        "ui": {
-          "files": 1,
-          "loc": 969
-        },
         "config": {
           "files": 2,
           "loc": 24
@@ -491,6 +487,10 @@
         "engine": {
           "files": 1,
           "loc": 361
+        },
+        "ui": {
+          "files": 1,
+          "loc": 969
         },
         "test": {
           "files": 1,

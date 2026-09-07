@@ -411,7 +411,7 @@ const chartDefinitions = [
     unit: '개발 시간',
     pick: (entry) => entry.buildMs,
     format: (value) => formatSpan(value),
-    caption: 'Sol Fast는 기존 Sol 복제·수정 작업이다. Codex는 한도 중단·재개 전체를 포함하는지 불명확하다. Claude Code 두 건은 시간 미기록이다.',
+    caption: 'Codex는 한도 중단·재개 전체를 포함하는지 불명확하다. Claude Code 두 건과 Claude Code Design은 시간 미기록이다.',
   },
   {
     title: '코드 분량',
@@ -511,7 +511,7 @@ const methodGaps = [
   .filter(Boolean)
   .join(' / ');
 const measurableCount = stats.projects.filter((project) => !project.copiedBaseline).length;
-const methodTime = '개발 당시 기록과 사용자 제공 값을 사용합니다. 파일 복사로 평탄화된 생성 시각을 세션 시간으로 대신하지 않습니다. Claude Code와 Claude Code Design의 5시간은 사용량 집계 윈도우이며 개발 소요 시간이 아닙니다.';
+const methodTime = '개발 당시 기록과 사용자 제공 값을 사용합니다. 다른 폴더에서 옮겨 온 복사본의 파일 생성 시각을 세션 시간으로 대신하지 않습니다. Claude Code와 Claude Code Design의 5시간은 사용량 집계 윈도우이며 개발 소요 시간이 아닙니다.';
 
 const analyzedAt = new Intl.DateTimeFormat('ko-KR', {
   timeZone: stats.timeZone,
@@ -548,7 +548,7 @@ const projectRows = stats.projects
     const app = appByDir.get(project.name);
     const duration = project.copiedBaseline ? '측정 불가' : formatDuration(project.measuredDurationMs);
     const timeDetail = project.copiedBaseline
-      ? '복사로 생성 시각 평탄화'
+      ? '복사본이라 원본 작업 시각 없음'
       : `${formatActivityTime(project.start.timestamp)} → ${formatActivityTime(project.measuredEnd.timestamp)}`;
     const timeClass = project.copiedBaseline ? 'time unavailable' : 'time';
     const runLink = app

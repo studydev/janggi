@@ -1,64 +1,77 @@
 import type {
   Board,
+  FileNumber,
+  Formation,
   GameConfig,
+  GameSetup,
   GameState,
   Piece,
-  PieceSetup,
   PieceType,
   Position,
+  RankNumber,
   Side,
 } from './types'
 
-export const BOARD_FILE_COUNT = 9
-export const BOARD_RANK_COUNT = 10
+export const BOARD_FILES = 9
+export const BOARD_RANKS = 10
+export const BOARD_SIZE = BOARD_FILES * BOARD_RANKS
 
 export const DEFAULT_CONFIG: GameConfig = {
-  bikjangEnabled: true,
+  bikjang: true,
   repetitionCount: 3,
 }
 
-const SETUP_PIECES: Record<PieceSetup, readonly PieceType[]> = {
+export const DEFAULT_SETUP: GameSetup = {
+  han: 'MSMS',
+  cho: 'MSMS',
+}
+
+const FORMATIONS: Record<Formation, ReadonlyArray<PieceType>> = {
   MSMS: ['MA', 'SANG', 'MA', 'SANG'],
   SMSM: ['SANG', 'MA', 'SANG', 'MA'],
   MSSM: ['MA', 'SANG', 'SANG', 'MA'],
   SMMS: ['SANG', 'MA', 'MA', 'SANG'],
 }
 
-const DEBUG_LABELS: Record<Side, Record<PieceType, string>> = {
-  HAN: { GUNG: '漢', SA: '士', CHA: '車', PO: '包', MA: '馬', SANG: '象', JOL: '兵' },
-  CHO: { GUNG: '楚', SA: '士', CHA: '車', PO: '包', MA: '馬', SANG: '象', JOL: '卒' },
+export function isInBoard(position: { file: number; rank: number }): position is Position {
+  return Number.isInteger(position.file)
+    && Number.isInteger(position.rank)
+    && position.file >= 1
+    && position.file <= BOARD_FILES
+    && position.rank >= 1
+    && position.rank <= BOARD_RANKS
 }
 
-export function isInBoard(position: Position): boolean {
-  return (
-    Number.isInteger(position.file) &&
-    Number.isInteger(position.rank) &&
-    position.file >= 1 &&
-    position.file <= BOARD_FILE_COUNT &&
-    position.rank >= 1 &&
-    position.rank <= BOARD_RANK_COUNT
-  )
+export function toPosition(file: number, rank: number): Position | null {
+  const candidate = { file, rank }
+  return isInBoard(candidate) ? candidate : null
 }
 
 export function positionToIndex(position: Position): number {
-  if (!isInBoard(position)) {
-    throw new RangeError(`Invalid board position: ${position.file},${position.rank}`)
-  }
-  return (position.rank - 1) * BOARD_FILE_COUNT + position.file - 1
+  return (position.rank - 1) * BOARD_FILES + position.file - 1
 }
 
 export function indexToPosition(index: number): Position {
-  if (!Number.isInteger(index) || index < 0 || index >= BOARD_FILE_COUNT * BOARD_RANK_COUNT) {
+  if (!Number.isInteger(index) || index < 0 || index >= BOARD_SIZE) {
     throw new RangeError(`Invalid board index: ${index}`)
   }
+
   return {
-    file: (index % BOARD_FILE_COUNT) + 1,
-    rank: Math.floor(index / BOARD_FILE_COUNT) + 1,
+    file: (index % BOARD_FILES + 1) as FileNumber,
+    rank: (Math.floor(index / BOARD_FILES) + 1) as RankNumber,
   }
 }
 
-export function samePosition(left: Position, right: Position): boolean {
-  return left.file === right.file && left.rank === right.rank
+export function getPiece(board: Board, position: Position): Piece | null {
+  return board[positionToIndex(position)] ?? null
+}
+
+export function createEmptyBoard(): Array<Piece | null> {
+  return Array.from({ length: BOARD_SIZE }, () => null)
+}
+
+export function createPiece(side: Side, type: PieceType, id = `${side}-${type}`): Piece {
+  return { id, side, type }
 }
 
 export function oppositeSide(side: Side): Side {
@@ -71,7 +84,10 @@ export function forwardDir(side: Side): 1 | -1 {
 
 export function isInPalace(position: Position, side: Side): boolean {
   const rankStart = side === 'HAN' ? 1 : 8
-  return position.file >= 4 && position.file <= 6 && position.rank >= rankStart && position.rank <= rankStart + 2
+  return position.file >= 4
+    && position.file <= 6
+    && position.rank >= rankStart
+    && position.rank <= rankStart + 2
 }
 
 export function palaceSideAt(position: Position): Side | null {
@@ -81,124 +97,95 @@ export function palaceSideAt(position: Position): Side | null {
 }
 
 export function isOnPalaceDiagonal(position: Position): boolean {
-  const palaceSide = palaceSideAt(position)
-  if (!palaceSide) return false
-  const centerRank = palaceSide === 'HAN' ? 2 : 9
-  return Math.abs(position.file - 5) === Math.abs(position.rank - centerRank)
+  const side = palaceSideAt(position)
+  if (!side) return false
+
+  const centerRank = side === 'HAN' ? 2 : 9
+  const fileOffset = Math.abs(position.file - 5)
+  const rankOffset = Math.abs(position.rank - centerRank)
+  return fileOffset === rankOffset
 }
 
-export function getPalaceDiagonalNeighbors(position: Position): Position[] {
-  const palaceSide = palaceSideAt(position)
-  if (!palaceSide || !isOnPalaceDiagonal(position)) return []
-
-  const candidates = [
-    { file: position.file - 1, rank: position.rank - 1 },
-    { file: position.file + 1, rank: position.rank - 1 },
-    { file: position.file - 1, rank: position.rank + 1 },
-    { file: position.file + 1, rank: position.rank + 1 },
-  ]
-  return candidates.filter(
-    (candidate) => isInPalace(candidate, palaceSide) && isOnPalaceDiagonal(candidate),
-  )
+function place(
+  board: Array<Piece | null>,
+  side: Side,
+  type: PieceType,
+  file: number,
+  rank: number,
+): void {
+  const position = toPosition(file, rank)
+  if (!position) throw new RangeError(`Invalid initial position: ${file}, ${rank}`)
+  board[positionToIndex(position)] = createPiece(side, type, `${side}-${type}-${file}-${rank}`)
 }
 
-export function isPalaceDiagonalStep(from: Position, to: Position): boolean {
-  return getPalaceDiagonalNeighbors(from).some((candidate) => samePosition(candidate, to))
-}
+function placeSide(board: Array<Piece | null>, side: Side, rank: number, formation: Formation): void {
+  place(board, side, 'CHA', 1, rank)
+  place(board, side, 'CHA', 9, rank)
+  place(board, side, 'SA', 4, rank)
+  place(board, side, 'SA', 6, rank)
 
-export function createEmptyBoard(): Board {
-  return Array<Piece | null>(BOARD_FILE_COUNT * BOARD_RANK_COUNT).fill(null)
-}
+  const formationFiles = [2, 3, 7, 8]
+  FORMATIONS[formation].forEach((type, index) => {
+    place(board, side, type, formationFiles[index], rank)
+  })
 
-export function getPiece(board: Board, position: Position): Piece | null {
-  if (!isInBoard(position)) return null
-  return board[positionToIndex(position)] ?? null
-}
-
-export function setPiece(board: Board, position: Position, piece: Piece | null): Board {
-  const nextBoard = [...board]
-  nextBoard[positionToIndex(position)] = piece
-  return nextBoard
-}
-
-function pieceId(side: Side, type: PieceType, ordinal: number): string {
-  return `${side}-${type}-${ordinal}`
-}
-
-export function createInitialBoard(hanSetup: PieceSetup, choSetup: PieceSetup): Board {
-  const board = [...createEmptyBoard()]
-  const ordinals: Record<Side, Record<PieceType, number>> = {
-    HAN: { GUNG: 0, SA: 0, CHA: 0, PO: 0, MA: 0, SANG: 0, JOL: 0 },
-    CHO: { GUNG: 0, SA: 0, CHA: 0, PO: 0, MA: 0, SANG: 0, JOL: 0 },
+  const direction = side === 'HAN' ? 1 : -1
+  place(board, side, 'GUNG', 5, rank + direction)
+  place(board, side, 'PO', 2, rank + direction * 2)
+  place(board, side, 'PO', 8, rank + direction * 2)
+  for (const file of [1, 3, 5, 7, 9]) {
+    place(board, side, 'JOL', file, rank + direction * 3)
   }
+}
 
-  const place = (side: Side, type: PieceType, position: Position) => {
-    ordinals[side][type] += 1
-    board[positionToIndex(position)] = {
-      id: pieceId(side, type, ordinals[side][type]),
-      side,
-      type,
-    }
-  }
-
-  const placeSide = (side: Side, setup: PieceSetup) => {
-    const homeRank = side === 'HAN' ? 1 : 10
-    const gungRank = side === 'HAN' ? 2 : 9
-    const poRank = side === 'HAN' ? 3 : 8
-    const jolRank = side === 'HAN' ? 4 : 7
-    const setupFiles = [2, 3, 7, 8]
-
-    place(side, 'CHA', { file: 1, rank: homeRank })
-    SETUP_PIECES[setup].forEach((type, index) => {
-      place(side, type, { file: setupFiles[index], rank: homeRank })
-    })
-    place(side, 'SA', { file: 4, rank: homeRank })
-    place(side, 'SA', { file: 6, rank: homeRank })
-    place(side, 'CHA', { file: 9, rank: homeRank })
-    place(side, 'GUNG', { file: 5, rank: gungRank })
-    place(side, 'PO', { file: 2, rank: poRank })
-    place(side, 'PO', { file: 8, rank: poRank })
-    for (const file of [1, 3, 5, 7, 9]) {
-      place(side, 'JOL', { file, rank: jolRank })
-    }
-  }
-
-  placeSide('HAN', hanSetup)
-  placeSide('CHO', choSetup)
+export function createInitialBoard(
+  hanSetup: Formation = DEFAULT_SETUP.han,
+  choSetup: Formation = DEFAULT_SETUP.cho,
+): Board {
+  const board = createEmptyBoard()
+  placeSide(board, 'HAN', 1, hanSetup)
+  placeSide(board, 'CHO', 10, choSetup)
   return board
 }
 
-export function hashPosition(board: Board, turn: Side): string {
-  const points = board.map((piece) => (piece ? `${piece.side[0]}${piece.type}` : '.')).join('|')
-  return `${turn}:${points}`
+export function positionHash(board: Board, turn: Side): string {
+  const encodedBoard = board
+    .map((piece) => piece ? `${piece.side[0]}${piece.type}` : '-')
+    .join(',')
+  return `${turn}|${encodedBoard}`
 }
 
 export function createInitialState(
-  hanSetup: PieceSetup = 'MSMS',
-  choSetup: PieceSetup = 'MSMS',
-  config: Partial<GameConfig> = {},
+  setup: GameSetup = DEFAULT_SETUP,
+  config: GameConfig = DEFAULT_CONFIG,
 ): GameState {
-  const board = createInitialBoard(hanSetup, choSetup)
-  const resolvedConfig = { ...DEFAULT_CONFIG, ...config }
+  const board = createInitialBoard(setup.han, setup.cho)
   return {
     board,
     turn: 'CHO',
     moveHistory: [],
     capturedPieces: [],
-    positionHistory: [hashPosition(board, 'CHO')],
-    config: resolvedConfig,
+    config: { ...config },
+    setup: { ...setup },
+    positionHistory: [positionHash(board, 'CHO')],
   }
+}
+
+const DEBUG_SYMBOLS: Record<Side, Record<PieceType, string>> = {
+  HAN: { GUNG: '漢', SA: '士', CHA: '車', PO: '包', MA: '馬', SANG: '象', JOL: '兵' },
+  CHO: { GUNG: '楚', SA: '士', CHA: '車', PO: '包', MA: '馬', SANG: '象', JOL: '卒' },
 }
 
 export function debugPrint(state: GameState): string {
   const rows: string[] = []
-  for (let rank = 1; rank <= BOARD_RANK_COUNT; rank += 1) {
+  for (let rank = 1; rank <= BOARD_RANKS; rank += 1) {
     const cells: string[] = []
-    for (let file = 1; file <= BOARD_FILE_COUNT; file += 1) {
-      const piece = getPiece(state.board, { file, rank })
-      cells.push(piece ? DEBUG_LABELS[piece.side][piece.type] : '·')
+    for (let file = 1; file <= BOARD_FILES; file += 1) {
+      const position = toPosition(file, rank)
+      const piece = position ? getPiece(state.board, position) : null
+      cells.push(piece ? DEBUG_SYMBOLS[piece.side][piece.type] : '·')
     }
-    rows.push(`${String(rank).padStart(2, '0')} ${cells.join(' ')}`)
+    rows.push(`${String(rank).padStart(2, ' ')} ${cells.join(' ')}`)
   }
-  return `   1 2 3 4 5 6 7 8 9\n${rows.join('\n')}`
+  return `   1 2 3 4 5 6 7 8 9\n${rows.join('\n')}\nturn: ${state.turn}`
 }

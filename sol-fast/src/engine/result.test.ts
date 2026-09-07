@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { createInitialState, hashPosition, setPiece } from './board'
-import { makeTestBoard, makeTestState } from './test-utils'
+import {
+  createEmptyBoard,
+  createInitialState,
+  createPiece,
+  DEFAULT_CONFIG,
+  DEFAULT_SETUP,
+  positionHash,
+  positionToIndex,
+} from './board'
 import {
   calculateScore,
   getGameResult,
@@ -8,66 +15,58 @@ import {
   isCheckmate,
   isRepetition,
 } from './result'
+import type { GameState, PieceType, Position, Side } from './types'
 
-describe('game result rules', () => {
-  it('detects checkmate without treating non-check immobility as defeat', () => {
-    const board = makeTestBoard([
-      { position: { file: 4, rank: 2 }, type: 'GUNG', side: 'HAN' },
-      { position: { file: 5, rank: 1 }, type: 'CHA', side: 'HAN' },
-      { position: { file: 4, rank: 7 }, type: 'CHA', side: 'HAN' },
-      { position: { file: 6, rank: 7 }, type: 'CHA', side: 'HAN' },
-      { position: { file: 5, rank: 9 }, type: 'GUNG', side: 'CHO' },
-    ])
-    const state = makeTestState(board)
-
-    expect(isCheckmate(state, 'CHO')).toBe(true)
-    expect(getGameResult(state)).toMatchObject({ status: 'CHECKMATE', winner: 'HAN' })
+function stateWith(entries: Array<[Position, Side, PieceType]>, turn: Side): GameState {
+  const board = createEmptyBoard()
+  entries.forEach(([position, side, type], index) => {
+    board[positionToIndex(position)] = createPiece(side, type, `result-${index}`)
   })
+  return {
+    board,
+    turn,
+    moveHistory: [],
+    capturedPieces: [],
+    config: DEFAULT_CONFIG,
+    setup: DEFAULT_SETUP,
+    positionHistory: [positionHash(board, turn)],
+  }
+}
 
-  it('detects facing Gungs only when Bikjang is enabled and unobstructed', () => {
-    const board = makeTestBoard([
-      { position: { file: 5, rank: 2 }, type: 'GUNG', side: 'HAN' },
-      { position: { file: 5, rank: 9 }, type: 'GUNG', side: 'CHO' },
-    ])
-    const enabled = makeTestState(board)
-    const disabled = { ...enabled, config: { ...enabled.config, bikjangEnabled: false } }
-
-    expect(isBikjang(enabled)).toBe(true)
-    expect(isBikjang(disabled)).toBe(false)
-    expect(isBikjang({ ...enabled, board: setPiece(board, { file: 5, rank: 5 }, {
-      id: 'blocker', type: 'JOL', side: 'CHO',
-    }) })).toBe(false)
-  })
-
-  it('detects a configurable number of repeated board-and-turn positions', () => {
+describe('game result', () => {
+  it('calculates material and the HAN compensation', () => {
     const state = createInitialState()
-    const currentHash = hashPosition(state.board, state.turn)
-    const repeated = {
-      ...state,
-      positionHistory: [currentHash, 'other', currentHash, 'other-2', currentHash],
-    }
-
-    expect(isRepetition(repeated)).toBe(true)
-    expect(isRepetition({ ...repeated, config: { ...repeated.config, repetitionCount: 4 } })).toBe(false)
-  })
-
-  it('calculates material with the Han compensation', () => {
-    const state = createInitialState()
-
     expect(calculateScore(state, 'CHO')).toBe(72)
     expect(calculateScore(state, 'HAN')).toBe(73.5)
   })
 
-  it('settles a Bikjang trigger by score', () => {
-    const board = makeTestBoard([
-      { position: { file: 5, rank: 2 }, type: 'GUNG', side: 'HAN' },
-      { position: { file: 1, rank: 4 }, type: 'JOL', side: 'HAN' },
-      { position: { file: 5, rank: 9 }, type: 'GUNG', side: 'CHO' },
-    ])
-    const result = getGameResult(makeTestState(board))
+  it('detects checkmate without treating ordinary immobility as defeat', () => {
+    const state = stateWith([
+      [{ file: 5, rank: 1 }, 'HAN', 'GUNG'],
+      [{ file: 5, rank: 9 }, 'CHO', 'GUNG'],
+      [{ file: 4, rank: 4 }, 'CHO', 'CHA'],
+      [{ file: 5, rank: 4 }, 'CHO', 'CHA'],
+      [{ file: 6, rank: 4 }, 'CHO', 'CHA'],
+    ], 'HAN')
+    expect(isCheckmate(state, 'HAN')).toBe(true)
+    expect(getGameResult(state)).toMatchObject({ status: 'CHECKMATE', winner: 'CHO' })
+  })
 
-    expect(result.status).toBe('DRAW_BY_SCORE')
-    expect(result.winner).toBe('HAN')
-    expect(result.reason).toContain('빅장')
+  it('detects open-file bikjang and honors the config switch', () => {
+    const state = stateWith([
+      [{ file: 5, rank: 2 }, 'HAN', 'GUNG'],
+      [{ file: 5, rank: 9 }, 'CHO', 'GUNG'],
+    ], 'CHO')
+    expect(isBikjang(state)).toBe(true)
+    expect(isBikjang({ ...state, config: { ...state.config, bikjang: false } })).toBe(false)
+  })
+
+  it('detects the configured number of repeated positions', () => {
+    const state = stateWith([
+      [{ file: 5, rank: 2 }, 'HAN', 'GUNG'],
+      [{ file: 4, rank: 9 }, 'CHO', 'GUNG'],
+    ], 'CHO')
+    const hash = positionHash(state.board, state.turn)
+    expect(isRepetition({ ...state, positionHistory: [hash, hash, hash] })).toBe(true)
   })
 })

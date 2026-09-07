@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "test": "vitest",
     "test:run": "vitest run",
-    "validate:random": "vite-node scripts/random-game.ts 1000",
+    "validate:perft": "vite-node src/engine/perft-baseline.ts",
+    "validate:random": "vite-node src/engine/random-validation.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,13 +19,15 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.5",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "oxlint": "^1.79.0",
     "typescript": "~5.7.2",
-    "vite": "^6.0.5",
+    "vite": "^6.0.7",
+    "vite-plugin-pwa": "^0.21.1",
+    "vite-node": "^2.1.8",
     "vitest": "^2.1.8"
   }
 }

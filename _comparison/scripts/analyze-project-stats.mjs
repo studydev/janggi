@@ -28,7 +28,8 @@ const PROJECTS = [
 ];
 // Claude Code Design 산출물은 현재 폴더 수정 시각으로 원래 제작 시간을 알 수 없다.
 // 사용자가 제공한 5시간 사용량 윈도우만 비교 기록으로 보존한다.
-const TIME_UNAVAILABLE = new Set(['claude_code_design_opus5']);
+// sol-fast 도 다른 작업 폴더에서 만든 결과물을 옮겨 온 것이라 파일 시각이 작업 시간이 아니다.
+const TIME_UNAVAILABLE = new Set(['claude_code_design_opus5', 'sol-fast']);
 
 const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
 // 본 작업이 끝난 뒤 잠깐 스쳐간 수정(색 조정 등)을 분리하는 간격
@@ -337,7 +338,7 @@ const timingRows = results.map((result) => {
     ? `${formatNumber(result.excludedTailEvents)}건 · ${formatTime(result.excludedTailFrom)} 이후`
     : '없음';
   const note = result.copiedBaseline
-    ? '복사로 생성 시각 평탄화'
+    ? '복사본이라 원본 작업 시각 없음'
     : result.adjusted
       ? '2시간 상한 적용'
       : '없음';
@@ -376,7 +377,7 @@ const report = `# 프로젝트 규모 및 파일 활동 시간 비교
 - 생성 시각: ${formatTime(generatedAtMs)}
 - 대상: ${PROJECTS.map((name) => `\`${name}\``).join(', ')}
 - 시간대: Asia/Seoul (KST)
-- 시간 측정 가능: ${measurableResults.length}개 / ${results.length}개 (복사로 생성 시각이 평탄화되어 측정 불가 ${unavailableCount}개)
+- 시간 측정 가능: ${measurableResults.length}개 / ${results.length}개 (복사본이라 원본 작업 시각이 없어 측정 불가 ${unavailableCount}개)
 - 2시간 보정 적용: ${adjustedCount}개 / 측정 가능 ${measurableResults.length}개
 
 ## 요약

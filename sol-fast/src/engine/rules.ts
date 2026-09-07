@@ -1,98 +1,116 @@
 import {
   getPiece,
-  hashPosition,
   indexToPosition,
   oppositeSide,
+  positionHash,
   positionToIndex,
-  samePosition,
 } from './board'
 import { generatePseudoMoves } from './moves'
-import type { Board, GameState, LegalMove, Move, MoveInput, Position, Side } from './types'
+import type {
+  Board,
+  GameState,
+  LegalMove,
+  Move,
+  MoveRecord,
+  Position,
+  Side,
+} from './types'
 
-function moveBoardUnchecked(board: Board, from: Position, to: Position): Board {
-  const nextBoard = [...board]
-  nextBoard[positionToIndex(to)] = nextBoard[positionToIndex(from)]
-  nextBoard[positionToIndex(from)] = null
-  return nextBoard
+export function samePosition(left: Position, right: Position): boolean {
+  return left.file === right.file && left.rank === right.rank
 }
 
-function findGung(board: Board, side: Side): Position | null {
+export function findGeneral(board: Board, side: Side): Position | null {
   const index = board.findIndex((piece) => piece?.side === side && piece.type === 'GUNG')
-  return index < 0 ? null : indexToPosition(index)
+  return index === -1 ? null : indexToPosition(index)
 }
 
 export function isAttacked(board: Board, position: Position, bySide: Side): boolean {
   return board.some((piece, index) => {
     if (!piece || piece.side !== bySide) return false
-    return generatePseudoMoves(board, indexToPosition(index)).some((target) =>
-      samePosition(target, position),
-    )
+    return generatePseudoMoves(board, indexToPosition(index))
+      .some((destination) => samePosition(destination, position))
   })
-}
-
-function isSideInCheck(board: Board, side: Side): boolean {
-  const gungPosition = findGung(board, side)
-  if (!gungPosition) return true
-  return isAttacked(board, gungPosition, oppositeSide(side))
 }
 
 export function isCheck(state: GameState, side: Side): boolean {
-  return isSideInCheck(state.board, side)
+  const general = findGeneral(state.board, side)
+  return general === null || isAttacked(state.board, general, oppositeSide(side))
 }
 
-function generatePseudoLegalMoves(board: Board, side: Side): LegalMove[] {
-  return board.flatMap((piece, index) => {
-    if (!piece || piece.side !== side) return []
-    const from = indexToPosition(index)
-    return generatePseudoMoves(board, from).map((to) => ({
-      from,
-      to,
-      piece,
-      captured: getPiece(board, to),
-    }))
-  })
+function boardAfterMove(board: Board, move: Move): Board {
+  const nextBoard = [...board]
+  const piece = getPiece(board, move.from)
+  nextBoard[positionToIndex(move.from)] = null
+  nextBoard[positionToIndex(move.to)] = piece
+  return nextBoard
 }
 
 export function generateLegalMoves(state: GameState, side: Side = state.turn): LegalMove[] {
-  return generatePseudoLegalMoves(state.board, side).filter((move) => {
-    if (move.captured?.type === 'GUNG') return false
-    const nextBoard = moveBoardUnchecked(state.board, move.from, move.to)
-    return !isSideInCheck(nextBoard, side)
+  const moves: LegalMove[] = []
+
+  state.board.forEach((piece, index) => {
+    if (!piece || piece.side !== side) return
+    const from = indexToPosition(index)
+
+    for (const to of generatePseudoMoves(state.board, from)) {
+      const captured = getPiece(state.board, to)
+      if (captured?.type === 'GUNG') continue
+
+      const candidate = { from, to }
+      const nextBoard = boardAfterMove(state.board, candidate)
+      const general = piece.type === 'GUNG' ? to : findGeneral(nextBoard, side)
+      if (!general || isAttacked(nextBoard, general, oppositeSide(side))) continue
+
+      moves.push({ from, to, piece, captured })
+    }
   })
+
+  return moves
 }
 
 export function getLegalMovesFrom(state: GameState, position: Position): LegalMove[] {
   return generateLegalMoves(state).filter((move) => samePosition(move.from, position))
 }
 
-export function makeMove(state: GameState, input: MoveInput): GameState {
-  const legalMove = generateLegalMoves(state).find(
-    (move) => samePosition(move.from, input.from) && samePosition(move.to, input.to),
-  )
-  if (!legalMove) throw new Error('둘 수 없는 수입니다.')
-
-  const board = moveBoardUnchecked(state.board, legalMove.from, legalMove.to)
-  const turn = oppositeSide(state.turn)
-  const move: Move = {
-    ...legalMove,
+function commitMove(state: GameState, move: LegalMove): GameState {
+  const board = boardAfterMove(state.board, move)
+  const nextTurn = oppositeSide(state.turn)
+  const record: MoveRecord = {
+    from: move.from,
+    to: move.to,
+    piece: move.piece,
+    captured: move.captured,
     isPass: false,
   }
+
   return {
     ...state,
     board,
-    turn,
-    moveHistory: [...state.moveHistory, move],
-    capturedPieces: legalMove.captured
-      ? [...state.capturedPieces, legalMove.captured]
+    turn: nextTurn,
+    moveHistory: [...state.moveHistory, record],
+    capturedPieces: move.captured
+      ? [...state.capturedPieces, move.captured]
       : state.capturedPieces,
-    positionHistory: [...state.positionHistory, hashPosition(board, turn)],
+    positionHistory: [...state.positionHistory, positionHash(board, nextTurn)],
   }
 }
 
-export function pass(state: GameState): GameState {
-  if (isCheck(state, state.turn)) throw new Error('장군 상태에서는 한 수 쉴 수 없습니다.')
-  const turn = oppositeSide(state.turn)
-  const move: Move = {
+export function makeMove(state: GameState, move: Move): GameState {
+  const legalMove = generateLegalMoves(state).find((candidate) => (
+    samePosition(candidate.from, move.from) && samePosition(candidate.to, move.to)
+  ))
+  if (!legalMove) throw new Error('합법적이지 않은 수입니다.')
+  return commitMove(state, legalMove)
+}
+
+export function passTurn(state: GameState): GameState {
+  if (isCheck(state, state.turn)) {
+    throw new Error('장군을 받은 상태에서는 한 수 쉴 수 없습니다.')
+  }
+
+  const nextTurn = oppositeSide(state.turn)
+  const record: MoveRecord = {
     from: null,
     to: null,
     piece: null,
@@ -101,30 +119,39 @@ export function pass(state: GameState): GameState {
   }
   return {
     ...state,
-    turn,
-    moveHistory: [...state.moveHistory, move],
-    positionHistory: [...state.positionHistory, hashPosition(state.board, turn)],
+    turn: nextTurn,
+    moveHistory: [...state.moveHistory, record],
+    positionHistory: [...state.positionHistory, positionHash(state.board, nextTurn)],
   }
 }
 
 export function undoMove(state: GameState): GameState {
-  const move = state.moveHistory.at(-1)
-  if (!move) return state
+  const lastMove = state.moveHistory.at(-1)
+  if (!lastMove) return state
 
-  let board = state.board
-  if (!move.isPass && move.from && move.to && move.piece) {
-    const restored = [...state.board]
-    restored[positionToIndex(move.from)] = move.piece
-    restored[positionToIndex(move.to)] = move.captured
-    board = restored
+  const previousTurn = oppositeSide(state.turn)
+  if (lastMove.isPass) {
+    return {
+      ...state,
+      turn: previousTurn,
+      moveHistory: state.moveHistory.slice(0, -1),
+      positionHistory: state.positionHistory.slice(0, -1),
+    }
   }
+
+  if (!lastMove.from || !lastMove.to || !lastMove.piece) return state
+  const board = [...state.board]
+  board[positionToIndex(lastMove.from)] = lastMove.piece
+  board[positionToIndex(lastMove.to)] = lastMove.captured
 
   return {
     ...state,
     board,
-    turn: oppositeSide(state.turn),
+    turn: previousTurn,
     moveHistory: state.moveHistory.slice(0, -1),
-    capturedPieces: move.captured ? state.capturedPieces.slice(0, -1) : state.capturedPieces,
+    capturedPieces: lastMove.captured
+      ? state.capturedPieces.slice(0, -1)
+      : state.capturedPieces,
     positionHistory: state.positionHistory.slice(0, -1),
   }
 }

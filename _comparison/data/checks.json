@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T13:05:48.123Z",
+  "generatedAt": "2026-09-07T04:44:18.669Z",
   "results": [
     {
       "folder": "luna",
@@ -90,27 +90,27 @@
       "test": {
         "ok": true,
         "status": 0,
-        "ms": 7838,
-        "tail": " RUN  v2.1.9 /Volumes/nvme1tb/Dev/janggi/sol-fast\n ✓ src/engine/board.test.ts (5 tests) 3ms\n ✓ src/engine/moves/cha.test.ts (5 tests) 3ms\n ✓ src/engine/moves/jol.test.ts (6 tests) 4ms\n ✓ src/engine/moves/sang.test.ts (5 tests) 4ms\n ✓ src/engine/moves/po.test.ts (6 tests) 3ms\n ✓ src/engine/moves/palace-pieces.test.ts (5 tests) 2ms\n ✓ src/engine/result.test.ts (5 tests) 3ms\n ✓ src/engine/rules.test.ts (6 tests) 8ms\n ✓ src/engine/game-record.test.ts (5 tests) 21ms\n ✓ src/engine/moves/ma.test.ts (4 tests) 2ms\n ✓ src/engine/validation.test.ts (3 tests) 6620ms\n   ✓ engine validation > keeps fixed initial perft depth one through three baselines including pass 6133ms\n   ✓ engine validation > preserves engine invariants through random games 486ms\n Test Files  11 passed (11)\n      Tests  55 passed (55)\n   Start at  21:32:01\n   Duration  7.32s (transform 364ms, setup 0ms, collect 681ms, tests 6.67s, environment 1ms, prepare 896ms)",
+        "ms": 38903,
+        "tail": " RUN  v2.1.9 C:/Work/Azure/janggi/sol-fast\n ✓ src/engine/board.test.ts (4 tests) 12ms\n ✓ src/engine/moves/moves.test.ts (14 tests) 15ms\n ✓ src/engine/result.test.ts (4 tests) 11ms\n ✓ src/engine/rules.test.ts (5 tests) 15ms\n ✓ src/game/GameContext.test.ts (3 tests) 35ms\n ✓ src/engine/record.test.ts (5 tests) 33726ms\n   ✓ engine validation > counts a stable initial move tree 33451ms\n Test Files  6 passed (6)\n      Tests  35 passed (35)\n   Start at  13:43:20\n   Duration  35.52s (transform 2.11s, setup 0ms, collect 3.90s, tests 33.81s, environment 2ms, prepare 2.43s)",
         "stats": {
           "failed": 0,
-          "passed": 55,
-          "total": 55,
-          "files": 11
+          "passed": 35,
+          "total": 35,
+          "files": 6
         }
       },
       "typecheck": {
         "ok": true,
         "status": 0,
-        "ms": 1212,
+        "ms": 7230,
         "tail": ""
       },
       "build": {
         "ok": true,
         "status": 0,
-        "ms": 1286,
-        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 1598 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   1.04 kB │ gzip:  0.61 kB\ndist/assets/index-CHLzCp4K.css   20.14 kB │ gzip:  4.75 kB\ndist/assets/index-Bizyjiep.js   184.13 kB │ gzip: 58.11 kB\n✓ built in 917ms",
-        "bundleKb": 184.13
+        "ms": 14857,
+        "tail": "vite v6.4.3 building for production...\ntransforming...\n✓ 1601 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/registerSW.js                0.13 kB\ndist/manifest.webmanifest         0.35 kB\ndist/index.html                   2.90 kB │ gzip:  1.09 kB\ndist/assets/index-dks6mIPA.css   16.07 kB │ gzip:  4.06 kB\ndist/assets/index-Ca4x1oFP.js   187.58 kB │ gzip: 59.20 kB\n✓ built in 4.60s\nPWA v0.21.2\nmode      generateSW\nprecache  9 entries (216.56 KiB)\nfiles generated\n  dist/sw.js\n  dist/workbox-9c191d2f.js",
+        "bundleKb": 187.71
       }
     },
     {

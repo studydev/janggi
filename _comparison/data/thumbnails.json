@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T12:35:53.926Z",
+  "generatedAt": "2026-09-07T05:02:00.619Z",
   "viewport": {
     "width": 1200,
     "height": 750
@@ -92,7 +92,7 @@
     {
       "dir": "sol-fast",
       "path": "sol-fast",
-      "title": "장기 | 로컬 2인 대국",
+      "title": "두는 장기",
       "startedVia": "대국 시작",
       "file": "sol-fast.jpg",
       "themeAware": true,
@@ -100,7 +100,7 @@
         "light": "rgb(247, 244, 239)",
         "dark": "rgb(61, 59, 58)"
       },
-      "bytes": 90551,
+      "bytes": 96380,
       "error": null
     },
     {

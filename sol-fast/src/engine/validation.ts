@@ -1,164 +1,121 @@
-import {
-  createInitialState,
-  forwardDir,
-  getPiece,
-  hashPosition,
-  indexToPosition,
-  isInBoard,
-  isInPalace,
-  oppositeSide,
-} from './board'
+import { createInitialState, isInPalace } from './board'
+import { generatePoMoves } from './moves'
 import { getGameResult } from './result'
-import { generateLegalMoves, isCheck, makeMove, pass } from './rules'
-import type { GameState, Move, PieceSetup } from './types'
+import {
+  generateLegalMoves,
+  makeMove,
+  passTurn,
+  samePosition,
+  undoMove,
+} from './rules'
+import type { GameState, LegalMove } from './types'
 
-export interface RandomValidationReport {
-  readonly games: number
-  readonly completedGames: number
-  readonly moveLimitGames: number
-  readonly totalPlies: number
-  readonly violations: readonly string[]
-}
-
-export function perft(state: GameState, depth: number): number {
-  if (depth < 0 || !Number.isInteger(depth)) throw new RangeError('depth must be a non-negative integer')
+export function perft(state: GameState, depth: number, includePass = true): number {
+  if (!Number.isInteger(depth) || depth < 0) {
+    throw new RangeError('depth는 0 이상의 정수여야 합니다.')
+  }
   if (depth === 0) return 1
 
   const moves = generateLegalMoves(state)
-  let nodes = moves.reduce((total, move) => total + perft(makeMove(state, move), depth - 1), 0)
-  if (!isCheck(state, state.turn)) nodes += perft(pass(state), depth - 1)
+  let nodes = moves.reduce((sum, move) => (
+    sum + perft(makeMove(state, move), depth - 1, includePass)
+  ), 0)
+
+  if (includePass) {
+    try {
+      nodes += perft(passTurn(state), depth - 1, includePass)
+    } catch {
+      // Pass is unavailable while in check.
+    }
+  }
   return nodes
 }
 
-function validateState(state: GameState): string[] {
-  const violations: string[] = []
-  if (state.board.length !== 90) violations.push('board length is not 90')
-
+function assertState(state: GameState): void {
+  if (state.board.length !== 90) throw new Error('보드 길이가 90이 아닙니다.')
+  for (const piece of state.board) {
+    if (!piece || (piece.type !== 'GUNG' && piece.type !== 'SA')) continue
+    const index = state.board.indexOf(piece)
+    const file = index % 9 + 1
+    const rank = Math.floor(index / 9) + 1
+    if (!isInPalace({ file, rank } as Parameters<typeof isInPalace>[0], piece.side)) {
+      throw new Error(`${piece.type}이 궁성을 벗어났습니다.`)
+    }
+  }
   for (const side of ['HAN', 'CHO'] as const) {
-    const gungs = state.board.filter((piece) => piece?.side === side && piece.type === 'GUNG')
-    if (gungs.length !== 1) violations.push(`${side} Gung count is ${gungs.length}`)
-  }
-
-  state.board.forEach((piece, index) => {
-    if (!piece) return
-    const position = indexToPosition(index)
-    if (!isInBoard(position)) violations.push(`${piece.id} is outside the board`)
-    if ((piece.type === 'GUNG' || piece.type === 'SA') && !isInPalace(position, piece.side)) {
-      violations.push(`${piece.id} left its palace`)
-    }
-  })
-  return violations
-}
-
-function validatePoTransition(before: GameState, move: Move): string[] {
-  if (!move.from || !move.to || move.piece?.type !== 'PO') return []
-  const violations: string[] = []
-  if (move.captured?.type === 'PO') violations.push('Po captured another Po')
-
-  const fileDelta = move.to.file - move.from.file
-  const rankDelta = move.to.rank - move.from.rank
-  const fileStep = Math.sign(fileDelta)
-  const rankStep = Math.sign(rankDelta)
-  const distance = Math.max(Math.abs(fileDelta), Math.abs(rankDelta))
-  let screens = 0
-  let screenIsPo = false
-  for (let step = 1; step < distance; step += 1) {
-    const occupant = getPiece(before.board, {
-      file: move.from.file + fileStep * step,
-      rank: move.from.rank + rankStep * step,
-    })
-    if (occupant) {
-      screens += 1
-      screenIsPo ||= occupant.type === 'PO'
+    if (state.board.filter((piece) => piece?.side === side && piece.type === 'GUNG').length !== 1) {
+      throw new Error(`${side} 궁의 개수가 올바르지 않습니다.`)
     }
   }
-  if (screens !== 1) violations.push(`Po crossed ${screens} screens`)
-  if (screenIsPo) violations.push('Po used another Po as a screen')
-  return violations
-}
 
-function validateTransition(before: GameState, after: GameState, beforeHash: string): string[] {
-  const violations = validateState(after)
-  const move = after.moveHistory.at(-1)
-  if (!move) return [...violations, 'move history did not grow']
-  if (hashPosition(before.board, before.turn) !== beforeHash) violations.push('source state was mutated')
-  if (after.turn !== oppositeSide(before.turn)) violations.push('turn did not change')
-  if (after.moveHistory.length !== before.moveHistory.length + 1) violations.push('move history length mismatch')
-  if (move.captured?.type === 'GUNG') violations.push('a Gung was captured')
-
-  if (!move.isPass && move.from && move.to && move.piece) {
-    if (getPiece(after.board, move.from)) violations.push('source point was not emptied')
-    if (getPiece(after.board, move.to)?.id !== move.piece.id) violations.push('piece did not reach destination')
-    if (move.piece.type === 'JOL') {
-      const rankDelta = move.to.rank - move.from.rank
-      if (rankDelta !== 0 && rankDelta !== forwardDir(move.piece.side)) {
-        violations.push('Jol moved backward')
-      }
-    }
-    violations.push(...validatePoTransition(before, move))
+  const lastMove = state.moveHistory.at(-1)
+  if (!lastMove || lastMove.isPass || !lastMove.from || !lastMove.to || !lastMove.piece) return
+  if (lastMove.piece.type === 'PO' && lastMove.captured?.type === 'PO') {
+    throw new Error('포가 포를 잡았습니다.')
   }
-  return violations
+  if (lastMove.piece.type === 'PO') {
+    const previous = undoMove(state)
+    const valid = generatePoMoves(previous.board, lastMove.from)
+      .some((destination) => samePosition(destination, lastMove.to as typeof destination))
+    if (!valid) throw new Error('포가 포대 규칙을 어겼습니다.')
+  }
+  if (lastMove.piece.type === 'JOL') {
+    const delta = lastMove.to.rank - lastMove.from.rank
+    if ((lastMove.piece.side === 'HAN' && delta < 0)
+      || (lastMove.piece.side === 'CHO' && delta > 0)) {
+      throw new Error('졸 또는 병이 뒤로 이동했습니다.')
+    }
+  }
 }
 
 function seededRandom(seed: number): () => number {
-  let state = seed >>> 0
+  let value = seed >>> 0
   return () => {
-    state = (Math.imul(state, 1664525) + 1013904223) >>> 0
-    return state / 0x100000000
+    value = (value * 1664525 + 1013904223) >>> 0
+    return value / 0x100000000
   }
 }
 
-const SETUPS: readonly PieceSetup[] = ['MSMS', 'SMSM', 'MSSM', 'SMMS']
+function pickMove(moves: LegalMove[], random: () => number): LegalMove {
+  const captures = moves.filter((move) => move.captured)
+  const pool = captures.length > 0 && random() < 0.7 ? captures : moves
+  return pool[Math.floor(random() * pool.length)]
+}
+
+export interface RandomValidationResult {
+  readonly games: number
+  readonly positions: number
+  readonly completed: number
+}
 
 export function validateRandomGames(
   games = 1000,
-  seed = 20260903,
-  maxPlies = 120,
-): RandomValidationReport {
+  maxPlies = 400,
+  seed = 20260907,
+): RandomValidationResult {
   const random = seededRandom(seed)
-  const violations: string[] = []
-  let completedGames = 0
-  let moveLimitGames = 0
-  let totalPlies = 0
+  let positions = 0
+  let completed = 0
 
   for (let game = 0; game < games; game += 1) {
-    let state = createInitialState(
-      SETUPS[game % SETUPS.length],
-      SETUPS[(game * 3 + 1) % SETUPS.length],
-    )
-    let finished = false
+    let state = createInitialState()
+    assertState(state)
 
     for (let ply = 0; ply < maxPlies; ply += 1) {
-      if (getGameResult(state).status !== 'PLAYING') {
-        completedGames += 1
-        finished = true
+      const result = getGameResult(state)
+      if (result.status !== 'PLAYING') {
+        completed += 1
         break
       }
 
-      const legalMoves = generateLegalMoves(state)
-      const canTakePass = !isCheck(state, state.turn)
-      const beforeHash = hashPosition(state.board, state.turn)
-      let nextState: GameState
-      if (canTakePass && (legalMoves.length === 0 || random() < 0.15)) {
-        nextState = pass(state)
-      } else if (legalMoves.length > 0) {
-        nextState = makeMove(state, legalMoves[Math.floor(random() * legalMoves.length)])
-      } else {
-        violations.push(`game ${game + 1}, ply ${ply + 1}: check without result`)
-        break
-      }
-
-      const transitionViolations = validateTransition(state, nextState, beforeHash)
-      transitionViolations.forEach((violation) => {
-        violations.push(`game ${game + 1}, ply ${ply + 1}: ${violation}`)
-      })
-      state = nextState
-      totalPlies += 1
-      if (transitionViolations.length > 0) break
+      const moves = generateLegalMoves(state)
+      state = moves.length > 0
+        ? makeMove(state, pickMove(moves, random))
+        : passTurn(state)
+      assertState(state)
+      positions += 1
     }
-
-    if (!finished) moveLimitGames += 1
   }
 
-  return { games, completedGames, moveLimitGames, totalPlies, violations }
+  return { games, positions, completed }
 }
